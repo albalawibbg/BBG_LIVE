@@ -150,19 +150,19 @@ class CODPaymentXlsx(models.AbstractModel):
                         worksheet.write_string(row, col+2, rec.reference or '', format_data_left)
                         worksheet.write_string(row, col+3, rec.origin or '', format_data_left)
                         if rec.location_id.usage in ('supplier','inventory','customer') and rec.stock_valuation_layer_ids:
-                            quantity += rec.stock_valuation_layer_ids[0].quantity
-                            balance += rec.stock_valuation_layer_ids[0].value
-                            worksheet.write_number(row, col+4, rec.stock_valuation_layer_ids[0].quantity, format_data_right)
-                            worksheet.write_number(row, col+5, rec.stock_valuation_layer_ids[0].value, format_data_right)
+                            quantity += abs(rec.stock_valuation_layer_ids[0].quantity)
+                            balance += abs(rec.stock_valuation_layer_ids[0].value)
+                            worksheet.write_number(row, col+4, abs(rec.stock_valuation_layer_ids[0].quantity), format_data_right)
+                            worksheet.write_number(row, col+5, abs(rec.stock_valuation_layer_ids[0].value), format_data_right)
                             worksheet.write_number(row, col+6, 0, format_data_right)
                             worksheet.write_number(row, col+7, 0, format_data_right)
                         elif rec.location_id.usage == 'internal' and rec.stock_valuation_layer_ids:
-                            quantity += rec.stock_valuation_layer_ids[0].quantity
-                            balance += rec.stock_valuation_layer_ids[0].value
+                            quantity += abs(rec.stock_valuation_layer_ids[0].quantity)
+                            balance += abs(rec.stock_valuation_layer_ids[0].value)
                             worksheet.write_number(row, col+4, 0, format_data_right)
                             worksheet.write_number(row, col+5, 0, format_data_right)
-                            worksheet.write_number(row, col+6, rec.stock_valuation_layer_ids[0].quantity, format_data_right)
-                            worksheet.write_number(row, col+7, rec.stock_valuation_layer_ids[0].value, format_data_right)
+                            worksheet.write_number(row, col+6, abs(rec.stock_valuation_layer_ids[0].quantity), format_data_right)
+                            worksheet.write_number(row, col+7, abs(rec.stock_valuation_layer_ids[0].value), format_data_right)
                         else:
                             worksheet.write_number(row, col+4, 0, format_data_right)
                             worksheet.write_number(row, col+5, 0, format_data_right)
