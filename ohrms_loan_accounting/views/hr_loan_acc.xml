@@ -65,45 +65,45 @@
                 <!--                    </header>-->
                 <!--                </xpath>-->
                 <button name="action_approve" position="after">
-                    <button name="action_reschedule" type="object" string="Loan Reschedule" states="approve"
+                    <button name="action_reschedule" type="object" string="Loan Reschedule" readonly="state != 'approve'"
                             class="oe_highlight"
                             groups="ohrms_loan_accounting.group_loan_reschedule"
                     />
                     <button name="action_reschedule_done" type="object" string="Loan Reschedule Done"
-                            states="reschedule" class="oe_highlight"
+                            readonly="state != 'reschedule'" class="oe_highlight"
                             groups="ohrms_loan_accounting.group_loan_reschedule"
                     />
                 </button>
                 <xpath expr="//field[@name='loan_amount']" position="after">
-                    <field name="pay_method" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="pay_method" readonly="state != 'draft'"/>
                     <!--field name="employee_account_id"  attrs="{'invisible':[('state', '=','draft')],'readonly':[('state','in',('approve', 'refuse', 'reschedule'))]}"/>
                     <field name="treasury_account_id"  attrs="{'invisible':[('state', '=','draft')],'readonly':[('state','in',('approve', 'refuse', 'reschedule'))]}"/>
                     <field name="journal_id"  attrs="{'invisible':[('state', '=','draft')],'readonly':[('state','in',('approve', 'refuse', 'reschedule'))]}"/-->
                 </xpath>
 
                 <field name="date" position="attributes">
-                    <attribute name="attrs">
-                        {'readonly':[('state','not in',('draft','reschedule','waiting_approval_1','approve1'))]}
+                    <attribute name="readonly">
+                        state not in ['draft','reschedule','waiting_approval_1','approve1']
                     </attribute>
                 </field>
                 <field name="payment_date" position="attributes">
-                    <attribute name="attrs">
-                        {'readonly':[('state','not in',('draft','reschedule','waiting_approval_1','approve1'))]}
+                    <attribute name="readonly">
+                        state not in ['draft','reschedule','waiting_approval_1','approve1']
                     </attribute>
                 </field>
                 <field name="installment" position="attributes">
-                    <attribute name="attrs">
-                        {'readonly':[('state','not in',('draft','reschedule','waiting_approval_1','approve1'))]}
+                    <attribute name="readonly">
+                        state not in ['draft','reschedule','waiting_approval_1','approve1']
                     </attribute>
                 </field>
                 <field name="loan_amount" position="attributes">
-                    <attribute name="attrs">
-                        {'readonly':[('state','not in',('draft','reschedule','waiting_approval_1','approve1'))]}
+                    <attribute name="readonly">
+                        state not in ['draft','reschedule','waiting_approval_1','approve1']
                     </attribute>
                 </field>
                 <field name="multi_loan" position="attributes">
-                    <attribute name="attrs">
-                        {'readonly':[('state','not in',('draft','reschedule','waiting_approval_1','approve1'))]}
+                    <attribute name="readonly">
+                        state not in ['draft','reschedule','waiting_approval_1','approve1']
                     </attribute>
                 </field>
             </field>

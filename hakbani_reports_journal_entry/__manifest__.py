@@ -2,7 +2,7 @@
 
 {
     'name': 'Hakbani-IT Journal Entry Report',
-    'version': '15.0.0.0',
+    'version': '17.0.0.0',
     'summary': 'Hakbani-IT Journal Entry Report',
     'description': """Hakbani-IT Journal Entry Report""",
     'category': 'Accounting',

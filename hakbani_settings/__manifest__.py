@@ -2,7 +2,7 @@
 {
     "name": "Hakbani-IT Setting overrides",
     "summary": "Hakbani-IT settings overrides",
-    "version": "15.0.0.0",
+    "version": "17.0.0.0",
     "category": "base",
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',

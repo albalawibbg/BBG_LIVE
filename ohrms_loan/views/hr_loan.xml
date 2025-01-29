@@ -25,16 +25,16 @@
             <form string="Loan Request">
                 <header>
 
-                    <button name="action_submit" type="object" string="Submit" states="draft" class="oe_highlight"
-                            groups="ohrms_loan.group_loan_submit"/>
-                    <button name="action_approve_1" type="object" string="First Approve" states="waiting_approval_1"
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'"
+                            class="oe_highlight" groups="ohrms_loan.group_loan_submit"/>
+                    <button name="action_approve_1" type="object" string="First Approve" invisible="state != 'waiting_approval_1'"
                             class="oe_highlight" groups="ohrms_loan.group_loan_approbation_1"/>
-                    <button name="action_approve" type="object" string="Second Approve" states="approve1"
+                    <button name="action_approve" type="object" string="Second Approve" invisible="state != 'approve1'"
                             class="oe_highlight" groups="ohrms_loan.group_loan_approbation_2"/>
-                    <button name="action_refuse" type="object" string="Refuse"
-                            states="draft,waiting_approval_1,approve1" class="oe_highlight"
+                    <button name="action_refuse" type="object" string="Refuse" invisible="state == 'approve'"
+                            class="oe_highlight"
                             groups="hr.group_hr_manager"/>
-                    <button name="action_cancel" type="object" string="Cancel" states="draft"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'draft'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,waiting_approval_1,approve1,approve"/>
                 </header>
@@ -54,42 +54,38 @@
                         </h1>
                     </div>
                     <group col="4">
-                        <field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}"/>
-                        <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="employee_id" readonly="state != 'draft'"/>
+                        <field name="date" readonly="state != 'draft'"/>
                         <field name="department_id"/>
                         <field name="job_position"/>
-                        <field name="loan_amount"
-                               attrs="{'readonly':[('state','not in',('draft','waiting_approval_1'))]}"/>
-                        <field name="installment"
-                               attrs="{'readonly':[('state','not in',('draft','waiting_approval_1'))]}"/>
-                        <field name="payment_date"
-                               attrs="{'readonly':[('state','not in',('draft','waiting_approval_1'))]}"/>
+                        <field name="loan_amount" readonly="state not in ['draft','waiting_approval_1']"/>
+                        <field name="installment" readonly="state not in ['draft','waiting_approval_1']"/>
+                        <field name="payment_date" readonly="state not in ['draft','waiting_approval_1']"/>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                         <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_company"
-                               attrs="{'readonly':[('state','!=','draft')]}"/>
+                               readonly="state != 'draft'"/>
                         <field name="multi_loan" string="Allow Multi Loan"
-                               attrs="{'readonly':[('state','not in',('draft','waiting_approval_1'))]}"/>
+                               readonly="state not in ['draft','waiting_approval_1']"/>
                         <field name="user_id" invisible="1"/>
                     </group>
                     <notebook>
-                        <page string="Installments"
-                              attrs="{'readonly':[('state','not in',('draft', 'waiting_approval_1'))]}">
+                        <page string="Installments" readonly="state not in ['draft','waiting_approval_1']">
                             <field name="loan_lines">
                                 <tree string="Installments" editable="bottom">
-                                    <field name="date" attrs="{'readonly':[('paid','=',True)]}"/>
-                                    <field name="amount" attrs="{'readonly':[('paid','=',True)]}"/>
+                                    <field name="date" readonly="paid"/>
+                                    <field name="amount" readonly="paid"/>
                                     <field name="paid" readonly="1"/>
 
                                 </tree>
                                 <form string="Installments">
-                                    <field name="date" attrs="{'readonly':[('paid','=',True)]}"/>
-                                    <field name="amount" attrs="{'readonly':[('paid','=',True)]}"/>
+                                    <field name="date" readonly="paid"/>
+                                    <field name="amount" readonly="paid"/>
                                     <field name="paid" readonly="1"/>
 
                                 </form>
                             </field>
                             <button name="compute_installment" type="object" string="Loan Installment"
-                                    class="oe_highlight" attrs="{'invisible':[('state','in',('approve', 'refuse'))]}"/>
+                                    class="oe_highlight" invisible="state in ['approve','refuse']"/>
                             <group class="oe_subtotal_footer oe_right" colspan="2">
                                 <field name="total_amount" options="{'currency_field': 'currency_id'}"/>
                                 <field name="total_paid_amount" options="{'currency_field': 'currency_id'}"/>
@@ -101,7 +97,7 @@
                             </group>
                             <div class="oe_clear"/>
                         </page>
-                        <page string="Refusal Details" attrs="{'invisible':[('state','!=','refuse')]}">
+                        <page string="Refusal Details" invisible="state != 'refuse'">
                             <group>
                                 <field name="refuse_reason" readonly="1"/>
                                 <field name="date_refuse" readonly="1"/>

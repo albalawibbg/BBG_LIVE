@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='options']" position="after">
-                <div name="options_extra" groups="base.group_user" attrs="{'invisible':[('type','!=','service')]}">
+                <div name="options_extra" groups="base.group_user" invisible="type != 'service'" >
                     <div>
                         <field name="is_petty_cash"/>
                         <label for="is_petty_cash"/>
@@ -24,7 +24,8 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='options']" position="after">
-                <div name="options_extra" groups="base.group_user" attrs="{'invisible':[('type','!=','service')]}">
+                <div name="options_extra" groups="base.group_user" nvisible="type != 'service'"
+                     >
                     <div>
                         <field name="is_petty_cash"/>
                         <label for="is_petty_cash"/>

@@ -19,23 +19,6 @@ class SaleOrder(models.Model):
         partner_id = self.partner_id
         total_amount = self.amount_due + self.amount_total
         if partner_id.credit_check:
-            # existing_move = self.env['account.move'].search(
-            #     [('partner_id', '=', self.partner_id.id), ('state', '=', 'posted')])
-            # if partner_id.credit_blocking <= total_amount and not existing_move:
-            #     view_id = self.env.ref('ob_customer_credit_limit.view_warning_wizard_form')
-            #     context = dict(self.env.context or {})
-            #     context['message'] = "Customer Blocking limit exceeded without having a recievable, Do You want to continue?"
-            #     context['default_sale_id'] = self.id
-            #     if not self._context.get('warning'):
-            #         return {
-            #             'name': 'Warning',
-            #             'type': 'ir.actions.act_window',
-            #             'view_mode': 'form',
-            #             'res_model': 'warning.wizard',
-            #             'view_id': view_id.id,
-            #             'target': 'new',
-            #             'context': context,
-            #         }
             if partner_id.credit_warning <= total_amount and partner_id.credit_blocking > total_amount:
                 view_id = self.env.ref('ob_customer_credit_limit.view_warning_wizard_form')
                 context = dict(self.env.context or {})

@@ -8,9 +8,8 @@
                 <field name="inherit_id" ref="hr_holidays.hr_leave_allocation_view_form_manager"/>
                 <field name="arch" type="xml">
                     <field name="employee_id" position="replace">
-                        <field name="employee_id"
-                               attrs="{'invisible': ['|', ('holiday_type', '!=', 'employee'), ('employee_id', '=', False)],
-                                       'readonly':[('state','!=','draft')]}"/>
+                        <field name="employee_id" invisible="holiday_type != 'employee' or employee_id == False" readonly="state != 'draft'"
+                               />
                     </field>
                 </field>
             </record>
@@ -21,15 +20,15 @@
                 <field name="arch" type="xml">
                     <field name="employee_id" position="replace">
                         <field name="employee_id"
-                               attrs="{'invisible': ['|', ('holiday_type', '!=', 'employee'), ('employee_id', '=', False)],
-                                       'readonly':[('state','not in',('draft','confirm'))]}"/>
+                               invisible="holiday_type != 'employee' or employee_id == False" readonly="state not in ['draft','confirm']"
+                               />
                         <label for="remaining_leaves"/>
                         <div class="o_row">
                             <field name="remaining_leaves" force_save="1" nolabel="1" class="oe_inline"/>
                             <div class="o_row"
                             >
-                                <span attrs="{'invisible': [('leave_type_request_unit', '=', 'hour')]}">Days</span>
-                                <span attrs="{'invisible': [('leave_type_request_unit', '!=', 'hour')]}">Hours</span>
+                                <span invisible="leave_type_request_unit == 'hour'" >Days</span>
+                                <span invisible="leave_type_request_unit != 'hour'">Hours</span>
                             </div>
                         </div>
 

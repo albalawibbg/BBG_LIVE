@@ -3,7 +3,7 @@
 
 {
     'name': 'Added Analytic Account in Warehouse Operations',
-    'version': '15.0',
+    'version': '17.0',
     'category': 'Stock',
     'description': """Added Analytic Account in Warehouse Operations""",
     'depends': [

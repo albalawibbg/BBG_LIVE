@@ -2,7 +2,7 @@
 {
     "name": "Hakbani-IT Product Purchase Tab Access",
     "summary": "Hakbani-IT Product Purchase Tab Access",
-    "version": "16.0.0.0",
+    "version": "17.0.0.0",
     "category": "Product",
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',

@@ -9,9 +9,9 @@
             <form>
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approve,post"/>
-                    <button name="action_submit" type="object" class="btn-primary" string="Submit" states="draft"  groups="hakbani_pettycash.manager,hakbani_pettycash.submit"/>
-                    <button name="action_approve" type="object" class="btn-primary" string="Approve" states="submitted" groups="hakbani_pettycash.manager,hakbani_pettycash.approval"/>
-                    <button name="function_posted_all" type="object" class="btn-primary" string="Post" states="approve" groups="hakbani_pettycash.manager,hakbani_pettycash.postal"/>
+                    <button name="action_submit" type="object" class="btn-primary" string="Submit"  invisible="state != 'draft'"  groups="hakbani_pettycash.manager,hakbani_pettycash.submit"/>
+                    <button name="action_approve" type="object" class="btn-primary" string="Approve" invisible="state != 'submitted'"   groups="hakbani_pettycash.manager,hakbani_pettycash.approval"/>
+                    <button name="function_posted_all" type="object" class="btn-primary" string="Post" invisible="state != 'approve'"  groups="hakbani_pettycash.manager,hakbani_pettycash.postal"/>
                 </header>
                 <sheet  >
                     <div class="oe_button_box" name="button_box">
@@ -31,44 +31,40 @@
                         </h1>
                         <h3>
                             <label for="employee_id"/>
-                            <field name="employee_id" attrs="{'readonly':[('state','in',['approve', 'post'])]}" options="{'no_create':True}" style="width:100%%"/>
+                            <field name="employee_id" readonly="state in ['approve', 'post']"  options="{'no_create':True}" style="width:100%%"/>
                         </h3>
                     </div>
                     <group>
                         <group>
-                            <field name="name" attrs="{'readonly':[('state','in',['approve', 'post'])]}"/>
+                            <field name="name" readonly="state in ['approve', 'post']" />
                         </group>
                         <group>
-                            <field name="date" attrs="{'readonly':[('state','in',['approve', 'post'])]}"/>
-                            <field name="journal_id" required="1" attrs="{'readonly':[('state','in',['approve', 'post'])]}"/>
+                            <field name="date" readonly="state in ['approve', 'post']"  />
+                            <field name="journal_id" required="1" readonly="state in ['approve', 'post']" />
                         </group>
                     </group>
                     <notebook >
                         <page string="Purchase Bills">
                             <sheet>
-                                <field name="tsleem_invoices_line_id" attrs="{'readonly':[('state','in',['post'])]}">
+                                <field name="tsleem_invoices_line_id"
+                                       readonly="state in [ 'post']"
+                                       >
                                     <tree editable="buttom">
                                         <button name="function_posted" type="object"
                                                 groups="account.group_account_manager"
                                                 string="Posted"
-                                                attrs="{'invisible': [('state', '!=', 'draft')]}" optional="hide"/>
+                                                invisible="state != 'draft'"
+                                                 optional="hide"/>
                                         <button name="function_cancel" type="object"
                                                 groups="account.group_account_manager"
                                                 string="Cancel"
-                                                attrs="{'invisible': [('state', '!=', 'posted')]}" optional="hide"/>
+                                                invisible="state != 'posted'"
+                                                 optional="hide"/>
                                         <field name="tsleem_invoices_id" invisible="1" force_save="1"/>
                                         <field name="supplier_id"
                                                context="{'supplier_search': 1,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"
                                         />
-                                        <!--                                        <field name="supplier_id"  domain="[('supplier_rank','>',0)]"-->
-                                        <!--                                        context="{'supplier_search': 1,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"-->
-                                        <!--                                        />-->
-                                        <!--                                        <field name="supplier_id" readonly="0" domain="[('supplier_rank','>',0)]"-->
-                                        <!--                                        context="{'supplier_search': 1,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"-->
-                                        <!--                                        />-->
-                                        <!--                                        <field name="tax_supplier_id" readonly="0" domain="[('supplier_rank','>',0)]"-->
-                                        <!--                                        context="{'tax_supplier_search': 1,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"-->
-                                        <!--                                        />-->
+
                                         <field name="ref"/>
                                         <field name="date_invoice"/>
                                         <!--field name="construction_id"/-->

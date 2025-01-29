@@ -9,6 +9,7 @@
         'product',
         'sale',
         'sale_margin',
+        'stock_account'
     ],
     'data': [
         # 'data/data.xml',

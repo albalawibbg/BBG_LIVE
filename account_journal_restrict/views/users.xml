@@ -6,7 +6,9 @@
     <field name="inherit_id" ref="base.view_users_form"/>
     <field name="arch" type="xml">
       <group name="preferences" position="after">
-        <group string="Journal Restrictions" attrs="{'invisible': [('id','=', 1)]}">
+        <group string="Journal Restrictions"
+               invisible="id == 1"
+               >
           <field name="journal_ids" widget="many2many_tags"
             domain="[('company_id','=',company_id)]"
             context="{'default_company_id':company_id}"/>

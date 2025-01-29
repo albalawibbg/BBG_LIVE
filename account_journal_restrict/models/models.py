@@ -2,6 +2,7 @@
 
 from odoo import fields, models, api
 
+
 class Users(models.Model):
     _inherit = 'res.users'
 
@@ -12,5 +13,3 @@ class Users(models.Model):
         'journal_id',
         'Allowed Journals',
     )
-
-

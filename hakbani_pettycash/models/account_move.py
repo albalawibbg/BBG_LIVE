@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import UserError, ValidationError
-from odoo.exceptions import Warning
+# from odoo.exceptions import Warning
 from datetime import date, datetime
 
 class AccountMove(models.Model):
@@ -56,7 +56,7 @@ class AccountMove(models.Model):
             if partner_id:
                 self.partner_id = partner_id.id
             else:
-                raise Warning(_('No Supplier OR Customer Found From Taxes Number %s'%(self.vat)))
+                raise ValidationError(_('No Supplier OR Customer Found From Taxes Number %s'%(self.vat)))
 
 
 

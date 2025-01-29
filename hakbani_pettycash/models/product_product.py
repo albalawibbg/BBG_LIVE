@@ -16,4 +16,5 @@ class ProductTemplate(models.Model):
     def default_get(self, fields):
         res = super(ProductTemplate, self).default_get(fields)
         res['type'] = 'service'
+        res['detailed_type'] = 'service'
         return res

@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  ?? 2015-2016 Akretion (http://www.akretion.com/)
-  @author Alexis de Lattre <alexis.delattre@akretion.com>
-  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
--->
 <odoo>
     <record id="view_template_property_form" model="ir.ui.view">
         <field name="name">stock_no_negative.product.template.form</field>
@@ -13,7 +8,7 @@
             <field name="categ_id" position="after">
                 <field
                     name="allow_negative_stock"
-                    attrs="{'invisible': [('type', '!=', 'product')]}"
+                    invisible="type != 'product'"
                 />
             </field>
         </field>

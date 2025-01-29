@@ -2,7 +2,7 @@
 {
     "name": "Hakbani-IT Product Create Notification",
     "summary": "Hakbani-IT Product Create Notification",
-    "version": "16.0.0.0",
+    "version": "17.0.0.0",
     "category": "Stock",
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',

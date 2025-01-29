@@ -6,7 +6,7 @@
     'author': 'Abderrahmane Guessoum - Alpha Brains Technologies',
     'website': 'www.fiverr.com/aabcrow',
     'depends': [
-        'hr_payroll_account',
+        'hr_payroll_account','hr_payroll'
     ],
     'data': [
 

@@ -18,7 +18,7 @@ class HrPayroll(models.Model):
         payslips_to_post = self.filtered(lambda slip: not slip.payslip_run_id)
 
         # Adding pay slips from a batch and deleting pay slips with a batch that is not ready for validation.
-        payslip_runs = (self - payslips_to_post).mapped('payslip_run_id')
+        payslip_runs = (self - payslips_to_post).payslip_run_id
         for run in payslip_runs:
             if run._are_payslips_ready():
                 payslips_to_post |= run.slip_ids
@@ -33,82 +33,71 @@ class HrPayroll(models.Model):
             raise ValidationError(_('One of the payroll structures has no account journal defined on it.'))
 
         # Map all payslips by structure journal and pay slips month.
-        # {'journal_id': {'month': [slip_ids]}}
-        slip_mapped_data = defaultdict(lambda: defaultdict(lambda: self.env['hr.payslip']))
-        for slip in payslips_to_post:
-            slip_mapped_data[slip.struct_id.journal_id.id][fields.Date().end_of(slip.date_to, 'month')] |= slip
-        for journal_id in slip_mapped_data:  # For each journal_id.
-            for slip_date in slip_mapped_data[journal_id]:  # For each month.
-
-                # debit_sum = 0.0
-                # credit_sum = 0.0
-                date = slip_date
-                move_dict = {
-                    'narration': '',
-                    'ref': date.strftime('%B %Y'),
-                    'journal_id': journal_id,
-                    'date': date,
+        # Case 1: Batch all the payslips together -> {'journal_id': {'month': slips}}
+        # Case 2: Generate account move separately -> [{'journal_id': {'month': slip}}]
+        if self.company_id.batch_payroll_move_lines:
+            all_slip_mapped_data = defaultdict(lambda: defaultdict(lambda: self.env['hr.payslip']))
+            for slip in payslips_to_post:
+                all_slip_mapped_data[slip.struct_id.journal_id.id][slip.date or fields.Date().end_of(slip.date_to, 'month')] |= slip
+            all_slip_mapped_data = [all_slip_mapped_data]
+        else:
+            all_slip_mapped_data = [{
+                slip.struct_id.journal_id.id: {
+                    slip.date or fields.Date().end_of(slip.date_to, 'month'): slip
                 }
+            } for slip in payslips_to_post]
 
-                for slip in slip_mapped_data[journal_id][slip_date]:
-                    line_ids = []
-                    move_dict['narration'] += plaintext2html(slip.number or '' + ' - ' + slip.employee_id.name or '')
-                    move_dict['narration'] += Markup('<br/>')
-                    for line in slip.line_ids.filtered(lambda line: line.category_id):
-                        amount = line.total
-                        if line.code == 'NET':  # Check if the line is the 'Net Salary'.
-                            for tmp_line in slip.line_ids.filtered(lambda line: line.category_id):
-                                if tmp_line.salary_rule_id.not_computed_in_net:  # Check if the rule must be computed in the 'Net Salary' or not.
-                                    if amount > 0:
-                                        amount -= abs(tmp_line.total)
-                                    elif amount < 0:
-                                        amount += abs(tmp_line.total)
-                        if float_is_zero(amount, precision_digits=precision):
-                            continue
-                        debit_account_id = line.salary_rule_id.account_debit.id
-                        credit_account_id = line.salary_rule_id.account_credit.id
+        for slip_mapped_data in all_slip_mapped_data:
+            for journal_id in slip_mapped_data: # For each journal_id.
+                for slip_date in slip_mapped_data[journal_id]: # For each month.
+                    # debit_sum = 0.0
+                    # credit_sum = 0.0
+                    date = slip_date
+                    move_dict = {
+                        'narration': '',
+                        'ref': fields.Date().end_of(slip_mapped_data[journal_id][slip_date][0].date_to, 'month').strftime('%B %Y'),
+                        'journal_id': journal_id,
+                        'date': date,
+                    }
 
-                        if debit_account_id:  # If the rule has a debit account.
-                            debit = amount if amount > 0.0 else 0.0
-                            credit = -amount if amount < 0.0 else 0.0
+                    for slip in slip_mapped_data[journal_id][slip_date]:
+                        line_ids = []
 
-                            debit_line = self._get_existing_lines(
-                                line_ids, line, debit_account_id, debit, credit)
+                        move_dict['narration'] += plaintext2html(slip.number or '' + ' - ' + slip.employee_id.name or '')
+                        move_dict['narration'] += Markup('<br/>')
+                        slip_lines = slip._prepare_slip_lines(date, line_ids)
+                        line_ids.extend(slip_lines)
 
-                            if not debit_line:
-                                debit_line = self._prepare_line_values(line, debit_account_id, date, debit, credit)
-                                line_ids.append(debit_line)
-                            else:
-                                debit_line['debit'] += debit
-                                debit_line['credit'] += credit
+                    # for line_id in line_ids: # Get the debit and credit sum.
+                    #     debit_sum += line_id['debit']
+                    #     credit_sum += line_id['credit']
 
-                        if credit_account_id:  # If the rule has a credit account.
-                            debit = -amount if amount < 0.0 else 0.0
-                            credit = amount if amount > 0.0 else 0.0
-                            credit_line = self._get_existing_lines(
-                                line_ids, line, credit_account_id, debit, credit)
+                    # The code below is called if there is an error in the balance between credit and debit sum.
+                    # if float_compare(credit_sum, debit_sum, precision_digits=precision) == -1:
+                    #     slip._prepare_adjust_line(line_ids, 'credit', debit_sum, credit_sum, date)
+                    # elif float_compare(debit_sum, credit_sum, precision_digits=precision) == -1:
+                    #     slip._prepare_adjust_line(line_ids, 'debit', debit_sum, credit_sum, date)
 
-                            if not credit_line:
-                                credit_line = self._prepare_line_values(line, credit_account_id, date, debit, credit)
-                                line_ids.append(credit_line)
-                            else:
-                                credit_line['debit'] += debit
-                                credit_line['credit'] += credit
-
+                    # Add accounting lines in the move
                         move_dict['line_ids'] = [(0, 0, line_vals) for line_vals in line_ids]
-                    move = self.env['account.move'].sudo().create(move_dict)
-                    slip.write({'move_id': move.id, 'date': date})
-
+                        move = self._create_account_move(move_dict)
+                        slip.write({'move_id': move.id, 'date': date})
         return True
-
     def _prepare_line_values(self, line, account_id, date, debit, credit):
+        if not self.company_id.batch_payroll_move_lines and line.code == "NET":
+            partner = self.employee_id.work_contact_id
+        else:
+            partner = line.partner_id or line.employee_id.address_id
+        if not partner:
+            partner = line.employee_id.address_id
         return {
             'name': line.name,
+            'partner_id': partner.id,
             'account_id': account_id,
             'journal_id': line.slip_id.struct_id.journal_id.id,
             'date': date,
             'debit': debit,
             'credit': credit,
-            'analytic_account_id': line.salary_rule_id.analytic_account_id.id or line.slip_id.contract_id.analytic_account_id.id,
-            'partner_id': line.partner_id.id if line.partner_id else line.employee_id.address_home_id.id,
+            'analytic_distribution': (line.salary_rule_id.analytic_account_id and {line.salary_rule_id.analytic_account_id.id: 100}) or
+                                     (line.slip_id.contract_id.analytic_account_id.id and {line.slip_id.contract_id.analytic_account_id.id: 100})
         }

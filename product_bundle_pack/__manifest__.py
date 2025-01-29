@@ -27,7 +27,7 @@
     "sequence": 1,
     "author": "Browseinfo",
     "website": "https://www.browseinfo.in",
-    "version": '15.0.0.1',
+    "version": '17.0.0.1',
     "depends": ['sale','product','stock','sale_stock','sale_management','purchase'],
     "data": [
         'wizard/product_bundle_wizard_view.xml',

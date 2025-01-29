@@ -95,4 +95,3 @@ class hr_contract(models.Model):
 					contract_data.write({'ticket_balance': (emp_ticket_bal+emp_ticket),'exit_entry_balance': (emp_exit_entry_bal+emp_exit_entry),'end_less_date': end_date})
 			
 
-hr_contract()       

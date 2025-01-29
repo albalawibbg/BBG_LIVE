@@ -97,7 +97,7 @@ class PurchaseOrderLine(models.Model):
 		else:
 			return res
 
-	@api.depends('move_ids.state', 'move_ids.product_uom_qty', 'move_ids.product_uom')
+	@api.depends('move_ids.state', 'move_ids.product_uom_qty','move_ids.quantity', 'move_ids.product_uom')
 	def _compute_qty_received(self):
 		super(PurchaseOrderLine, self)._compute_qty_received()
 		config_id = self.env['res.config.settings'].sudo().search([],limit=1,order='id desc')
@@ -130,11 +130,11 @@ class PurchaseOrderLine(models.Model):
 					for move_is in pick.move_ids_without_package:
 						if move_is.product_id in filtered:
 							if move_is.pack_id in line.product_id.pack_ids:
-								if move_is.quantity_done >0:
-									quantity = move_is.pack_id.qty_uom / move_is.quantity_done
+								if move_is.quantity >0:
+									quantity = move_is.pack_id.qty_uom / move_is.quantity
 									vals_list.append(quantity)
 								move_list.append(move_is.product_uom_qty)
-								done_list.append(move_is.quantity_done)				
+								done_list.append(move_is.quantity)
 				stock_move = self.env['stock.move'].search([('origin','=',line.order_id.name)])
 				vals = []
 				if line.product_id.is_pack == True and config_id.allow_bundle == True:
@@ -143,7 +143,7 @@ class PurchaseOrderLine(models.Model):
 						list_of_sub_product.append(product_item.product_id)
 					for move in stock_move:
 						if count == 0:
-							if move.state == 'done' and move.product_uom_qty == move.quantity_done:
+							if move.state == 'done' and move.product_uom_qty == move.quantity:
 								flag = True
 								for picking in picking_ids:
 									for move_is in picking.move_ids_without_package:
@@ -156,7 +156,7 @@ class PurchaseOrderLine(models.Model):
 						elif move.state == 'confirmed':
 							flag = 'confirmed'
 							count = count+1
-							done_list.append(move.quantity_done)
+							done_list.append(move.quantity)
 							for picking in picking_ids:
 								for move_is in picking.move_ids_without_package:
 

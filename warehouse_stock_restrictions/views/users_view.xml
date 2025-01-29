@@ -25,7 +25,9 @@
                     </group>
                 </group>
                 <page name="preferences" position="after">
-                    <page string="Allowed Stock Locations" attrs="{'invisible': [('restrict_locations','!=', True)]}">
+                    <page string="Allowed Stock Locations"
+                          invisible="restrict_locations != True"
+                         >
                         <field name="stock_location_ids" nolabel="1" colspan="2"/>
                     </page>
                 </page>

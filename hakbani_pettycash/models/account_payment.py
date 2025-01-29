@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.exceptions import Warning
+# from odoo.exceptions import Warning
 from datetime import date, datetime
 
 class AccountPayment(models.Model):

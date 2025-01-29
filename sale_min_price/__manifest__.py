@@ -8,7 +8,6 @@
     'depends': [
         'hr',
         'sale_management',
-        'sale_management',
     ],
     'data': [
         'security/security.xml',

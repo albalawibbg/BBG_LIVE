@@ -17,7 +17,7 @@ class bi_wizard_product_bundle(models.TransientModel):
         sale_order = self.env['sale.order'].browse(self._context.get('active_id')) 
         if sale_order.pricelist_id.discount_policy == 'with_discount':
             if self.product_id.uom_id:
-                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule([(self.product_id, self.product_qty, sale_order.partner_id)], date=False, uom_id=self.product_id.uom_id.id).items())
+                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule(self.product_id, self.product_qty, date=False, uom_id=self.product_id.uom_id.id).items())
                 pricelst_price = price.get(self.product_id.id, 0.0)
             for pack in self:
                 if pack.product_id.is_pack:
@@ -30,7 +30,7 @@ class bi_wizard_product_bundle(models.TransientModel):
                                                     })
         else:
             if self.product_id.uom_id:
-                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule([(self.product_id, self.product_qty, sale_order.partner_id)], date=False, uom_id=self.product_id.uom_id.id).items())
+                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule(self.product_id, self.product_qty, date=False, uom_id=self.product_id.uom_id).items())
                 pricelst_price = price.get(self.product_id.id, 0.0)
             fix_discount = []
             product_temp_obj = self.env['product.template'].search([('name','=',self.product_id.name)],limit=1)
@@ -94,7 +94,7 @@ class bi_wizard_product_bundle(models.TransientModel):
         sale_order = self.env['sale.order'].browse(self._context.get('active_id')) 
         if self.product_id:
             if self.product_id.uom_id:
-                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule([(self.product_id, self.product_qty, sale_order.partner_id)], date=False, uom_id=self.product_id.uom_id.id).items())
+                price =dict((product_id, res_tuple[0]) for product_id, res_tuple in sale_order.pricelist_id._compute_price_rule(self.product_id, self.product_qty, date=False, uom_id=self.product_id.uom_id).items())
                 pricelst_price = price.get(self.product_id.id, 0.0)
                 self.product_price = pricelst_price
         else:

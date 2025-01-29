@@ -13,7 +13,7 @@
                         <field name="product_price" />
 					</group>
 					<group>
-						<field name="pack_ids" attrs="{'invisible':[ ('product_id', '=' ,False)]}">
+						<field name="pack_ids" invisible="product_id == False" >
 							<form string="Bundle Product">
 								<group>
 									<field name="product_id" />

@@ -10,7 +10,7 @@
                 <field name="analytic_account_id"
                        options="{'no_create': 1, 'no_edit': 1, 'no_open': 1}"
                        context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
-                       attrs="{'readonly': [('invoice_count','!=',0),('state','=','sale')]}"
+                      readonly="invoice_count != 0 and state == 'sale' "
                        groups="analytic.group_analytic_accounting"
                 />
             </field>

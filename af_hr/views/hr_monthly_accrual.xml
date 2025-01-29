@@ -8,20 +8,24 @@
                 <form duplicate="false" delete="false">
                     <header>
                         <button name="action_draft" type="object" string="Set Draft" groups="hr.group_hr_user"
-                                states="confirmed,cancel" id="toinspect" class="oe_highlight"/>
+                           invisible="state not in ('confirmed','cancel')"     id="toinspect" class="oe_highlight"/>
 
                         <button name="action_confirm" type="object" string="Confirm" groups="hr.group_hr_user"
-                                attrs="{'invisible':[('state','!=','draft')]}" id="toinspect" class="oe_highlight"/>
+                                invisible="state != 'draft'"
+                                 id="toinspect" class="oe_highlight"/>
 
                         <button name="update_employees_by_department" type="object"
                                 string="Update Employees Departments" groups="hr.group_hr_user"
-                                states="draft,confirm" class="oe_highlight"/>
+                                invisible="state not in ('draft','confirm')"
+                                 class="oe_highlight"/>
 
                         <button name="action_done" type="object" string="Done" groups="hr.group_hr_manager"
-                                attrs="{'invisible':[('state','!=','confirm')]}" id="toinspect" class="oe_highlight"/>
+                               invisible="state != 'confirm'"
+                                 id="toinspect" class="oe_highlight"/>
 
                         <button name="action_cancel" type="object" string="Cancel" groups="hr.group_hr_user"
-                                attrs="{'invisible':[('state','not in',('confirm','draft'))]}" id="toinspect"
+                                invisible="state not in ('confirm','draft')"
+                                 id="toinspect"
                                 class=""
                         />
 
@@ -34,7 +38,9 @@
                             <label for="name" class="oe_edit_only"/>
                             <h1>
                                 <field name="name"
-                                       attrs="{'readonly':[('state', '!=','draft')]}"
+                                readonly="state not in ('draft')"
+
+
                                        colspan="2"/>
                             </h1>
                         </div>
@@ -42,34 +48,42 @@
                             <group>
                                 <field name="department_ids"
                                        widget="many2many_tags"
-                                       attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                       readonly="state not in ('draft')"
+                                       />
                                 <field name="months"
                                 />
                                 <field name="duration"
-                                       attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                       readonly="state not in ('draft')"
+                                       />
                                 <field name="total_duration"
                                 />
                                 <field name="leave_type_id" required="1"
                                        domain="[('requires_allocation','=','yes')]"
-                                       attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                       readonly="state not in ('draft')"/>
                                 <field name="allocation_id" readonly="1"
-                                       attrs="{'invisible':[('allocation_id', '=',False)]}"/>
+                                       invisible="allocation_id != False"
+                                       />
 
                             </group>
                             <group>
-                                <field name="time_limit" attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                <field name="time_limit"
+                                       readonly="state != 'draft'"
+                                       />
                                 <lable for="date_from">Validity Period</lable>
                                 <field name="date_from" nolabel="1"
-                                       attrs="{'readonly':[('state', '!=','draft')]}" required="1"/>
+                                       readonly="state != 'draft'"
+                                        required="1"/>
                                 <field name="date_to"
                                        placeholder="No limit"
-                                       attrs="{'readonly':[('state', '!=','draft')],'required':[('time_limit','=',True)]}"/>
+                                       readonly="state != 'draft'"
+                                       required="time_limit == True"
+                                       />
                             </group>
                         </group>
                         <notebook>
                             <page string="Employees">
                                 <field name="employee_ids"
-                                       attrs="{'readonly':[('state', '!=','draft')]}"
+                                       readonly="state != 'draft'"
                                 />
                             </page>
                         </notebook>
@@ -88,15 +102,16 @@
                 <tree>
                     <field name="name" colspan="2" readonly="1"/>
                     <field name="department_ids"
-                           attrs="{'readonly':[('state', '!=','draft')]}"/>
+                           readonly="state != 'draft'"/>
                     <field name="date_from"
-                           attrs="{'readonly':[('state', '!=','draft')]}"/>
-                    <field name="date_to"
-                           attrs="{'readonly':[('state', '!=','draft')]}"/>
+                           readonly="state != 'draft'"/>
+                    <field name="date_to" readonly="state != 'draft'"
+                           />
                     <field name="leave_type_id"/>
                     <field name="duration"/>
                     <field name="state"
-                           attrs="{'readonly':[('state', '!=','draft')]}"/>
+                           readonly="state != 'draft'"
+                           />
                 </tree>
             </field>
         </record>

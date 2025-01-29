@@ -2,7 +2,7 @@
 
 {
     'name': 'Hakbani-IT Customer Invoice',
-    'version': '15.0.0.0',
+    'version': '17.0.0.0',
     'category': 'Invoice',
     'description': """Hakbani-IT Customer Invoice""",
     'depends': [

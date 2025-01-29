@@ -2,7 +2,7 @@
 {
     "name": "Hakbani-IT Inventory Transfer Restriction",
     "summary": "Hakbani-IT Inventory Transfer and own delivery order Access",
-    "version": "16.0.0.0",
+    "version": "17.0.0.0",
     "category": "Stock",
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',

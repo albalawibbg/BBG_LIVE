@@ -2,7 +2,7 @@
 
 {
     'name': 'Ntech_Customer_Invoice',
-    'version': '15.0',
+    'version': '17.0',
     'category': 'Invoice',
     'description': """Ntech_Customer_Invoice""",
     'depends': [

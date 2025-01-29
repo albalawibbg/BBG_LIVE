@@ -13,13 +13,18 @@
                     </div>
                 </xpath>
                 <field name="list_price" position="replace">
-                    <field name="list_price" class="oe_inline" widget="monetary" attrs= "{'readonly':[('cal_pack_price','=', True)]}" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                    <field name="list_price" class="oe_inline" widget="monetary"
+                           readonly="cal_pack_price == True"
+                           options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                 </field>
                 <group name="group_standard_price" position="inside">
-                    <field name="cal_pack_price" attrs= "{'invisible':[('is_pack','=', False)]}"/>
+                    <field name="cal_pack_price"
+                           invisible="is_pack == False"
+
+                           />
                 </group>
                 <xpath expr="//page[@name='inventory']" position="after">
-                    <page string='Pack Products' attrs= "{'invisible':[('is_pack','!=', True)]}" name="pack_product">
+                    <page string='Pack Products' invisible="is_pack == False"  name="pack_product">
                         <field name="pack_ids">
                             <tree string="Pack Products" editable="bottom">
                                 <control>
@@ -42,11 +47,11 @@
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//notebook/page[@name='variants']" position="attributes">
-                  <attribute name="attrs">{'invisible':[('is_pack','=', True)]}</attribute> 
+                  <attribute name="invisible">is_pack ==  True</attribute>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='variants']" position="after">
-                  <page string="Variants" name="bi_variants" attrs="{'invisible':[('is_pack','=', False)]}">
+                  <page string="Variants" name="bi_variants" invisible="is_pack == False">
                     <h1> You cannot create variants of the Pack </h1>
                   </page>
                 </xpath>
@@ -85,7 +90,8 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook/page/field[@name='order_line']" position="before">
-                      <button name="product_bundle_pack.bi_act_product_bundle_wizard" string="Add Bundle" type="action" attrs= "{'invisible':[('state','=', 'manual')]}" />
+                      <button name="product_bundle_pack.bi_act_product_bundle_wizard" string="Add Bundle" type="action"
+                            invisible="state == 'manual'"   />
                 </xpath>
             </field>
         </record>
@@ -95,21 +101,12 @@
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
             <field name="arch" type="xml">
-
-                <xpath expr="//div[hasclass('settings')]/div[@data-key='purchase']" position="inside">
-                    <h2>Allow Bundle Pack on Purchase</h2>
-                    <div class="row mt16 o_settings_container" id="allow_bundle_purchase">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <div class="content-group">
-                                        <field name="allow_bundle"/>
-                                    </div>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label string="Allow Bundle Pack on Purchase" for="allow_bundle"/>    
-                                </div>
-                            </div>
-                     </div>   
+                <xpath expr="//block[@name='matrix_setting_container']" position="after">
+                    <block title="Allow Bundle Pack on Purchase" name="bundle_pack">
+                        <setting id="bundle_purchase" help="product bundle purchase" >
+                            <field name="allow_bundle"/>
+                        </setting>
+                    </block>
                 </xpath>
             </field>
         </record>     

@@ -7,7 +7,7 @@
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',
     'category': 'stock',
-    'version': '15.0.0.0',
+    'version': '17.0.0.0',
     'depends': ['base', 'report_xlsx', 'stock', 'sale_management', 'purchase'],
     'data': [
         'security/ir.model.access.csv',

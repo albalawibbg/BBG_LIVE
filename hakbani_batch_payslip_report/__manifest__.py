@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Hakbani Batch Payslip Report',
-    'version': '15.0.0.0',
+    'version': '17.0.0.0',
     'category': 'hr',
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',

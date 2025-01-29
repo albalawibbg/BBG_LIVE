@@ -21,7 +21,6 @@
     'data': [
         'security/security.xml',
         'views/users_view.xml',
-        # 'security/ir.model.access.csv',
     ],
 
 }

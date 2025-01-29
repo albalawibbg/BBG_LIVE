@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': "Journal Restrictions",
-    'summary': """Restrict users to certain journals""",
-    'description': """Restrict users to certain journals.""",
-    'author': "ME",
-    'website': "http://www.mycompany.com",
-    'license': 'AGPL-3',
+    'name': "Account Journal Restrictions",
+    'summary': """Restrict users to certain account journals""",
+    'description': """Restrict users to certain account journals.""",
+    'author': "Hakbani-IT",
+    'website': "",
     'category': 'account',
-    'version': '15',
-    'depends': ['account'],
+    'version': '1.0.1',
+    'depends': [
+        'account'
+    ],
     'data': [
-        'views/users.xml',
         'security/security.xml',
+        'views/users.xml',
     ],
     "images": [
     ],
+    'license': 'AGPL-3',
     'installable': True,
     'application': False,
-    'auto_install': True,
+    'auto_install': False,
 }

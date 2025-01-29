@@ -13,7 +13,7 @@ from collections import namedtuple, OrderedDict, defaultdict
 class SaleOrderLine(models.Model):
 	_inherit = 'sale.order.line'
 
-	@api.depends('move_ids.state', 'move_ids.scrapped', 'move_ids.product_uom_qty', 'move_ids.product_uom')
+	@api.depends('move_ids.state', 'move_ids.scrapped', 'move_ids.quantity','move_ids.product_uom_qty', 'move_ids.product_uom')
 	def _compute_qty_delivered(self):
 		
 		super(SaleOrderLine, self)._compute_qty_delivered()
@@ -46,7 +46,7 @@ class SaleOrderLine(models.Model):
 						if move_is.product_id in filtered:
 							if move_is.pack_id in line.product_id.pack_ids:
 								move_list.append(move_is.product_uom_qty)
-								done_list.append(move_is.quantity_done)
+								done_list.append(move_is.quantity)
 
 				stock_move = self.env['stock.move'].search([('origin','=',line.order_id.name)])
 				if line.product_id.is_pack == True:
@@ -55,7 +55,7 @@ class SaleOrderLine(models.Model):
 						list_of_sub_product.append(product_item.product_id)
 					for move in stock_move:
 						if count == 0:
-							if move.state == 'done' and move.product_uom_qty == move.quantity_done:
+							if move.state == 'done' and move.quantity == move.product_uom_qty:
 								flag = True
 								for picking in picking_ids:
 									for move_is in picking.move_ids_without_package:
@@ -69,7 +69,7 @@ class SaleOrderLine(models.Model):
 							elif move.state == 'confirmed':
 								flag = 'confirmed'
 								count = count+1
-								done_list.append(move.quantity_done)
+								done_list.append(move.quantity)
 								for picking in picking_ids:
 									for move_is in picking.move_ids_without_package:
 										if sum(move_list) == 0:
@@ -83,11 +83,11 @@ class SaleOrderLine(models.Model):
 					for move in outgoing_moves:
 						if move.state != 'done':
 							continue
-						qty += move.product_uom._compute_quantity(move.product_uom_qty, line.product_uom, rounding_method='HALF-UP')
+						qty += move.product_uom._compute_quantity(move.quantity, line.product_uom, rounding_method='HALF-UP')
 					for move in incoming_moves:
 						if move.state != 'done':
 							continue
-						qty -= move.product_uom._compute_quantity(move.product_uom_qty, line.product_uom, rounding_method='HALF-UP')
+						qty -= move.product_uom._compute_quantity(move.quantity, line.product_uom, rounding_method='HALF-UP')
 					line.qty_delivered = qty
 
 	@api.onchange('product_id', 'product_uom_qty')
@@ -209,7 +209,7 @@ class SaleOrderLine(models.Model):
 			+ timedelta(days=self.customer_lead or 0.0) - timedelta(days=self.order_id.company_id.security_lead)
 		if  self.product_id.pack_ids:
 			for item in self.product_id.pack_ids:
-				line_route_ids = self.env['stock.location.route'].browse(self.route_id.id)
+				line_route_ids = self.env['stock.route'].browse(self.route_id.id)
 				values.append({
 					'name': item.product_id.name,
 					'origin': self.order_id.name,

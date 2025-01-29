@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="after">
                 <div class="alert alert-danger text-center o_form_header" role="status"
-                     attrs="{'invisible': [('amount_due', '&lt;=', 0)]}">
+                    invisible="amount_due &lt;=  0"  >
                     <a class="close" data-dismiss="alert" href="#" aria-label="Close">x</a>
                     <div>
                         <strong>Customer Due Amount is

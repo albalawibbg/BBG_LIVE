@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from datetime import datetime
+from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
 import logging
@@ -226,6 +226,17 @@ class HrLoan(models.Model):
                 raise ValidationError('Loan Amount must be equal to Total Amount')
             if not self.loan_lines:
                 raise ValidationError('You must Schedule Loan before Submit')
+            group_user = self.env.ref('ohrms_loan.group_loan_approbation_1')
+            for user in group_user.users:
+                self.activity_ids.create({
+                    'res_id': record.id,
+                    'res_model_id': self.sudo().env['ir.model'].search([('model', '=', 'hr.loan')]).id,
+                    'user_id': user.id,
+                    'summary': 'Loan First Approve Activity',
+                    'note': 'Loan First Approve Activity',
+                    'activity_type_id': 4,
+                    'date_deadline': date.today(),
+                })
         self.write({'state': 'waiting_approval_1'})
 
     def action_cancel(self):
@@ -234,6 +245,17 @@ class HrLoan(models.Model):
     def action_approve_1(self):
         for loan in self:
             loan._validate_multi_loan()
+            group_user = self.env.ref('ohrms_loan.group_loan_approbation_2')
+            for user in group_user.users:
+                self.activity_ids.create({
+                    'res_id': loan.id,
+                    'res_model_id': self.sudo().env['ir.model'].search([('model', '=', 'hr.loan')]).id,
+                    'user_id': user.id,
+                    'summary': 'Loan Second Approve Activity',
+                    'note': 'Loan Second Approve Activity',
+                    'activity_type_id': 4,
+                    'date_deadline': date.today(),
+                })
             loan.write({'state': 'approve1'})
 
     def action_approve(self):

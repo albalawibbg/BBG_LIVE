@@ -1,32 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <record id="stock_product_template_form_inherit" model="ir.ui.view">
-        <field name="name">stock.product.template.tree</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="stock.view_stock_product_template_tree"/>
-        <field name="arch" type="xml">
-            <field name="qty_available" position="attributes">
-                <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
-            </field>
-            <field name="virtual_available" position="attributes">
-                <attribute name="groups">access_qty_onhand.group_access_forecast_qty</attribute>
-            </field>
-        </field>
-    </record>
-    <record id="view_stock_product_tree_inherit" model="ir.ui.view">
-        <field name="name">stock.view_stock_product_tree_inherit</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="stock.view_stock_product_tree"/>
-        <field name="arch" type="xml">
-            <field name="qty_available" position="attributes">
-                <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
-            </field>
-            <field name="virtual_available" position="attributes">
-                <attribute name="groups">access_qty_onhand.group_access_forecast_qty</attribute>
-            </field>
-        </field>
-    </record>
     <record id="product_template_update_quantity" model="ir.ui.view">
         <field name="name">product.template.form</field>
         <field name="model">product.template</field>
@@ -35,7 +8,10 @@
             <xpath expr="//button[@name='action_update_quantity_on_hand']" position="attributes">
                 <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_open_quants']" position="attributes">
+             <xpath expr="//button[@name='%(stock.action_product_replenish)d']" position="attributes">
+                <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
+            </xpath>
+            <xpath expr="//div[@name='button_box']//button[@name='action_update_quantity_on_hand']" position="attributes">
                 <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
             </xpath>
             <xpath expr="//button[@name='action_product_tmpl_forecast_report']" position="attributes">
@@ -44,37 +20,30 @@
         </field>
     </record>
 
-    <record id="product_product_update_quantity" model="ir.ui.view">
+    <record id="product_product_view_form_easy_inherit_stock" model="ir.ui.view">
         <field name="name">product.product.form</field>
         <field name="model">product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="inherit_id" ref="stock.product_product_view_form_easy_inherit_stock"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_update_quantity_on_hand']" position="attributes">
                 <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_open_quants']" position="attributes">
+            <xpath expr="//button[@name='%(stock.action_product_replenish)d']" position="attributes">
                 <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
-            </xpath>
-            <xpath expr="//button[@name='action_product_forecast_report']" position="attributes">
-                <attribute name="groups">access_qty_onhand.group_access_forecast_qty</attribute>
             </xpath>
         </field>
     </record>
-
-
-    <record id="stock_product_template_kanban_view_inherit" model="ir.ui.view">
-        <field name="name">stock_product_template_kanban_view_inherit</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+    <record id="product_form_view_procurement_button" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
         <field name="arch" type="xml">
-<!--&lt;!&ndash;            This code for my local&ndash;&gt;-->
-<!--            <div t-if="record.type.raw_value == 'product'" position="attributes">-->
-<!--                <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>-->
-<!--            </div>-->
-<!--            This code for odoo.sh-->
-            <div t-if="record.show_on_hand_qty_status_button.raw_value" position="attributes">
+            <xpath expr="//button[@name='action_update_quantity_on_hand']" position="attributes">
                 <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
-            </div>
+            </xpath>
+            <xpath expr="//button[@name='%(stock.action_product_replenish)d']" position="attributes">
+                <attribute name="groups">access_qty_onhand.group_access_on_hand_qty</attribute>
+            </xpath>
         </field>
     </record>
 

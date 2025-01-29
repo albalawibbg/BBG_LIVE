@@ -8,10 +8,10 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="reset_to_draft" class="oe_highlight"
-                        attrs="{'invisible': [('state', '=', 'draft')]}"
+                        invisible="state == 'draft'"
                         string="Reset To Draft" type="object" groups="hakbani_loan_enhancement.group_loan_reset_to_draft"/>
                 <button name="%(pay_loan_action)d"  class="oe_highlight"
-                        attrs="{'invisible': [('state', '!=', 'approve')]}"
+                        invisible="state != 'approve'"
                         string="Pay Loan" type="action" groups="hakbani_loan_enhancement.group_loan_pay"/>
             </xpath>
         </field>

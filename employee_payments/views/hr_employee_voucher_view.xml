@@ -9,7 +9,7 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='address_home_id']" position="attributes">
+                <xpath expr="//field[@name='address_id']" position="attributes">
                     <attribute name="required">1</attribute>
                 </xpath>
             </field>
@@ -37,7 +37,7 @@
             <field name="arch" type="xml">
 
 
-                <xpath expr="//page[2]/group/group[@name='salary']" position="after">
+                <xpath expr="//page[1]/group/group" position="after">
                     <group string="Vacation and Salary Details">
                         <field name="vacation"/>
                         <field name="ticket"/>
@@ -50,7 +50,7 @@
                     </group>
                 </xpath>
 
-                <xpath expr="//page[2]/group/group[@name='salary']" position="inside">
+                <xpath expr="//page[1]/group/group" position="inside">
                     <field name="gosiwage"/>
                     <field name="end_less_date"/>
                     <field name="ticket_balance"/>
@@ -157,21 +157,21 @@
             <field name="arch" type="xml">
                 <form string="Employee Payment">
                     <header>
-                        <button string="Submit" name="button_submit" states="draft" type="object" class="oe_highlight"
+                        <button string="Submit" name="button_submit" invisible="state != 'draft'"  type="object" class="oe_highlight"
                                 groups="employee_payments.group_payment_submit"
                         />
-                        <button string="Approval 1" name="approve1_payment" states="submitted" type="object"
+                        <button string="Approval 1" name="approve1_payment" invisible="state != 'submitted'"  type="object"
                                 class="oe_highlight"
                                 groups="employee_payments.group_payment_approbation_1"
                         />
-                        <button string="Set to Draft" name="set_draft" states="confirm" type="object"
+                        <button string="Set to Draft" name="set_draft" invisible="state != 'confirm'" type="object"
                                 class="oe_highlight"/>
-                        <button string="Approve" name="approve2_payment" states="confirm" type="object"
+                        <button string="Approve" name="approve2_payment" invisible="state != 'confirm'" type="object"
                                 groups="employee_payments.group_payment_approbation_2"
                                 class="oe_highlight"/>
-                        <button string="Refuse" name="cancel_voucher" states="done" type="object" class="oe_highlight"
+                        <button string="Refuse" name="cancel_voucher" invisible="state != 'done'" type="object" class="oe_highlight"
                                 groups="employee_payments.group_voucher_refuse_access"/>
-                        <button string="Set to Draft" name="draft_payment" states="cancel" type="object"/>
+                        <button string="Set to Draft" name="draft_payment" invisible="state != 'cancel'" type="object"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -259,12 +259,8 @@
                             </group>
 
                             <group colspan="2">
-                                <t t-if="other1 is False">
-                                    <label for="other1"/>
-                                </t>
-                                <t t-else="">
-                                    <label for="other1_name"/>
-                                </t>
+                                <label for="other1" invisible="other1 is True"/>
+                                <label invisible="other1 is False" for="other1_name"/>
                                 <div class="o_row">
                                     <field name="other1"/>
                                     <!--field name="voucher_method9" attrs="{'required': [('other1','=',True)],'invisible': [('other1','=',False)]}" domain="[('pay_type', '=','other1')]" placeholder="Select Voucher Type"/-->
@@ -295,27 +291,27 @@
                             </group>
                         </group>
 
-                        <group string="Legal Leave" attrs="{'invisible': [('legal_leave','=',False)]}">
+                        <group string="Legal Leave" invisible="legal_leave == False" >
                             <group>
                                 <field name="select_leave" statusbar_visible="legal"/>
-                                <field name="leave_type_id" attrs="{'invisible': 1}"/>
-                                <field name="import_legal" attrs="{'invisible': [('select_leave','=','paid')]}"/>
-                                <field name="start_date" attrs="{'invisible': [('select_leave','=','paid')]}"
+                                <field name="leave_type_id" invisible="1"/>
+                                <field name="import_legal" invisible="select_leave == 'paid'" />
+                                <field name="start_date" invisible="select_leave == 'paid'"
                                        force_save="1"/>
-                                <field name="end_date" attrs="{'invisible': [('select_leave','=','paid')]}"
+                                <field name="end_date" invisible="select_leave == 'paid'"
                                        force_save="1"/>
                             </group>
                             <group>
-                                <field name="no_days" attrs="{'readonly': [('select_leave','=','legal')]}"
+                                <field name="no_days" readonly="select_leave == 'legal'"
                                        force_save="1"/>
-                                <field name="salary_legal" attrs="{'readonly': [('select_leave','=','legal')]}"
+                                <field name="salary_legal" readonly="select_leave == 'legal'"
                                        force_save="1"/>
                                 <field name="per_day_salary" force_save="1"/>
                                 <field name="remaining_leaves" force_save="1"/>
                             </group>
                         </group>
 
-                        <group string="Ticket Payment" attrs="{'invisible': [('ticket_leave','=',False)]}">
+                        <group string="Ticket Payment" invisible="ticket_leave == False"  >
 
                             <group>
                                 <field name="allocated_tickets" force_save="1"/>
@@ -323,12 +319,12 @@
                             </group>
                             <group>
                                 <field name="issue_tickets"/>
-                                <field name="issue_amount_tickets" attrs="{'required':[('ticket_leave', '=', True)]}"/>
+                                <field name="issue_amount_tickets" required="ticket_leave == True"  />
                             </group>
 
                         </group>
 
-                        <group string="End of Service Payment" attrs="{'invisible': [('end_service','=',False)]}">
+                        <group string="End of Service Payment" invisible="end_service == False"  >
 
                             <group string="Working Details">
                                 <!--label for="period_year" string="Completed Period Details"/>
@@ -341,74 +337,78 @@
                                 <field name="paid_eos_amount" force_save="1"/>
                                 <field name="e_remain_eos_amount" invisible="True" force_save="1"/>
                                 <field name="e_total_eos_amount"
-                                       attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}" force_save="1"/>
+                                       invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
                                 <field name="t_remain_eos_amount" invisible="True" force_save="1"/>
                                 <field name="t_total_eos_amount"
-                                       attrs="{'invisible':[('leave_reason', '!=', 'termination')]}" force_save="1"/>
+                                        invisible="leave_reason != 'termination'"
+                                        force_save="1"/>
                                 <field name="q_remain_eos_amount" invisible="True" force_save="1"/>
-                                <field name="q_total_eos_amount" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="q_total_eos_amount" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="paid_amount" attrs="{'required':[('end_service', '=', True)]}"/>
+                                <field name="paid_amount" required="end_service == True"  />
                                 <field name="record_exit" invisible="True"/>
                             </group>
 
                             <group string="End of Service Details">
-                                <field name="leave_reason" attrs="{'readonly':[('record_exit', '=', True)]}"/>
+                                <field name="leave_reason" readonly="record_exit == True"  />
                                 <field name="end_leave_reason"
-                                       attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"/>
-                                <field name="end_years" attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"
+                                       invisible="record_exit != 'endservice'"
+                                       />
+                                <field name="end_years" invisible="leave_reason != 'endservice'"
                                        force_save="1"/>
-                                <field name="first_end" attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"
+                                <field name="first_end"  invisible="leave_reason != 'endservice'"
                                        force_save="1"/>
-                                <field name="second_end" attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"
+                                <field name="second_end"  invisible="leave_reason != 'endservice'"
                                        force_save="1"/>
-                                <field name="third_end" attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"
+                                <field name="third_end"  invisible="leave_reason != 'endservice'"
                                        force_save="1"/>
-                                <field name="total_end" attrs="{'invisible':[('leave_reason', '!=', 'endservice')]}"
+                                <field name="total_end"  invisible="leave_reason != 'endservice'"
                                        force_save="1"/>
 
                                 <field name="term_leave_reason"
-                                       attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"/>
-                                <field name="term_years" attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"
+                                        invisible="leave_reason != 'termination'"
+                                       />
+                                <field name="term_years" invisible="leave_reason != 'termination'"
                                        force_save="1"/>
-                                <field name="first_term" attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"
+                                <field name="first_term" invisible="leave_reason != 'termination'"
                                        force_save="1"/>
-                                <field name="second_term" attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"
+                                <field name="second_term" invisible="leave_reason != 'termination'"
                                        force_save="1"/>
-                                <field name="third_term" attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"
+                                <field name="third_term" invisible="leave_reason != 'termination'"
                                        force_save="1"/>
-                                <field name="total_term" attrs="{'invisible':[('leave_reason', '!=', 'termination')]}"
+                                <field name="total_term" invisible="leave_reason != 'termination'"
                                        force_save="1"/>
 
-                                <field name="quit_leave_reason" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"/>
-                                <field name="quit_years" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="quit_leave_reason" invisible="leave_reason != 'quit'"  />
+                                <field name="quit_years" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="first_quit" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="first_quit" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="second_quit" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="second_quit" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="third_quit" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="third_quit" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="fourth_quit" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="fourth_quit" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
-                                <field name="total_quit" attrs="{'invisible':[('leave_reason', '!=', 'quit')]}"
+                                <field name="total_quit" invisible="leave_reason != 'quit'"
                                        force_save="1"/>
                             </group>
 
                         </group>
 
-                        <group string="Exit / Re-Entry" attrs="{'invisible': [('exit_entry','=',False)]}">
+                        <group string="Exit / Re-Entry" invisible="exit_entry == False"  >
                             <group>
                                 <field name="allocated_exit_entry" force_save="1"/>
                                 <field name="allocated_amount_exit_entry" force_save="1"/>
                             </group>
                             <group>
                                 <field name="issue_exit_entry"/>
-                                <field name="issue_amount_exit_entry" attrs="{'required':[('exit_entry', '=', True)]}"/>
+                                <field name="issue_amount_exit_entry" required="exit_entry == True" />
                             </group>
                         </group>
 
-                        <group attrs="{'invisible': [('deduct1','=',False)]}">
+                        <group invisible="deduct1 == False" >
                             <h1>
                                 <field name="deduct1_name" force_save="1"/>
                             </h1>
@@ -417,43 +417,43 @@
 
                             </group>
                             <group>
-                                <field name="deduct1_amount" attrs="{'required':[('deduct1', '=', True)]}"/>
+                                <field name="deduct1_amount" required="deduct1 == True" />
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('deduct2','=',False)]}">
+                        <group invisible="deduct2 == False" >
 
                             <group>
                                 <h1>
                                     <field name="deduct2_name" force_save="1"/>
                                 </h1>
-                                <field name="deduct2_amount" attrs="{'required':[('deduct2', '=', True)]}"/>
+                                <field name="deduct2_amount" required="deduct2 == True" />
                             </group>
                             <group>
                                 <field name="deduct2_desp"/>
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('deduct3','=',False)]}">
+                        <group invisible="deduct3 == False" >
 
                             <group>
                                 <h1>
                                     <field name="deduct3_name" force_save="1"/>
                                 </h1>
-                                <field name="deduct3_amount" attrs="{'required':[('deduct3', '=', True)]}"/>
+                                <field name="deduct3_amount" required="deduct3 == True" />
                             </group>
                             <group>
                                 <field name="deduct3_desp"/>
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('deduct4','=',False)]}">
+                        <group invisible="deduct4 == False" >
 
                             <group>
                                 <h1>
                                     <field name="deduct4_name" force_save="1"/>
                                 </h1>
-                                <field name="deduct4_amount" attrs="{'required':[('deduct4', '=', True)]}"/>
+                                <field name="deduct4_amount" required="deduct4 == True" />
                             </group>
                             <group>
                                 <field name="deduct4_desp"/>
@@ -462,52 +462,52 @@
                         </group>
 
 
-                        <group attrs="{'invisible': [('other1','=',False)]}">
+                        <group invisible="other1 == False" >
 
                             <group>
                                 <h1>
                                     <field name="other1_name" force_save="1"/>
                                 </h1>
-                                <field name="other1_amount" attrs="{'required':[('other1', '=', True)]}"/>
+                                <field name="other1_amount" required="other1 == True"/>
                             </group>
                             <group>
                                 <field name="other1_desp"/>
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('other2','=',False)]}">
+                        <group invisible="other2 == False" >
 
                             <group>
                                 <h1>
                                     <field name="other1_name" force_save="1"/>
                                 </h1>
-                                <field name="other2_amount" attrs="{'required':[('other2', '=', True)]}"/>
+                                <field name="other2_amount" required="other2 == True"/>
                             </group>
                             <group>
                                 <field name="other2_desp"/>
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('other3','=',False)]}">
+                        <group invisible="other3 == False" >
 
                             <group>
                                 <h1>
                                     <field name="other1_name" force_save="1"/>
                                 </h1>
-                                <field name="other3_amount" attrs="{'required':[('other3', '=', True)]}"/>
+                                <field name="other3_amount" required="other3 == True" />
                             </group>
                             <group>
                                 <field name="other3_desp"/>
                             </group>
 
                         </group>
-                        <group attrs="{'invisible': [('other4','=',False)]}">
+                        <group invisible="other4 == False" >
 
                             <group>
                                 <h1>
                                     <field name="other1_name" force_save="1"/>
                                 </h1>
-                                <field name="other4_amount" attrs="{'required':[('other4', '=', True)]}"/>
+                                <field name="other4_amount" required="other4 == True" />
                             </group>
                             <group>
                                 <field name="other4_desp"/>
@@ -652,7 +652,8 @@
                         <group col="4" colspan="4">
                             <field name="pay_type"/>
                             <field name="payment_name"
-                                   attrs="{'invisible': [('pay_type', 'in', ('legal','exitentry','ticket','eos'))]}"/>
+                                   invisible="pay_type in ('legal','exitentry','ticket','eos')"
+                                   />
                             <field name="debit_account_id"/>
                             <field name="credit_account_id"/>
                             <field name="account_analytic_true"/>
@@ -741,7 +742,7 @@
             <field name="allocation_validation_type">officer</field>
             <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
             <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
-            <field name="responsible_id" ref="base.user_admin"/>
+            <field name="responsible_ids" eval="[(4, ref('base.user_admin'))]"/>
             <field name="icon_id" ref="hr_holidays.icon_14"/>
             <field name="color">2</field>
         </record>

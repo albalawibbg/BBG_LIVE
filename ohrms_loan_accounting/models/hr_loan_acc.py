@@ -15,9 +15,6 @@ class loan_payments(models.Model):
     journal_id = fields.Many2one('account.journal', string="Journal", required=True, help='Journal for journal entry')
 
 
-loan_payments()
-
-
 class HrLoanAcc(models.Model):
     _inherit = 'hr.loan'
 
@@ -71,7 +68,7 @@ class HrLoanAcc(models.Model):
                 'name': loan_name,
                 'account_id': debit_account_id,
                 'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_home_id.id,
+                'partner_id': loan.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount > 0.0 and amount or 0.0,
                 'credit': amount < 0.0 and -amount or 0.0,
@@ -81,7 +78,7 @@ class HrLoanAcc(models.Model):
                 'name': loan_name,
                 'account_id': credit_account_id,
                 'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_home_id.id,
+                'partner_id': loan.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount < 0.0 and -amount or 0.0,
                 'credit': amount > 0.0 and amount or 0.0,
@@ -95,7 +92,7 @@ class HrLoanAcc(models.Model):
                 'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
             }
             move = self.env['account.move'].create(vals)
-            move.post()
+            move.action_post()
         self.write({'state': 'approve'})
         return True
 
@@ -143,7 +140,7 @@ class HrLoanAcc(models.Model):
                 'name': loan_name,
                 'account_id': debit_account_id,
                 'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_home_id.id,
+                'partner_id': loan.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount > 0.0 and amount or 0.0,
                 'credit': amount < 0.0 and -amount or 0.0,
@@ -153,7 +150,7 @@ class HrLoanAcc(models.Model):
                 'name': loan_name,
                 'account_id': credit_account_id,
                 'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_home_id.id,
+                'partner_id': loan.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount < 0.0 and -amount or 0.0,
                 'credit': amount > 0.0 and amount or 0.0,
@@ -167,7 +164,7 @@ class HrLoanAcc(models.Model):
                 'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
             }
             move = self.env['account.move'].create(vals)
-            move.post()
+            move.action_post()
         self.write({'state': 'approve'})
         return True
 
@@ -196,7 +193,7 @@ class HrLoanLineAcc(models.Model):
                 'name': loan_name,
                 'account_id': debit_account_id,
                 'journal_id': journal_id,
-                'partner_id': line.employee_id.address_home_id.id,
+                'partner_id': line.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount > 0.0 and amount or 0.0,
                 'credit': amount < 0.0 and -amount or 0.0,
@@ -205,7 +202,7 @@ class HrLoanLineAcc(models.Model):
                 'name': loan_name,
                 'account_id': credit_account_id,
                 'journal_id': journal_id,
-                'partner_id': line.employee_id.address_home_id.id,
+                'partner_id': line.employee_id.address_id.id,
                 'date': timenow,
                 'debit': amount < 0.0 and -amount or 0.0,
                 'credit': amount > 0.0 and amount or 0.0,
@@ -218,7 +215,7 @@ class HrLoanLineAcc(models.Model):
                 'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
             }
             move = self.env['account.move'].create(vals)
-            move.post()
+            move.action_post()
         return True
 
 
