@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="report_loan_print"
+            string="Print Loan "
+            model="hr.loan"
+            report_type="qweb-pdf"
+            file="ohrms_loan.report_loan_report_print" 
+            name="ohrms_loan.report_loan_report_print" 
+        />
+        
+        
+    </data>
+</openerp>

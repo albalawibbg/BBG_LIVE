@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+
+        <record id="report_product_margin_xlsx" model="ir.actions.report">
+            <field name="name">Product Margin Report XLSX</field>
+            <field name="model">product.margin.report.wizard</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hakbani_product_margin_report.product_margin_xlsx</field>
+            <field name="report_file">hakbani_product_margin_report.product_margin_xlsx</field>
+            <field name="print_report_name">'Product Margin'</field>
+            <field name="binding_model_id" ref="hakbani_product_margin_report.model_product_margin_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="report_product_margin" model="ir.actions.report">
+            <field name="name">Product Margin Report</field>
+            <field name="model">product.margin.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hakbani_product_margin_report.template_product_margin</field>
+            <field name="report_file">hakbani_product_margin_report.template_product_margin</field>
+            <field name="print_report_name">'Product Margin'</field>
+            <field name="binding_model_id" ref="hakbani_product_margin_report.model_product_margin_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <template id="template_product_margin">
+
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <style type="text/css">
+
+                            td,th {border:1px solid black !important;
+                            vertical-align:middle;
+                            padding:5px;
+                            text-align:center;
+                            }
+
+                        </style>
+
+
+                        <div class="page" style="font-size:25px !important;">
+                            <t t-set="quant_ids" t-value="o.get_quants_in_single_location_query()"/>
+                            <h2>Product margin report</h2>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Available Quantity</th>
+                                        <th>Price</th>
+                                        <th>Margin</th>
+                                        <th>Margin %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="quant_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.product_id.display_name"/>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>
+
+

@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+
+{
+    'name': 'Hakbani Petty Cash Solution',
+    'version': '17.0.0.0',
+    'summary': 'Hakbani Petty Cash Solution',
+    "category": "Account",
+    "author": "Hakbani IT",
+    'website': 'https://www.nutechits.com',
+    "license": "AGPL-3",
+    'depends': ['base','account','sale','hr'],
+    'demo': [],
+    'data': [
+        'security/security.xml',
+        'views/account_payment.xml',
+        'views/sale_order.xml',
+        'views/res_partner.xml',
+        'views/account_move.xml',
+        'views/tsleem_invoices.xml',
+        'views/product_product_view.xml',
+        'report/report.xml',
+        'report/invoice.xml',
+        'report/invoice_edit.xml',
+        'data/data.xml',
+        'security/ir.model.access.csv',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'qweb': [],
+}
