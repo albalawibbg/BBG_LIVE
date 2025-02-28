@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="hr_batch_payslip_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <style>
+                            html, body{
+                            text-align: right;
+                            }
+                            td{
+                            border:1px solid black;
+                            padding: 1px;
+                            vertical-align: middle;
+                            }
+                            th{
+                            border:2px solid black;
+                            padding: 1px;
+                            vertical-align: middle;
+                            }
+                            .bg-blue{
+                            background-color:#8ea9db;
+                            }
+                            .bg-gray{
+                            background-color:#d9d9d9;
+                            }
+                        </style>
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <h2>
+                                Payslip Batch :
+                                <span t-field="o.name"/>
+                            </h2>
+                            <table width="100%" style="border:1px solid black;">
+                                <thead style="font-weight:bold;font-size:15px;">
+                                    <th>رقم</th>
+                                    <th class="bg-blue">هوية المستفيد</th>
+                                    <th class="bg-gray">الاسم / الوظيفة</th>
+                                    <th class="bg-blue">رقم الحساب</th>
+                                    <th class="bg-blue">رمز البنك</th>
+                                    <th class="bg-blue">اجمالى المبلغ</th>
+                                    <th class="bg-gray">الراتب الاساسي</th>
+                                    <th class="bg-gray">بدل السكن</th>
+                                    <th class="bg-gray">دخل أخر</th>
+                                    <th class="bg-gray">الخصومات</th>
+                                    <th class="bg-blue">الكفالة</th>
+                                    <th class="bg-blue">العملة</th>
+                                    <th class="bg-blue">الحالة</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totals" t-value="0"/>
+                                    <t t-set="total_wage" t-value="0"/>
+                                    <t t-set="total_all_housing" t-value="0"/>
+                                    <t t-set="total_other" t-value="0"/>
+                                    <t t-set="total_ded" t-value="0"/>
+
+                                    <tr t-foreach="o.slip_ids" t-as="line">
+                                        <td>
+                                            <span t-esc="line_index + 1"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.employee_id.identification_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.employee_id.name"/>
+                                            <br/>
+                                            <span t-field="line.employee_id.job_id"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.employee_id.bank_account_id.acc_number"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.employee_id.bank_account_id.bank_id.bic"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.line_ids[-1].total"/>
+                                            <t t-set="totals" t-value="totals+line.line_ids[-1].total"/>
+
+
+                                        </td>
+                                        <td>
+                                            <span t-field="line.contract_id.wage"/>
+                                            <t t-set="total_wage" t-value="total_wage+line.contract_id.wage"/>
+
+                                        </td>
+                                        <td>
+                                            <span t-field="line.contract_id.af_allowance_housing"/>
+                                            <t t-set="total_all_housing"
+                                               t-value="total_all_housing+line.contract_id.af_allowance_housing"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.contract_id.af_allowance_other"/>
+                                            <t t-set="total_other"
+                                               t-value="total_other+line.contract_id.af_allowance_other"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sum(line.line_ids.filtered(lambda l:l.total &lt; 0).mapped('total'))"/>
+                                            <t t-set="total_ded"
+                                               t-value="total_ded+sum(line.line_ids.filtered(lambda l:l.total &lt; 0).mapped('total'))"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.employee_id.kafeel_name"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span t-field="line.employee_id.bank_account_id.currency_id"/>
+                                        </td>
+                                        <td class="bg-blue">
+                                            <span/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="bg-gray">
+                                            <span>
+                                                <strong>
+                                                    Total - الاجمالي
+                                                </strong>
+                                            </span>
+                                        </td>
+                                        <td class="bg-blue"></td>
+                                        <td class="bg-blue"></td>
+                                        <td class="bg-blue">
+                                            <span t-esc="totals"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="total_wage"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="total_all_housing"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="total_other"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="total_ded"/>
+                                        </td>
+                                        <td class="bg-blue"></td>
+                                        <td class="bg-blue"></td>
+                                        <td class="bg-blue"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <div class="col-12 row">
+                                <div class="col-6">
+                                    <center>
+                                        <table style="border:1px solid black;">
+                                            <tr>
+                                                <td>
+                                                    <span>اعداد:</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Prepared By</span>
+                                                    <span t-field="o.create_uid"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </center>
+                                </div>
+                                <div class="col-6">
+                                    <center>
+                                        <table style="border:1px solid black;">
+                                            <tr>
+                                                <td>
+                                                    <span>مدير الموارد البشرية</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>HR Manager</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
