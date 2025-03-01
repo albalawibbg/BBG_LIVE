@@ -34,7 +34,6 @@ class SaleOrder(models.Model):
         if not self.analytic_account_id:
             pass
             #raise ValidationError(_('Please Select an analytic account and proceed'))
-
     def action_confirm(self):
         self.check_analytic_account_id()
         return super(SaleOrder, self).action_confirm()

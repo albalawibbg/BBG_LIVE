@@ -2,7 +2,7 @@
 {
     "name": "Hakbani-IT Loan Enhancement",
     "summary": "Hakbani-IT Loan Enhancement",
-    "version": "17.0.0.0",
+    "version": "17.0",
     "category": "Hr",
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',
