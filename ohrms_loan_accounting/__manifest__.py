@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': ' Loan Management',
-    'version': '17.0.0.0',
+    'version': '17.0',
     'summary': 'Manage Loan Requests',
     'description': """
         Helps you to manage Loan Requests of your company's staff.
