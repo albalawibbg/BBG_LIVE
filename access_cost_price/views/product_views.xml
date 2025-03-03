@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Product Views -->
-
-    <record id="view_stock_product_template_tree_inherit" model="ir.ui.view">
+    <data>
+        <record id="view_stock_product_template_tree_inherit" model="ir.ui.view">
         <field name="name">product.template.tree.inherit</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_tree_view"/>
@@ -51,6 +50,8 @@
 
             </field>
           </record>
+    </data>
+
 
 
 
