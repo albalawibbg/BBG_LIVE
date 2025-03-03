@@ -13,6 +13,7 @@
         'wizard/base_document_layout_views.xml',
         'report/external_layout_report_template.xml',
     ],
+
     'installable': True,
     'auto_install': False,
     'application': False,
