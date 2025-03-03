@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     'name': 'Access cost price - MODULE',
     'version': '17.0',

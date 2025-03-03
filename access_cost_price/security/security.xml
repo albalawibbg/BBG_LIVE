@@ -2,8 +2,8 @@
 <odoo>
     <data>
         <record id="group_cost_price" model="res.groups">
-        <field name="name">Allow access cost price</field>
-    </record>
+            <field name="name">Allow access cost price</field>
+        </record>
     </data>
 
 </odoo>
