@@ -9,7 +9,6 @@
         'web',
     ],
     'data': [
-        # 'data/data.xml',
         'views/res_company_views.xml',
         'wizard/base_document_layout_views.xml',
         'report/external_layout_report_template.xml',
