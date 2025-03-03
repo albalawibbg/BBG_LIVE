@@ -6,12 +6,11 @@
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',
     "license": "AGPL-3",
-    "depends": ["base","account"],
-    # "depends": ["base","ohrms_loan_accounting", "ohrms_loan","account"],
+    "depends": ["base","ohrms_loan_accounting", "ohrms_loan","account"],
     "data": [
         'security/ir.model.access.csv',
         'security/security.xml',
-        # 'wizard/pay_loan_wizard.xml',
-        # 'views/loan.xml',
+        'wizard/pay_loan_wizard.xml',
+        'views/loan.xml',
     ],
 }
