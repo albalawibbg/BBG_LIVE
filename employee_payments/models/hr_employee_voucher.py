@@ -232,7 +232,7 @@ class employee_voucher(models.Model):
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct1')]))
     deduct1_amount = fields.Float(string='Amount', required=True, )
-    deduct1_name = fields.Char(string='Deduct 1 Name', readonly="1")
+    deduct1_name = fields.Char(string='Deduct 1 Name', readonly=True)
     deduct1_desp = fields.Text(string='Description', )
 
     deduct2 = fields.Boolean(string='Deduct 2', readonly=True, )
@@ -240,7 +240,7 @@ class employee_voucher(models.Model):
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct2')]))
     deduct2_amount = fields.Float(string='Amount', required=True, )
-    deduct2_name = fields.Char(string='Deduct 2 Name', readonly="1")
+    deduct2_name = fields.Char(string='Deduct 2 Name', readonly=True)
     deduct2_desp = fields.Text(string='Description', )
 
     deduct3 = fields.Boolean(string='Deduct 3', readonly=True, )
@@ -248,7 +248,7 @@ class employee_voucher(models.Model):
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct3')]))
     deduct3_amount = fields.Float(string='Amount', required=True, )
-    deduct3_name = fields.Char(string='Deduct 4 Name', readonly="1")
+    deduct3_name = fields.Char(string='Deduct 4 Name', readonly=True)
     deduct3_desp = fields.Text(string='Description', )
 
     deduct4 = fields.Boolean(string='Deduct 4', readonly=True, )
@@ -256,7 +256,7 @@ class employee_voucher(models.Model):
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct4')]))
     deduct4_amount = fields.Float(string='Amount', required=True,)
-    deduct4_name = fields.Char(string='Deduct 4 Name', readonly="1")
+    deduct4_name = fields.Char(string='Deduct 4 Name', readonly=True)
     deduct4_desp = fields.Text(string='Description', )
 
     other1 = fields.Boolean(string='Other 1', readonly=True, )
@@ -264,7 +264,7 @@ class employee_voucher(models.Model):
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'other1')]))
     other1_amount = fields.Float(string='Amount', required=True, )
-    other1_name = fields.Char(string='Other 1 Name', readonly="1")
+    other1_name = fields.Char(string='Other 1 Name', readonly=True)
     other1_desp = fields.Text(string='Description', )
 
     other2 = fields.Boolean(string='Other 2', readonly=True, )
@@ -272,7 +272,7 @@ class employee_voucher(models.Model):
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other2')]))
     other2_amount = fields.Float(string='Amount', required=True, )
-    other2_name = fields.Char(string='Other 2 Name', readonly="1")
+    other2_name = fields.Char(string='Other 2 Name', readonly=True)
     other2_desp = fields.Text(string='Description', )
 
     other3 = fields.Boolean(string='Other 3', readonly=True,)
@@ -280,7 +280,7 @@ class employee_voucher(models.Model):
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other3')]))
     other3_amount = fields.Float(string='Amount', required=True,)
-    other3_name = fields.Char(string='Other 3 Name', readonly="1")
+    other3_name = fields.Char(string='Other 3 Name', readonly=True)
     other3_desp = fields.Text(string='Description',)
 
     other4 = fields.Boolean(string='Other 4', readonly=True, )
@@ -288,7 +288,7 @@ class employee_voucher(models.Model):
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other4')]))
     other4_amount = fields.Float(string='Amount', required=True,)
-    other4_name = fields.Char(string='Other 4 Name', readonly="1")
+    other4_name = fields.Char(string='Other 4 Name', readonly=True)
     other4_desp = fields.Text(string='Description',)
 
     grand_total = fields.Float(string="Total Amount", compute='_compute_amount')
