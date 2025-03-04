@@ -260,7 +260,7 @@
 
                             <group colspan="2">
                                 <label for="other1" invisible="other1"/>
-                                <label invisible="other1 is False" for="other1_name"/>
+                                <label invisible="other1 == False" for="other1_name"/>
                                 <div class="o_row">
                                     <field name="other1"/>
                                     <!--field name="voucher_method9" attrs="{'required': [('other1','=',True)],'invisible': [('other1','=',False)]}" domain="[('pay_type', '=','other1')]" placeholder="Select Voucher Type"/-->
