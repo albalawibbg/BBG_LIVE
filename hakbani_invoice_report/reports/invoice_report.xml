@@ -74,7 +74,7 @@
                                     src:url(/hakbani_invoice_report/static/src/fonts/Droid/Droid-Arabic-Kufi-Regular.ttf) format('truetype');
                                     }
                                 </style>
-                                <div class="row" style="margin-top:30px;">
+                                <div class="row" style="margin-top:30px;" dir="ltr">
                                      <div class="col-3">
                                          <p >
                                             <img t-if="o.l10n_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), 120, 120)"/>
@@ -84,7 +84,7 @@
                                     <!--<div class="col-3">-->
                                     <!--    <img t-if="o.l10n_sa_qr_code_str" style="display:block;text-align:center;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.l10n_sa_qr_code_str, 120, 120)"/>-->
                                     <!--</div>-->
-                                    <div class="col-5" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;" dir="ltr">
+                                    <div class="col-5 text-left" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;" dir="ltr">
                                         <span>Main center - Riyadh City</span><br/>
                                         <span>PO Box 390807 Riyadh 11365</span><br/>
                                         <span>Telefax +966 11 242 7855</span><br/>
