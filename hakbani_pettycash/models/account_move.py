@@ -4,7 +4,8 @@ from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import UserError, ValidationError
 # from odoo.exceptions import Warning
 from datetime import date, datetime
-
+import logging
+logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -35,6 +36,7 @@ class AccountMove(models.Model):
         return res
     @api.model
     def create(self, vals):
+        logger.info(">>>>>>>>>>>>>>>>{}".format(vals))
         if vals.get('move_type') in ['in_invoice', 'in_refund', 'out_invoice', 'out_refund']:
             if vals.get('date'):
                 if datetime.strptime(str(vals.get('date')), '%Y-%m-%d') > datetime.today():
