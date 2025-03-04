@@ -259,7 +259,7 @@ class employee_voucher(models.Model):
     deduct4_name = fields.Char(string='Deduct 4 Name', readonly=True)
     deduct4_desp = fields.Text(string='Description', )
 
-    other1 = fields.Boolean(string='Other 1', readonly=True, )
+    other1 = fields.Boolean(string='Other 1', readonly=True)
     voucher_method9 = fields.Many2one('employee.voucher.line', string='Employee Payment Type9', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'other1')]))
@@ -274,7 +274,6 @@ class employee_voucher(models.Model):
     other2_amount = fields.Float(string='Amount', required=True, )
     other2_name = fields.Char(string='Other 2 Name', readonly=True)
     other2_desp = fields.Text(string='Description', )
-
     other3 = fields.Boolean(string='Other 3', readonly=True,)
     voucher_method11 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type11', readonly=True,
                                        default=lambda self: self.env['employee.voucher.line'].search(
