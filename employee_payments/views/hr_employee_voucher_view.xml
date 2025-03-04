@@ -247,7 +247,7 @@
                                     <field name="deduct4" readonly="state != 'draft'"/>
                                     <field name="deduct4_name" reaondly="1" force_save="1"/>
                                 </div>
-                                <field name="ignore_loan" invisible="state == 'draft'" readonly="state = 'done'"/>
+                                <field name="ignore_loan" invisible="state == 'draft'" readonly="state == 'done'"/>
                             </group>
 
                             <group colspan="2">
