@@ -211,7 +211,7 @@ class TsleemInvoicesLine(models.Model):
                     'tsleem_invoices_id': self.tsleem_invoices_id.id,
                     'invoice_line_ids': [
                         {'product_id': self.product_id.id,
-                         'analytic_distribution':{str(analytic_account_id):100} if analytic_account_id else {},
+                         'analytic_distribution':{analytic_account_id:100} if analytic_account_id else False,
                          'name': self.ref_product, 'price_unit': self.price_unit,
                          # @ibralsmn : pass taxes to invoice
                          'tax_ids': self.tax_id
