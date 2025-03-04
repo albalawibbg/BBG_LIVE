@@ -197,7 +197,7 @@ class TsleemInvoicesLine(models.Model):
         if self.analytic_account_id:
             analytic_account_id = self.analytic_account_id.id
         else:
-            analytic_account_id = None
+            analytic_account_id = False
 
         if not self.invoice_id:
             invoice_id = self.env['account.move'].create(
@@ -206,10 +206,12 @@ class TsleemInvoicesLine(models.Model):
                     'vat': self.supplier_id.vat,
                     'partner_id': self.supplier_id.id,
                     'ref': self.ref,
+                    'analytic_distribution': {str(analytic_account_id): 100} if analytic_account_id else {},
                     'invoice_date': self.date_invoice,
                     'tsleem_invoices_id': self.tsleem_invoices_id.id,
                     'invoice_line_ids': [
-                        {'product_id': self.product_id.id, 'analytic_account_id': analytic_account_id,
+                        {'product_id': self.product_id.id,
+                         'analytic_distribution':{str(analytic_account_id):100} if analytic_account_id else {},
                          'name': self.ref_product, 'price_unit': self.price_unit,
                          # @ibralsmn : pass taxes to invoice
                          'tax_ids': self.tax_id
