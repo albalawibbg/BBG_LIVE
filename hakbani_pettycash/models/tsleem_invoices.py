@@ -206,7 +206,7 @@ class TsleemInvoicesLine(models.Model):
                     'vat': self.supplier_id.vat,
                     'partner_id': self.supplier_id.id,
                     'ref': self.ref,
-                    'analytic_distribution': {str(analytic_account_id): 100} if analytic_account_id else {},
+                    'analytic_distribution': {analytic_account_id: 100} if analytic_account_id else {},
                     'invoice_date': self.date_invoice,
                     'tsleem_invoices_id': self.tsleem_invoices_id.id,
                     'invoice_line_ids': [
