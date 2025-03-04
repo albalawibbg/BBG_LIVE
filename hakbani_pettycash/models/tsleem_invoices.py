@@ -206,12 +206,12 @@ class TsleemInvoicesLine(models.Model):
                     'vat': self.supplier_id.vat,
                     'partner_id': self.supplier_id.id,
                     'ref': self.ref,
-                    'analytic_distribution': {analytic_account_id: 100} if analytic_account_id else False,
+                    'analytic_distribution': {analytic_account_id: 100} if analytic_account_id else {},
                     'invoice_date': self.date_invoice,
                     'tsleem_invoices_id': self.tsleem_invoices_id.id,
                     'invoice_line_ids': [
                         {'product_id': self.product_id.id,
-                         'analytic_distribution':{analytic_account_id:100} if analytic_account_id else False,
+                         'analytic_distribution':{analytic_account_id:100} if analytic_account_id else {},
                          'name': self.ref_product, 'price_unit': self.price_unit,
                          # @ibralsmn : pass taxes to invoice
                          'tax_ids': self.tax_id
@@ -232,8 +232,8 @@ class TsleemInvoicesLine(models.Model):
             self.invoice_id.line_ids = [(6, 0, [])]
             line_move = self.env['account.move.line'].create(
                 {'move_id': self.invoice_id.id, 'product_id': self.product_id.id,
-                 'analytic_account_id': analytic_account_id, 'name': self.ref_product, 'price_unit': self.price_unit,
-                 # @ibralsmn fix tx unknown variable
+                 'name': self.ref_product, 'price_unit': self.price_unit,
+                 'analytic_distribution': {analytic_account_id: 100} if analytic_account_id else {},
                  'tax_ids': self.tax_id,
                  'account_id': self.product_id.property_account_expense_id.id or self.product_id.categ_id.property_account_expense_categ_id.id})
             self.invoice_id.invoice_line_ids = [(6, 0, [line_move.id])]
