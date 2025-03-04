@@ -209,13 +209,13 @@ class TsleemInvoicesLine(models.Model):
                     'analytic_distribution': {analytic_account_id: 100} if analytic_account_id else {},
                     'invoice_date': self.date_invoice,
                     'tsleem_invoices_id': self.tsleem_invoices_id.id,
-                    'invoice_line_ids': [
+                    'invoice_line_ids': [(0,0,
                         {'product_id': self.product_id.id,
                          'analytic_distribution':{analytic_account_id:100} if analytic_account_id else {},
                          'name': self.ref_product, 'price_unit': self.price_unit,
                          # @ibralsmn : pass taxes to invoice
                          'tax_ids': self.tax_id
-                         }],
+                         })],
                 }
             )
             invoice_id.action_post()
