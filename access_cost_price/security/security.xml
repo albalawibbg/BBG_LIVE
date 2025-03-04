@@ -5,5 +5,4 @@
             <field name="name">Allow access cost price</field>
         </record>
     </data>
-
 </odoo>

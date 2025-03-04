@@ -39,12 +39,12 @@
 
                 <xpath expr="//page[1]/group/group" position="after">
                     <group string="Vacation and Salary Details">
-                        <field name="vacation"/>
-                        <field name="ticket"/>
-                        <field name="ticket_amount"/>
-                        <field name="exit_entry"/>
-                        <field name="exit_entry_amount"/>
-                        <field name="contract_years"/>
+                        <field name="vacation" required="1"/>
+                        <field name="ticket" required="1"/>
+                        <field name="ticket_amount" required="1"/>
+                        <field name="exit_entry" required="1"/>
+                        <field name="exit_entry_amount" required="1"/>
+                        <field name="contract_years" required="1"/>
                         <field name="total_salary" placeholder="Total Salary Package"/>
 
                     </group>

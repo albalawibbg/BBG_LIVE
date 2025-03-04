@@ -43,12 +43,12 @@ class hr_leave(models.Model):
 class hr_contract(models.Model):
     _inherit = "hr.contract"
 
-    vacation = fields.Float('Annual Vacation Days', required=True)
-    ticket = fields.Float('Eligible Employee Tickets', required=True)
-    ticket_amount = fields.Float('Amount per Ticket', required=True)
-    exit_entry = fields.Float('Eligible Employee Exit Re-Entry', required=True)
-    exit_entry_amount = fields.Float('Amount per Exit Re-Entry', required=True)
-    contract_years = fields.Integer('No of Years Contract', required=True)
+    vacation = fields.Float('Annual Vacation Days', required=False)
+    ticket = fields.Float('Eligible Employee Tickets', required=False)
+    ticket_amount = fields.Float('Amount per Ticket', required=False)
+    exit_entry = fields.Float('Eligible Employee Exit Re-Entry', required=False)
+    exit_entry_amount = fields.Float('Amount per Exit Re-Entry', required=False)
+    contract_years = fields.Integer('No of Years Contract', required=False)
     total_salary = fields.Float('Total Salary', required=True)
     gosiwage = fields.Float('Gosi Wage')
     end_less_date = fields.Date('Contract Renewal Date', requied=True)
