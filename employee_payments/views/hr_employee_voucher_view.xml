@@ -45,14 +45,14 @@
                         <field name="exit_entry" required="1"/>
                         <field name="exit_entry_amount" required="1"/>
                         <field name="contract_years" required="1"/>
-                        <field name="total_salary" placeholder="Total Salary Package"/>
+                        <field name="total_salary" required="1" placeholder="Total Salary Package"/>
 
                     </group>
                 </xpath>
 
                 <xpath expr="//page[1]/group/group" position="inside">
                     <field name="gosiwage"/>
-                    <field name="end_less_date"/>
+                    <field name="end_less_date" required="1"/>
                     <field name="ticket_balance"/>
                     <field name="exit_entry_balance"/>
                     <!--label for="period_year" string="Completed Period Details"/>
