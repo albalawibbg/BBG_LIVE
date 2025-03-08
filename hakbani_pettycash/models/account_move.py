@@ -55,9 +55,10 @@ class AccountMove(models.Model):
     @api.onchange('vat')
     def onchange_tax_number(self):
         if self.vat and self.state == 'draft' and self.move_type in ['in_invoice','in_refund','out_invoice','out_refund']:
-            partner_id = self.env['res.partner'].search([('vat', '=', self.vat)])
+            partner_id = self.env['res.partner'].search([('vat', '=', self.vat)],limit=1)
             if partner_id:
-                self.partner_id = partner_id.id
+                if self.partner_id.vat != self.vat:
+                    self.partner_id = partner_id.id
             else:
                 raise ValidationError(_('No Supplier OR Customer Found From Taxes Number %s'%(self.vat)))
 
