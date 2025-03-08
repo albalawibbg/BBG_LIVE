@@ -51,7 +51,7 @@ class AccountMove(models.Model):
 
     @api.onchange('vat')
     def onchange_tax_number(self):
-        if self.vat and self.state == 'draft' and self.type in ['in_invoice','in_refund','out_invoice','out_refund']:
+        if self.vat and self.state == 'draft' and self.move_type in ['in_invoice','in_refund','out_invoice','out_refund']:
             partner_id = self.env['res.partner'].search([('vat', '=', self.vat)])
             if partner_id:
                 self.partner_id = partner_id.id
