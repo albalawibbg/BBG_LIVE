@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'sr_symbol';
+    src:  url('../fonts/sr.eot?hc2hgv');
+    src:  url('../fonts/sr.eot?hc2hgv#iefix') format('embedded-opentype'),
+      url('../fonts/sr.ttf?hc2hgv') format('truetype'),
+      url('../fonts/sr.woff?hc2hgv') format('woff'),
+      url('../fonts/sr.svg?hc2hgv#sr') format('svg');
+
+  }
+  
+  
+  .icon-sr:before{
+    content: "\e900";
+    color: rgb(36, 36, 36);
+  }
+
+/* [class*="monetary"] {
+    font-family: 'sr_symbol', sans-serif;
+    font-style: normal;
+}
+[class*="number"]{
+    font-family: 'sr_symbol', sans-serif;
+    font-style: normal;
+} */
+
+
+/* Apply font-family only to elements that contain numbers, but NOT icons */
+*:not(script):not(style):not(.fa):not([class*="fa-"]) {
+    font-family: 'sr_symbol', sans-serif !important;
+    font-style: normal !important;
+}
+
+/* Ensure it only applies to number-related fields */
+*:not(script):not(style):not(.fa):not([class*="fa-"])::before, 
+*:not(script):not(style):not(.fa):not([class*="fa-"])::after {
+    font-family: 'sr_symbol', sans-serif !important;
+    font-style: normal !important;
+}
+
+/* Restrict it to numeric content using Odoo's data attributes */
+*:not(script):not(style):not(.fa):not([class*="fa-"]):has(> [data-type="integer"]),
+*:not(script):not(style):not(.fa):not([class*="fa-"]):has(> [data-type="float"]),
+*:not(script):not(style):not(.fa):not([class*="fa-"]):has(> [data-type="monetary"]),
+*:not(script):not(style):not(.fa):not([class*="fa-"]):has(> [data-type="number"]) {
+    font-family: 'sr_symbol', sans-serif !important;
+    font-style: normal !important;
+}
+
+
+
+  /* * {
+    font-family: 'sr_symbol';
+  } */
