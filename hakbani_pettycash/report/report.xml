@@ -2,11 +2,50 @@
 <odoo>
     <data>
 
+<template id="ts_invoice_layout">
+            <div class="header">
+                <div>
+                    <div>
+                        <img width="100%" src="/hakbani_pettycash/static/src/img/header.png"/>
+                    </div>
+                </div>
+            </div>
+             <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+                  t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+                  t-att-data-oe-model="o and o._name"
+                  t-att-data-oe-id="o and o.id"
+                  t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-out="0"/>
+            </div>
+            <div class="footer">
+                <style>
+                    @font-face {
+                    font-family: 'Myriad-Regular';
+                    font-style: bold;
+                    font-weight: 1200;
+                    src:url(/hakbani_invoice_report/static/src/fonts/Myraid/Myriad-Pro-Regular.ttf) format('truetype');
+                    }
+                    @font-face {
+                    font-family: 'Droid-Regular';
+                    font-style: bold;
+                    font-weight: 1200;
+                    src:url(/hakbani_invoice_report/static/src/fonts/Droid/Droid-Arabic-Kufi-Regular.ttf) format('truetype');
+                    }
+                </style>
+                <div class="row">
 
+                    <div class="col-2 custom_footer" style="text-align:center;font-size:10pt;font-family:Myriad-Regular;vertical-align: bottom;font-weight: bold;">
+                        <span style="vertical-align: bottom;"><span class="page" />/<span class="topage" /></span>
+                    </div>
+
+                </div>
+            </div>
+        </template>
         <template id="tsleem_invoices_full_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="hakbani_invoice_report.invoice_layout">
+                    <t t-call="hakbani_pettycash.ts_invoice_layout">
 <!--                    <t t-call="web.external_layout">-->
 
                         <t t-if="o and 'company_id' in o">
@@ -17,27 +56,6 @@
                         </t>
 
                         <div class="page" style="font-family:Scheherazade;direction:rtl;">
-                                <div class="row" style="margin-top:30px;" dir="ltr">
-                                     <div class="col-3">
-
-                                     </div>
-
-                                    <div class="col-5 text-left" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;" dir="ltr">
-                                        <span>Main center - Riyadh City</span><br/>
-                                        <span>PO Box 390807 Riyadh 11365</span><br/>
-                                        <span>Telefax +966 11 242 7855</span><br/>
-                                        <span>malbalwi@bbg.com.sa</span><br/>
-                                        <span>Customer Service: 053 9090 658</span>
-                                    </div>
-                                    <!--text-align:right;color:#961B29;-->
-                                    <div class="col-4 text-right" style="font-size:11pt;font-family:Droid-Regular;font-weight: bold;color:#961B29;text-align:right" dir="ltr">
-                                        <span>المركز الرئيسي - الرياض</span><br/>
-                                        <span>ص ب 390807 الرياض 11365</span><br/>
-                                        <span>+966 11 242 7855</span> &amp;nbsp; <span>تليفاكس</span><br/>
-                                        <span>المملكة العربية السعودية</span><br/>
-                                        <span>053 9090 658</span> &amp;nbsp; <span>خدمة العملاء</span>
-                                    </div>
-                                </div>
 
                             <table class="table" style="font-size:24px;font-family:Scheherazade;">
                                 <tr style="background-color:#eefcfc">
@@ -157,14 +175,7 @@
                 </t>
             </t>
         </template>
-<!--        <report-->
-<!--                id="tsleem_invoices_full2"-->
-<!--                model="tsleem.invoices"-->
-<!--                string="Petty Cash"-->
-<!--                report_type="qweb-pdf"-->
-<!--                name="hakbani_pettycash.tsleem_invoices_full_template"-->
-<!--                file="hakbani_pettycash.tsleem_invoices_full_template"-->
-<!--        />-->
+
          <record id="tsleem_invoices_full2" model="ir.actions.report">
             <field name="name">Petty Cash</field>
             <field name="model">tsleem.invoices</field>
