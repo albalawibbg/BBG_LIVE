@@ -54,16 +54,21 @@
                         <t t-if="not o or not 'company_id' in o">
                             <t t-set="company" t-value="res_company"/>
                         </t>
-
+<style>
+                    @import url('https://fonts.googleapis.com/css2?family=Cairo&amp;display=swap');
+                    font-family: 'Cairo', sans-serif;
+                </style>
                         <div class="page" style="font-family:'Cairo';direction:rtl;">
                             <br/>
                             <br/>
                             <table class="table" style="font-size:24px;font-family:'Cairo';">
                                 <tr style="background-color:#eefcfc">
                                     <td colspan="4" class="text-center">
-                                        Projects Petty Cash Settlement
-                                        <br/>
-                                        تقرير تسليم الفواتير
+                                        <span>
+                                            Projects Petty Cash Settlement
+                                            <br/>
+                                            تقرير تسليم الفواتير
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr style="line-height:2px;font-size:24px;vertical-align:middle">
