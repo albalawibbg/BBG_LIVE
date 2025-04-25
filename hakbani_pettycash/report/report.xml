@@ -55,10 +55,10 @@
                             <t t-set="company" t-value="res_company"/>
                         </t>
 
-                        <div class="page" style="font-family:Scheherazade;direction:rtl;">
+                        <div class="page" style="font-family:'Cairo';direction:rtl;">
                             <br/>
                             <br/>
-                            <table class="table" style="font-size:24px;font-family:Scheherazade;">
+                            <table class="table" style="font-size:24px;font-family:'Cairo';">
                                 <tr style="background-color:#eefcfc">
                                     <td colspan="4" class="text-center">
                                         Projects Petty Cash Settlement
@@ -102,7 +102,7 @@
                             </div>
                             <br/>
 
-                            <table class="table table-condensed table table-striped" style="font-size:15px;font-family:Scheherazade;border: 1px solid black;">
+                            <table class="table table-condensed table table-striped" style="font-size:15px;font-family:'Cairo';border: 1px solid black;">
                                 <tr style="border-collapse: collapse; solid black;background-color:  #eefcfc ">
                                     <th class="text-center">المورد</th>
                                     <th class="text-center">مرجع الفاتورة</th>
