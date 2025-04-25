@@ -6,7 +6,8 @@
         <template id="tsleem_invoices_full_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="web.external_layout">
+                    <t t-call="hakbani_invoice_report.invoice_layout">
+<!--                    <t t-call="web.external_layout">-->
 
                         <t t-if="o and 'company_id' in o">
                             <t t-set="company" t-value="o.company_id"/>
@@ -14,7 +15,30 @@
                         <t t-if="not o or not 'company_id' in o">
                             <t t-set="company" t-value="res_company"/>
                         </t>
+
                         <div class="page" style="font-family:Scheherazade;direction:rtl;">
+                                <div class="row" style="margin-top:30px;" dir="ltr">
+                                     <div class="col-3">
+
+                                     </div>
+
+                                    <div class="col-5 text-left" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;" dir="ltr">
+                                        <span>Main center - Riyadh City</span><br/>
+                                        <span>PO Box 390807 Riyadh 11365</span><br/>
+                                        <span>Telefax +966 11 242 7855</span><br/>
+                                        <span>malbalwi@bbg.com.sa</span><br/>
+                                        <span>Customer Service: 053 9090 658</span>
+                                    </div>
+                                    <!--text-align:right;color:#961B29;-->
+                                    <div class="col-4 text-right" style="font-size:11pt;font-family:Droid-Regular;font-weight: bold;color:#961B29;text-align:right" dir="ltr">
+                                        <span>المركز الرئيسي - الرياض</span><br/>
+                                        <span>ص ب 390807 الرياض 11365</span><br/>
+                                        <span>+966 11 242 7855</span> &amp;nbsp; <span>تليفاكس</span><br/>
+                                        <span>المملكة العربية السعودية</span><br/>
+                                        <span>053 9090 658</span> &amp;nbsp; <span>خدمة العملاء</span>
+                                    </div>
+                                </div>
+
                             <table class="table" style="font-size:24px;font-family:Scheherazade;">
                                 <tr style="background-color:#eefcfc">
                                     <td colspan="4" class="text-center">
