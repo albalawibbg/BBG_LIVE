@@ -8,6 +8,8 @@ from odoo.exceptions import UserError, ValidationError
 
 class TsleemInvoices(models.Model):
     _name = 'tsleem.invoices'
+    _inherit = ['mail.thread.main.attachment', 'mail.activity.mixin']
+
     _rec_name = 'order_number'
 
     order_number = fields.Char(string='Sequence', default=lambda self: _('New'), readonly=True, store=True)

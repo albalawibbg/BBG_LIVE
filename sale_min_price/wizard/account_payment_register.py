@@ -9,7 +9,7 @@ class AccountPaymentRegister(models.TransientModel):
 
     employee_id = fields.Many2one(
         'hr.employee',
-        string="Employee"
+        string="Employee",default=lambda self:self.env.user.employee_id.id
     )
     def _create_payment_vals_from_wizard(self, batch_result):
         payment_vals = super()._create_payment_vals_from_wizard(batch_result)
