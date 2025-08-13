@@ -12,7 +12,7 @@
         'sale',
     ],
     'data': [
-        'security/security.xml'
+        'security/security.xml',
         'views/partner.xml'
     ],
     'installable': True,
