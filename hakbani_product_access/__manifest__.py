@@ -1,11 +1,15 @@
 {
     'name': 'Hakbani - Product access restrictions',
-    'version': '17.0.0.0',
+    'version': '1.0',
     'summary': 'Hakbani Module for access restrictions on products',
     'author': 'Hakbani IT',
     'depends': [
         'base',
-        'product',
+        'account',
+        'sale_stock',
+        'purchase',
+        'point_of_sale',
+        'mrp',
     ],
     'data': [
         'security/security.xml'
