@@ -1,6 +1,7 @@
 from odoo import api, fields, models, exceptions
 from odoo.tools.safe_eval import safe_eval
 from lxml import etree
+import json
 class Partner(models.Model):
     _inherit = 'account.move'
 
@@ -14,10 +15,16 @@ class Partner(models.Model):
                 if view_type == 'form':
                     nodes_form = doc.xpath("//form//field[@name='invoice_user_id']")
                     for node in nodes_form:
-                        node.set('readonly', '1')
+                        modifiers = json.loads(node.get("modifiers"))
+                        modifiers['readonly'] = False
+                        node.set("modifiers", json.dumps(modifiers))
+                        # node.set('readonly', '1')
                     nodes_form = doc.xpath("//form//field[@name='team_id']")
                     for node in nodes_form:
-                        node.set('readonly', '1')
+                        # node.set('readonly', '1')
+                        modifiers = json.loads(node.get("modifiers"))
+                        modifiers['readonly'] = False
+                        node.set("modifiers", json.dumps(modifiers))
 
                     res['views'][view_type]['arch'] = etree.tostring(doc)
         else:
@@ -26,10 +33,16 @@ class Partner(models.Model):
                 if view_type == 'form':
                     nodes_form = doc.xpath("//form//field[@name='invoice_user_id']")
                     for node in nodes_form:
-                        node.set('readonly', '0')
+                        modifiers = json.loads(node.get("modifiers"))
+                        modifiers['readonly'] = True
+                        node.set("modifiers", json.dumps(modifiers))
+                        # node.set('readonly', '0')
                     nodes_form = doc.xpath("//form//field[@name='team_id']")
                     for node in nodes_form:
-                        node.set('readonly', '0')
+                        modifiers = json.loads(node.get("modifiers"))
+                        modifiers['readonly'] = True
+                        node.set("modifiers", json.dumps(modifiers))
+                        # node.set('readonly', '0')
                 res['views'][view_type]['arch'] = etree.tostring(doc)
         return res
 
