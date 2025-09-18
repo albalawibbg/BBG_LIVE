@@ -13,10 +13,10 @@ class Sale(models.Model):
                 if view_type == 'form':
                     nodes_form = doc.xpath("//form//field[@name='user_id']")
                     for node in nodes_form:
-                        node.set('edit', '1')
+                        node.set('readonly', '1')
                     nodes_form = doc.xpath("//form//field[@name='team_id']")
                     for node in nodes_form:
-                        node.set('edit', '1')
+                        node.set('readonly', '1')
 
                     res['views'][view_type]['arch'] = etree.tostring(doc)
         else:
@@ -25,10 +25,10 @@ class Sale(models.Model):
                 if view_type == 'form':
                     nodes_form = doc.xpath("//form//field[@name='user_id']")
                     for node in nodes_form:
-                        node.set('edit', '0')
+                        node.set('readonly', '0')
                     nodes_form = doc.xpath("//form//field[@name='team_id']")
                     for node in nodes_form:
-                        node.set('edit', '0')
+                        node.set('readonly', '0')
                 res['views'][view_type]['arch'] = etree.tostring(doc)
         return res
 
