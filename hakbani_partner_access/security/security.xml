@@ -4,5 +4,12 @@
         <record id="group_partner_info" model="res.groups">
             <field name="name">partner Private Info</field>
         </record>
+        <record id="group_partner_edit" model="res.groups">
+            <field name="name">Partner Edit</field>
+        </record>
+        <record id="group_person_team_edit" model="res.groups">
+            <field name="name">Sale Person/Team Edit</field>
+        </record>
+
     </data>
 </odoo>
