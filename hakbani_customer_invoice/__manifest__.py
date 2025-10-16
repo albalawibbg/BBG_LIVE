@@ -9,6 +9,7 @@
         'account'
     ],
     'data': [
+        'security/security.xml',
         'views/account_move.xml',
     ],
     'installable': True,
