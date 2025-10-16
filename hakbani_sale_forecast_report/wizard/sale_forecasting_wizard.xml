@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_forecast_wizard_view" model="ir.ui.view">
+            <field name="name">sale_forecast_wizard_view</field>
+            <field name="model">sale.forecast.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="avg_period" required="1"/>
+                            <field name="name" invisible="1" />
+                            <field name="file" filename="name" invisible="1"  readonly="1" />
+                        </group>
+                        <group>
+                            <field name="product_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Export Xlsx" name="generate_sale_forecast_xlsx" type="object"
+                                default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_forecast_wizard_action" model="ir.actions.act_window">
+            <field name="name">Sale Forecast Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.forecast.wizard</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale_forecast_wizard_view" />
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="sale_forecast_menu" name="Sale Forecast Report" parent="sale.menu_sale_report"
+                  action="sale_forecast_wizard_action"/>
+    </data>
+</odoo>

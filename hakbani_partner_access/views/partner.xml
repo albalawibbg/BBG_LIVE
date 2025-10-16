@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="res_partner_view_buttons" model="ir.ui.view">
+            <field name="name">res_partner_view_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="sale.res_partner_view_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_partner_view_purchase_buttons" model="ir.ui.view">
+            <field name="name">res_partner_view_purchase_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="purchase.res_partner_view_purchase_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(purchase.act_res_partner_2_purchase_order)d']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_partner_view_form_follow" model="ir.ui.view">
+            <field name="name">res_partner_view_form_follow</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account_followup.res_partner_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='open_action_followup']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="partner_view_buttons" model="ir.ui.view">
+            <field name="name">partner_view_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.partner_view_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_partner_invoices']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_view_purchase_account_buttons" model="ir.ui.view">
+            <field name="name">partner_view_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="purchase.res_partner_view_purchase_account_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(purchase.act_res_partner_2_supplier_invoices)d']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="partner_view_buttons_2" model="ir.ui.view">
+            <field name="name">partner_view_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account_reports.partner_view_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='open_partner_ledger']" position="attributes">
+                    <attribute name="groups">hakbani_partner_access.group_partner_info</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

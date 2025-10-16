@@ -23,7 +23,7 @@
             <field name="arch" type="xml">
                 <field name="journal_id" position="after">
                     <field name="employee_id"
-                           readonly="state != 'draft'"
+                           readonly="state != 'draft' and employee_id != False"
 
                     />
                 </field>

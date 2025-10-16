@@ -14,6 +14,7 @@
         'views/product_views.xml',
         'views/sale_order_views.xml',
         'views/account_payment_views.xml',
+        'wizard/view.xml',
     ],
     'installable': True,
     'auto_install': False,

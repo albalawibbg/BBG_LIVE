@@ -43,15 +43,15 @@ class hr_leave(models.Model):
 class hr_contract(models.Model):
     _inherit = "hr.contract"
 
-    vacation = fields.Float('Annual Vacation Days', required=True)
-    ticket = fields.Float('Eligible Employee Tickets', required=True)
-    ticket_amount = fields.Float('Amount per Ticket', required=True)
-    exit_entry = fields.Float('Eligible Employee Exit Re-Entry', required=True)
-    exit_entry_amount = fields.Float('Amount per Exit Re-Entry', required=True)
-    contract_years = fields.Integer('No of Years Contract', required=True)
-    total_salary = fields.Float('Total Salary', required=True)
+    vacation = fields.Float('Annual Vacation Days', required=False)
+    ticket = fields.Float('Eligible Employee Tickets', required=False)
+    ticket_amount = fields.Float('Amount per Ticket', required=False)
+    exit_entry = fields.Float('Eligible Employee Exit Re-Entry', required=False)
+    exit_entry_amount = fields.Float('Amount per Exit Re-Entry', required=False)
+    contract_years = fields.Integer('No of Years Contract', required=False)
+    total_salary = fields.Float('Total Salary', required=False)
     gosiwage = fields.Float('Gosi Wage')
-    end_less_date = fields.Date('Contract Renewal Date', requied=True)
+    end_less_date = fields.Date('Contract Renewal Date', requied=False)
     ticket_balance = fields.Float('Balance Ticket')
     exit_entry_balance = fields.Float('Balance Exit Re-Entry')
     rule1 = fields.Char('1')
@@ -84,7 +84,7 @@ class employee_voucher(models.Model):
 
     name = fields.Char(string="Voucher Name", readonly=True)
     employee_id = fields.Many2one('hr.employee', string='Employee', required=True, readonly=True,
-                                  states={'draft': [('readonly', False)]})
+                                  )
     user_id = fields.Many2one('res.users', string='User',
                               related='employee_id.user_id', )
     date = fields.Date(string='date', readonly=True, default=lambda *a: time.strftime('%Y-%m-%d'))
@@ -92,19 +92,18 @@ class employee_voucher(models.Model):
                                  default=lambda self: self.env.user.company_id)
     # voucher_ref         = fields.Char(string='Voucher Referance', required=True)
     journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
-                                 states={'draft': [('readonly', False)]})
+                                 )
     state = fields.Selection(
         [('draft', 'Draft'), ('submitted', 'Submitted'), ('confirm', 'Approval 1'), ('done', 'Approval 2'),
          ('cancel', 'Cancel')],
         string='Status', default='draft')
 
     balance_laon = fields.Float(string='Pending Loan Amount', readonly=True)
-    ignore_loan = fields.Boolean(string='Proceed if Pending Loan',
-                                 states={'draft': [('invisible', True)], 'done': [('readonly', True)]})
+    ignore_loan = fields.Boolean(string='Proceed if Pending Loan')
 
     #################    LEGAL LEAVES    ##############################################
 
-    legal_leave = fields.Boolean(string='Legal Leave', readonly=True, states={'draft': [('readonly', False)]})
+    legal_leave = fields.Boolean(string='Legal Leave', readonly=True, )
     voucher_method1 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type1', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'legal')]))
@@ -121,7 +120,7 @@ class employee_voucher(models.Model):
         return selection
 
     select_leave = fields.Selection(selection=_populate_choice, string='Select Leave',
-                                    readonly=True, states={'draft': [('readonly', False)]}, default='legal')
+                                    readonly=True, default='legal')
     leave_type_id = fields.Many2one(
         'hr.leave.type',
         string="Leave type",
@@ -129,7 +128,7 @@ class employee_voucher(models.Model):
     )
     import_legal = fields.Many2one('hr.leave', string='Import Legal Leaves',
                                    domain="[('employee_id', '=', employee_id),('state','=','validate'),('holiday_status_id','=',leave_type_id),('name','!=','Paid Legalleaves'),('voucher_paid','=',False)]",
-                                   selection=_sel_func, readonly=True, states={'draft': [('readonly', False)]})
+                                   selection=_sel_func, readonly=True, )
 
     @api.onchange('legal_leave')
     def _onchange_legal_leave(self):
@@ -159,26 +158,26 @@ class employee_voucher(models.Model):
 
     ######################## TICKETS ###################################################
 
-    ticket_leave = fields.Boolean(string='Employee Ticket', readonly=True, states={'draft': [('readonly', False)]})
+    ticket_leave = fields.Boolean(string='Employee Ticket', readonly=True, )
     voucher_method2 = fields.Many2one('employee.voucher.line', string='Employee Payment Type2', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'ticket')]))
     allocated_tickets = fields.Float(string='Allowed Empolyee Tickets', readonly=True)
     allocated_amount_tickets = fields.Float(string='Allowed Employee Tickets Amount', readonly=True)
-    issue_tickets = fields.Float(string='Issue Employee Tickets', states={'done': [('readonly', True)]})
+    issue_tickets = fields.Float(string='Issue Employee Tickets', )
     issue_amount_tickets = fields.Float(string='Issue Employee Tickets Amount', required=True,
-                                        states={'done': [('readonly', True)]})
+                                        )
 
     ######################### END OF SERVICE ########################################################
 
-    end_service = fields.Boolean(string='End of service', readonly=True, states={'draft': [('readonly', False)]})
+    end_service = fields.Boolean(string='End of service', readonly=True, )
     voucher_method3 = fields.Many2one('employee.voucher.line', string='Employee Payment Type3', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'eos')]))
     whole_working = fields.Float(string='Whole Working Days', readonly=True)
     total_unpaid = fields.Float(string='Total Unpaid Leaves', readonly=True)
     actual_working = fields.Float(string='Actual Working Days', readonly=True)
-    paid_amount = fields.Float(string='Pay Amount', required=True, states={'done': [('readonly', True)]})
+    paid_amount = fields.Float(string='Pay Amount', required=True, )
     leave_reason = fields.Selection(
         [('endservice', 'End of Contract'), ('termination', 'Termination'), ('quit', 'Quit')],
         string='Job Leaving Reason', help="Reason of Employee job leaving", default='endservice')
@@ -218,79 +217,78 @@ class employee_voucher(models.Model):
 
     #################### EXIT / RE-ENTRY #########################
 
-    exit_entry = fields.Boolean(string='Exit Entry', readonly=True, states={'draft': [('readonly', False)]})
+    exit_entry = fields.Boolean(string='Exit Entry', readonly=True, )
     voucher_method4 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type4', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'exitentry')]))
     allocated_exit_entry = fields.Float(string='Allowed Exit Entry', readonly=True)
     allocated_amount_exit_entry = fields.Float(string='Allowed Exit Entry Amount', readonly=True)
-    issue_exit_entry = fields.Float(string='Issue Exit Entry', states={'done': [('readonly', True)]})
+    issue_exit_entry = fields.Float(string='Issue Exit Entry',)
     issue_amount_exit_entry = fields.Float(string='Issue Exit Entry Amount', required=True,
-                                           states={'done': [('readonly', True)]})
+                                           )
 
-    deduct1 = fields.Boolean(string='Deduct 1', readonly=True, states={'draft': [('readonly', False)]})
+    deduct1 = fields.Boolean(string='Deduct 1', readonly=True, )
     voucher_method5 = fields.Many2one('employee.voucher.line', string='Employee Payment Type5', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct1')]))
-    deduct1_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    deduct1_name = fields.Char(string='Deduct 1 Name', readonly="1")
-    deduct1_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    deduct1_amount = fields.Float(string='Amount', required=True, )
+    deduct1_name = fields.Char(string='Deduct 1 Name', readonly=True)
+    deduct1_desp = fields.Text(string='Description', )
 
-    deduct2 = fields.Boolean(string='Deduct 2', readonly=True, states={'draft': [('readonly', False)]})
+    deduct2 = fields.Boolean(string='Deduct 2', readonly=True, )
     voucher_method6 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type6', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct2')]))
-    deduct2_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    deduct2_name = fields.Char(string='Deduct 2 Name', readonly="1")
-    deduct2_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    deduct2_amount = fields.Float(string='Amount', required=True, )
+    deduct2_name = fields.Char(string='Deduct 2 Name', readonly=True)
+    deduct2_desp = fields.Text(string='Description', )
 
-    deduct3 = fields.Boolean(string='Deduct 3', readonly=True, states={'draft': [('readonly', False)]})
+    deduct3 = fields.Boolean(string='Deduct 3', readonly=True, )
     voucher_method7 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type7', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct3')]))
-    deduct3_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    deduct3_name = fields.Char(string='Deduct 4 Name', readonly="1")
-    deduct3_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    deduct3_amount = fields.Float(string='Amount', required=True, )
+    deduct3_name = fields.Char(string='Deduct 4 Name', readonly=True)
+    deduct3_desp = fields.Text(string='Description', )
 
-    deduct4 = fields.Boolean(string='Deduct 4', readonly=True, states={'draft': [('readonly', False)]})
+    deduct4 = fields.Boolean(string='Deduct 4', readonly=True, )
     voucher_method8 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type8', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'deduct4')]))
-    deduct4_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    deduct4_name = fields.Char(string='Deduct 4 Name', readonly="1")
-    deduct4_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    deduct4_amount = fields.Float(string='Amount', required=True,)
+    deduct4_name = fields.Char(string='Deduct 4 Name', readonly=True)
+    deduct4_desp = fields.Text(string='Description', )
 
-    other1 = fields.Boolean(string='Other 1', readonly=True, states={'draft': [('readonly', False)]})
+    other1 = fields.Boolean(string='Other 1', readonly=True)
     voucher_method9 = fields.Many2one('employee.voucher.line', string='Employee Payment Type9', readonly=True,
                                       default=lambda self: self.env['employee.voucher.line'].search(
                                           [('pay_type', '=', 'other1')]))
-    other1_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    other1_name = fields.Char(string='Other 1 Name', readonly="1")
-    other1_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    other1_amount = fields.Float(string='Amount', required=True, )
+    other1_name = fields.Char(string='Other 1 Name', readonly=True)
+    other1_desp = fields.Text(string='Description', )
 
-    other2 = fields.Boolean(string='Other 2', readonly=True, states={'draft': [('readonly', False)]})
+    other2 = fields.Boolean(string='Other 2', readonly=True, )
     voucher_method10 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type10', readonly=True,
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other2')]))
-    other2_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    other2_name = fields.Char(string='Other 2 Name', readonly="1")
-    other2_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
-
-    other3 = fields.Boolean(string='Other 3', readonly=True, states={'draft': [('readonly', False)]})
+    other2_amount = fields.Float(string='Amount', required=True, )
+    other2_name = fields.Char(string='Other 2 Name', readonly=True)
+    other2_desp = fields.Text(string='Description', )
+    other3 = fields.Boolean(string='Other 3', readonly=True,)
     voucher_method11 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type11', readonly=True,
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other3')]))
-    other3_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    other3_name = fields.Char(string='Other 3 Name', readonly="1")
-    other3_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    other3_amount = fields.Float(string='Amount', required=True,)
+    other3_name = fields.Char(string='Other 3 Name', readonly=True)
+    other3_desp = fields.Text(string='Description',)
 
-    other4 = fields.Boolean(string='Other 4', readonly=True, states={'draft': [('readonly', False)]})
+    other4 = fields.Boolean(string='Other 4', readonly=True, )
     voucher_method12 = fields.Many2one('employee.voucher.line', string='Employee Voucher Type12', readonly=True,
                                        default=lambda self: self.env['employee.voucher.line'].search(
                                            [('pay_type', '=', 'other4')]))
-    other4_amount = fields.Float(string='Amount', required=True, states={'done': [('readonly', True)]})
-    other4_name = fields.Char(string='Other 4 Name', readonly="1")
-    other4_desp = fields.Text(string='Description', states={'done': [('readonly', True)]})
+    other4_amount = fields.Float(string='Amount', required=True,)
+    other4_name = fields.Char(string='Other 4 Name', readonly=True)
+    other4_desp = fields.Text(string='Description',)
 
     grand_total = fields.Float(string="Total Amount", compute='_compute_amount')
     payment_journal_count = fields.Integer(string='Journal Count', compute='_get_journal_count', store=False)

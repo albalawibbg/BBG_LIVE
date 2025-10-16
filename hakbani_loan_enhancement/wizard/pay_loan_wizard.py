@@ -9,7 +9,7 @@ class PayLoanWizard(models.TransientModel):
     _name = "pay.loan.wizard"
     _description = "Pay Loan Wizard"
 
-    date = fields.Date("Date", default=date.today())
+    date = fields.Date("Date", default=fields.date.today())
     ref = fields.Char("Description")
     journal_id = fields.Many2one("account.journal", string="Journal", required=True)
 

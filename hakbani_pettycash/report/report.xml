@@ -1,57 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <report
-                id="tsleem_invoices_full"
-                model="tsleem.invoices"
-                string="طباعة "
-                report_type="qweb-pdf"
-                name="hakbani_pettycash.tsleem_invoices_full_template"
-                file="hakbani_pettycash.tsleem_invoices_full_template"
-        />
 
+<template id="ts_invoice_layout">
+            <div class="header">
+                <div>
+                    <div>
+                        <img width="100%" src="/hakbani_pettycash/static/src/img/header.png"/>
+                    </div>
+                </div>
+            </div>
+             <div t-attf-class="o_company_#{company.id}_layout article o_report_layout_striped {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+                  t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+                  t-att-data-oe-model="o and o._name"
+                  t-att-data-oe-id="o and o.id"
+                  t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-out="0"/>
+            </div>
+            <div class="footer">
+                <style>
+                    @font-face {
+                    font-family: 'Myriad-Regular';
+                    font-style: bold;
+                    font-weight: 1200;
+                    src:url(/hakbani_invoice_report/static/src/fonts/Myraid/Myriad-Pro-Regular.ttf) format('truetype');
+                    }
+                    @font-face {
+                    font-family: 'Droid-Regular';
+                    font-style: bold;
+                    font-weight: 1200;
+                    src:url(/hakbani_invoice_report/static/src/fonts/Droid/Droid-Arabic-Kufi-Regular.ttf) format('truetype');
+                    }
+                </style>
+                <div class="row">
+
+                    <div class="col-2 custom_footer" style="text-align:center;font-size:10pt;font-family:Myriad-Regular;vertical-align: bottom;font-weight: bold;">
+                        <span style="vertical-align: bottom;"><span class="page" />/<span class="topage" /></span>
+                    </div>
+
+                </div>
+            </div>
+        </template>
         <template id="tsleem_invoices_full_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="web.external_layout">
+                    <t t-call="hakbani_pettycash.ts_invoice_layout">
+<!--                    <t t-call="web.external_layout">-->
 
                         <t t-if="o and 'company_id' in o">
-                            <t t-set="company" t-value="o.company_id"></t>
+                            <t t-set="company" t-value="o.company_id"/>
                         </t>
                         <t t-if="not o or not 'company_id' in o">
-                            <t t-set="company" t-value="res_company"></t>
+                            <t t-set="company" t-value="res_company"/>
                         </t>
-                        <div class="page" style="font-family:Scheherazade;direction:rtl;">
-                            <table class="table "
-                                   style="font-size:24px;font-family:Scheherazade;">
-                                <tr style=" background-color:  #eefcfc ">
+<style>
+                    @import url('https://fonts.googleapis.com/css2?family=Cairo&amp;display=swap');
+                    font-family: 'Cairo', sans-serif;
+                </style>
+                        <div class="page" style="font-family:'Cairo';direction:rtl;">
+                            <br/>
+                            <br/>
+                            <table class="table" style="font-size:24px;font-family:'Cairo';">
+                                <tr style="background-color:#eefcfc">
                                     <td colspan="4" class="text-center">
-                                        Projects Petty Cash Settlement
-                                        <br/>
-                                        تقرير تسليم الفواتير
-
+                                        <span>
+                                            Projects Petty Cash Settlement
+                                            <br/>
+                                            تقرير تسليم الفواتير
+                                        </span>
                                     </td>
-
                                 </tr>
-                                <tr style="line-height: 2px;font-size:24px;  ">
-                                    <td class="text-center" colspan="1">عهدة
-
+                                <tr style="line-height:2px;font-size:24px;vertical-align:middle">
+                                    <td class="text-center" >
+                                        <span>عهدة</span>
                                     </td>
-                                    <td class="text-center" colspan="1">
+                                    <td class="text-center" >
                                         <span t-field="o.journal_id"/>
                                     </td>
-                                    <td class="text-center" colspan="1">التسلسل
+                                    <td class="text-center">
+                                        <span>التسلسل</span>
                                     </td>
-                                    <td class="text-center" colspan="1">
+                                    <td class="text-center" >
                                         <span t-field="o.order_number"/>
                                     </td>
                                 </tr>
                                 <tr style="line-height: 2px;font-size:24px;  ">
-                                    <td class="text-center" colspan="1">تاريخ الطباعة
+                                    <td class="text-center" >
+                                        <span>تاريخ الطباعة</span>
                                     </td>
-                                    <td class="text-center" colspan="1">
+                                    <td class="text-right" colspan="3">
                                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
-
                                     </td>
                                 </tr>
                             </table>
@@ -63,15 +102,12 @@
                             <div style=" font-size:20px; bold; display: inline-block;margin-right: 700px;">
                                 Note
                             </div>
-                            <div style="width: 100%;
-  height: 50px;
-  border: 1px solid">
+                            <div style="width: 100%;   height: 50px;   border: 1px solid">
 
                             </div>
                             <br/>
 
-                            <table class="table table-condensed table table-striped"
-                                   style="font-size:15px;font-family:Scheherazade;border: 1px solid black;">
+                            <table class="table table-condensed table table-striped" style="font-size:15px;font-family:'Cairo';border: 1px solid black;">
                                 <tr style="border-collapse: collapse; solid black;background-color:  #eefcfc ">
                                     <th class="text-center">المورد</th>
                                     <th class="text-center">مرجع الفاتورة</th>
@@ -101,8 +137,7 @@
                                             <span t-esc="l.product_id.name"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="l.price_unit"
-                                                  t-options='{"widget": "float", "precision": 3}'/>
+                                            <span t-esc="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 3}"/>
                                         </td>
                                         <td class="text-center">
                                             <t t-foreach="l.tax_id" t-as="tax">
@@ -111,12 +146,10 @@
                                             </t>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="l.tax_amount"
-                                            />
+                                            <span t-esc="l.tax_amount"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="l.price_unit_after_tax"
-                                                  t-options='{"widget": "float", "precision": 3}'/>
+                                            <span t-esc="l.price_unit_after_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 3}"/>
                                         </td>
                                     </tr>
                                 </t>
@@ -138,8 +171,7 @@
                                     <td class="text-center">
                                     </td>
                                     <td class="text-center" style="background-color:  #eefcfc;">
-                                        <span t-esc="o.sum_of_subtotal()"
-                                              t-options='{"widget": "float", "precision": 3}'/>
+                                        <span t-esc="o.sum_of_subtotal()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 3}"/>
                                     </td>
                                 </tr>
 
@@ -150,6 +182,16 @@
             </t>
         </template>
 
+         <record id="tsleem_invoices_full2" model="ir.actions.report">
+            <field name="name">Petty Cash</field>
+            <field name="model">tsleem.invoices</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hakbani_pettycash.tsleem_invoices_full_template</field>
+            <field name="report_file">hakbani_pettycash.tsleem_invoices_full_template</field>
+            <field name="binding_model_id" ref="model_tsleem_invoices"/>
+            <field name="binding_type">report</field>
+
+        </record>
 
     </data>
 </odoo>

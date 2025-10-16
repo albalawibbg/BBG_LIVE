@@ -39,20 +39,20 @@
 
                 <xpath expr="//page[1]/group/group" position="after">
                     <group string="Vacation and Salary Details">
-                        <field name="vacation"/>
-                        <field name="ticket"/>
-                        <field name="ticket_amount"/>
-                        <field name="exit_entry"/>
-                        <field name="exit_entry_amount"/>
-                        <field name="contract_years"/>
-                        <field name="total_salary" placeholder="Total Salary Package"/>
+                        <field name="vacation" required="1"/>
+                        <field name="ticket" required="1"/>
+                        <field name="ticket_amount" required="1"/>
+                        <field name="exit_entry" required="1"/>
+                        <field name="exit_entry_amount" required="1"/>
+                        <field name="contract_years" required="1"/>
+                        <field name="total_salary" required="1" placeholder="Total Salary Package"/>
 
                     </group>
                 </xpath>
 
                 <xpath expr="//page[1]/group/group" position="inside">
                     <field name="gosiwage"/>
-                    <field name="end_less_date"/>
+                    <field name="end_less_date" required="1"/>
                     <field name="ticket_balance"/>
                     <field name="exit_entry_balance"/>
                     <!--label for="period_year" string="Completed Period Details"/>
@@ -189,9 +189,9 @@
                             </h1>
                         </div>
                         <group col="4" colspan="4">
-                            <field name="employee_id" options="{'no_create': True}"/>
+                            <field name="employee_id" readonly="state != 'draft'" options="{'no_create': True}"/>
                             <field name="user_id" invisible="1" options="{'no_create': True}"/>
-                            <field name="journal_id"/>
+                            <field name="journal_id" readonly="state != 'draft'"/>
                             <field name="date"/>
                             <field name="grand_total"/>
                             <!--field name="voucher_ref"/-->
@@ -202,26 +202,22 @@
                             <group colspan="2">
                                 <label for="legal_leave"/>
                                 <div>
-                                    <field name="legal_leave"/>
-                                    <!--field name="voucher_method1" attrs="{'required': [('legal_leave','=',True)],'invisible': [('legal_leave','=',False)]}" domain="[('pay_type', '=','legal')]" placeholder="Select Voucher Type"/-->
+                                    <field name="legal_leave" readonly="state != 'draft'"/>
                                 </div>
 
                                 <label for="ticket_leave"/>
                                 <div>
-                                    <field name="ticket_leave"/>
-                                    <!--field name="voucher_method2" attrs="{'required': [('ticket_leave','=',True)],'invisible': [('ticket_leave','=',False)]}" domain="[('pay_type', '=','ticket')]" placeholder="Select Voucher Type"/-->
+                                    <field name="ticket_leave" readonly="state != 'draft'"/>
                                 </div>
 
                                 <label for="exit_entry"/>
                                 <div>
-                                    <field name="exit_entry"/>
-                                    <!--field name="voucher_method4" attrs="{'required': [('exit_entry','=',True)],'invisible': [('exit_entry','=',False)]}" domain="[('pay_type', '=','exitentry')]" placeholder="Select Voucher Type"/-->
+                                    <field name="exit_entry" readonly="state != 'draft'"/>
                                 </div>
 
                                 <label for="end_service"/>
                                 <div>
-                                    <field name="end_service"/>
-                                    <!--field name="voucher_method3" attrs="{'required': [('end_service','=',True)],'invisible': [('end_service','=',False)]}" domain="[('pay_type', '=','eos')]" placeholder="Select Voucher Type"/-->
+                                    <field name="end_service" readonly="state != 'draft'"/>
                                 </div>
 
                                 <field name="balance_laon" force_save="1"/>
@@ -230,61 +226,53 @@
                             <group colspan="2">
                                 <label for="deduct1"/>
                                 <div class="o_row">
-                                    <field name="deduct1"/>
-                                    <!--field name="voucher_method5" attrs="{'required': [('deduct1','=',True)],'invisible': [('deduct1','=',False)]}" domain="[('pay_type', '=','deduct1')]" placeholder="Select Voucher Type"/-->
+                                    <field name="deduct1" readonly="state != 'draft'"/>
                                     <field name="deduct1_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="deduct2"/>
                                 <div class="o_row">
-                                    <field name="deduct2"/>
-                                    <!--field name="voucher_method6" attrs="{'required': [('deduct2','=',True)],'invisible': [('deduct2','=',False)]}" domain="[('pay_type', '=','deduct2')]" placeholder="Select Voucher Type"/-->
+                                    <field name="deduct2" readonly="state != 'draft'"/>
                                     <field name="deduct2_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="deduct3"/>
                                 <div class="o_row">
-                                    <field name="deduct3"/>
-                                    <!--field name="voucher_method7" attrs="{'required': [('deduct3','=',True)],'invisible': [('deduct3','=',False)]}" domain="[('pay_type', '=','deduct3')]" placeholder="Select Voucher Type"/-->
+                                    <field name="deduct3" readonly="state != 'draft'"/>
                                     <field name="deduct3_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="deduct4"/>
                                 <div class="o_row">
-                                    <field name="deduct4"/>
-                                    <!--field name="voucher_method8" attrs="{'required': [('deduct4','=',True)],'invisible': [('deduct4','=',False)]}" domain="[('pay_type', '=','deduct4')]" placeholder="Select Voucher Type"/-->
+                                    <field name="deduct4" readonly="state != 'draft'"/>
                                     <field name="deduct4_name" reaondly="1" force_save="1"/>
                                 </div>
-                                <field name="ignore_loan"/>
+                                <field name="ignore_loan" invisible="state == 'draft'" readonly="state == 'done'"/>
                             </group>
 
                             <group colspan="2">
-                                <label for="other1" invisible="other1 is True"/>
-                                <label invisible="other1 is False" for="other1_name"/>
+                                <label for="other1" invisible="other1"/>
+                                <label invisible="other1 == False" for="other1_name"/>
                                 <div class="o_row">
-                                    <field name="other1"/>
-                                    <!--field name="voucher_method9" attrs="{'required': [('other1','=',True)],'invisible': [('other1','=',False)]}" domain="[('pay_type', '=','other1')]" placeholder="Select Voucher Type"/-->
+                                    <field name="other1" readonly="state != 'draft'"/>
                                     <field name="other1_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="other2"/>
                                 <div class="o_row">
-                                    <field name="other2"/>
-                                    <!--field name="voucher_method10" attrs="{'required': [('other2','=',True)],'invisible': [('other2','=',False)]}" domain="[('pay_type', '=','other2')]" placeholder="Select Voucher Type"/-->
+                                    <field name="other2" readonly="state != 'draft'"/>
                                     <field name="other2_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="other3"/>
                                 <div class="o_row">
-                                    <field name="other3"/>
-                                    <!--field name="voucher_method11" attrs="{'required': [('other3','=',True)],'invisible': [('other3','=',False)]}" domain="[('pay_type', '=','other3')]" placeholder="Select Voucher Type"/-->
+                                    <field name="other3" readonly="state != 'draft'"/>
                                     <field name="other3_name" reaondly="1" force_save="1"/>
                                 </div>
 
                                 <label for="other4"/>
                                 <div class="o_row">
-                                    <field name="other4"/>
-                                    <!--field name="voucher_method12" attrs="{'required': [('other4','=',True)],'invisible': [('other4','=',False)]}" domain="[('pay_type', '=','other4')]" placeholder="Select Voucher Type"/-->
+                                    <field name="other4" readonly="state != 'draft'"/>
                                     <field name="other4_name" reaondly="1" force_save="1"/>
                                 </div>
 
@@ -293,7 +281,7 @@
 
                         <group string="Legal Leave" invisible="legal_leave == False" >
                             <group>
-                                <field name="select_leave" statusbar_visible="legal"/>
+                                <field name="select_leave" readonly="state != 'draft'" statusbar_visible="legal"/>
                                 <field name="leave_type_id" invisible="1"/>
                                 <field name="import_legal" invisible="select_leave == 'paid'" />
                                 <field name="start_date" invisible="select_leave == 'paid'"
@@ -536,24 +524,6 @@
                 </form>
             </field>
         </record>
-
-
-        <!--record id="employee_voucher_filter_view" model="ir.ui.view">
-            <field name="name">employee.voucher.filter</field>
-            <field name="model">employee.voucher</field>
-            <field name="arch" type="xml">
-                <search string="Search">
-                    <field name="employee_id"/>
-                    <filter string="Draft Status" name="state" domain="[('state','=','draft')]"/>
-                    <group expand="0" string="Group By..." colspan="12" col="10">
-                          <filter string="Employee Name" domain="[]" context="{'group_by':'employee_id'}" icon="terp-project" />
-                          <filter string="Day" icon="terp-go-today" domain="[]" context="{'group_by':'date'}"/>
-                        <filter string="Status" domain="[]" context="{'group_by':'state'}" />
-                    </group>
-                   </search>
-            </field>
-        </record-->
-
 
         <record model="ir.actions.act_window" id="action_employee_voucher_tree_view">
             <field name="name">All Request</field>

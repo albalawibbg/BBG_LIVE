@@ -74,31 +74,37 @@
                                     src:url(/hakbani_invoice_report/static/src/fonts/Droid/Droid-Arabic-Kufi-Regular.ttf) format('truetype');
                                     }
                                 </style>
-                                <div class="row" style="margin-top:30px;">
-                                    <div class="col-3">
-                                        <img t-if="o.l10n_sa_qr_code_str"
-                                             style="display:block;text-align:center;"
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.l10n_sa_qr_code_str, 120, 120)"/>
-                                    </div>
-                                    <div class="col-5" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;float:left;" dir="ltr">
+                                <div class="row" style="margin-top:30px;" dir="ltr">
+                                     <div class="col-3">
+                                         <p >
+                                            <img t-if="o.l10n_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), 120, 120)"/>
+                                        </p>
+                                     </div>
+
+                                    <!--<div class="col-3">-->
+                                    <!--    <img t-if="o.l10n_sa_qr_code_str" style="display:block;text-align:center;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', o.l10n_sa_qr_code_str, 120, 120)"/>-->
+                                    <!--</div>-->
+                                    <div class="col-5 text-left" style="font-size:11pt;font-family:Myriad-Regular;font-weight: bold;color:#961B29;" dir="ltr">
                                         <span>Main center - Riyadh City</span><br/>
                                         <span>PO Box 390807 Riyadh 11365</span><br/>
                                         <span>Telefax +966 11 242 7855</span><br/>
                                         <span>malbalwi@bbg.com.sa</span><br/>
                                         <span>Customer Service: 053 9090 658</span>
                                     </div>
-                                    <div class="col-4" style="font-size:11pt;text-align:right;font-family:Droid-Regular;font-weight: bold;color:#961B29;float:right;" dir="ltr">
+                                    <!--text-align:right;color:#961B29;-->
+                                    <div class="col-4 text-right" style="font-size:11pt;font-family:Droid-Regular;font-weight: bold;color:#961B29;text-align:right" dir="ltr">
                                         <span>المركز الرئيسي - الرياض</span><br/>
                                         <span>ص ب 390807 الرياض 11365</span><br/>
-                                        <span>+966 11 242 7855</span><![CDATA[ &nbsp; ]]><span>تليفاكس</span><br/>
+                                        <span>+966 11 242 7855</span> &amp;nbsp; <span>تليفاكس</span><br/>
                                         <span>المملكة العربية السعودية</span><br/>
-                                        <span>053 9090 658</span><![CDATA[ &nbsp; ]]><span>خدمة العملاء</span>
+                                        <span>053 9090 658</span> &amp;nbsp; <span>خدمة العملاء</span>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:20px;direction: ltr;">
                                     <div class="col-6">
                                         <table width="100%" style="font-size:10pt;font-family:Myriad-Regular;font-weight: bold;">
-                                            <tr>
+                                            <tr/>
+                                            <tr >
                                                 <b><td style="text-align:left;font-weight: bold;">Invoice Date</td></b>
                                                 <b><td style="text-align:center;"><span t-field="o.invoice_date"/></td></b>
                                                 <b><td style="text-align:right;font-family:Droid-Regular;">تاريخ الفاتورة</td></b>
@@ -119,16 +125,17 @@
                                                 <b><td style="text-align:center;"><span t-field="o.invoice_origin"/></td></b>
                                                 <b><td style="text-align:right;font-family:Droid-Regular;">رقم المرجع</td></b>
                                             </tr>
+
                                             <tr>
                                                 <b><td style="text-align:left;font-weight: bold;">Invoice Type</td></b>
                                                 <b><td style="text-align:center;"><span t-field="o.invoice_payment_type"/></td></b>
                                                 <b><td style="text-align:right;font-family:Droid-Regular;">نوع الفاتورة</td></b>
                                             </tr>
+                                            <tr/>
                                         </table>
                                     </div>
                                     <div class="col-6" style="direction: rtl;">
-                                        <address style="font-size:10pt;font-family:Droid-Regular;text-align:right;font-weight: bold;" t-field="o.partner_id"
-                                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                        <address style="font-size:10pt;font-family:Droid-Regular;text-align:right;font-weight: bold;" t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:20px;">
@@ -218,11 +225,12 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <table width="100%">
+                                            <tr/>
                                             <tr style="border-top:1px solid #961B29;">
                                                 <td width="40%" style="font-size: 10pt;">
                                                     <strong>
                                                         Total Without Taxes
-                                                        <![CDATA[ &nbsp; ]]>
+                                                         &amp;nbsp;
                                                         <span style="font-family:Amiri-Regular;">الاجمالي الفرعي</span>
                                                     </strong>
                                                 </td>
@@ -233,7 +241,7 @@
                                             <tr>
                                                 <td width="50%" style="font-size: 10pt;">
                                                     Taxes
-                                                    <![CDATA[ &nbsp; ]]>
+                                                     &amp;nbsp;
                                                     <span style="font-family:Amiri-Regular;">الضريبة</span>
                                                 </td>
                                                 <td class="text-right" width="40%" style="font-size: 10pt;">
@@ -244,7 +252,7 @@
                                                 <td width="50%" style="font-size: 10pt;">
                                                     <strong>
                                                         Total
-                                                        <![CDATA[ &nbsp; ]]>
+                                                         &amp;nbsp;
                                                         <span style="font-family:Amiri-Regular;">الاجمالي</span>
                                                     </strong>
                                                 </td>
@@ -252,9 +260,10 @@
                                                     <span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                 </td>
                                             </tr>
+                                            <tr/>
                                         </table>
                                     </div>
-                                    <div class="col-4"></div>
+                                    <div class="col-4"/>
                                 </div>
                             </div>
 <!--                        </div>-->

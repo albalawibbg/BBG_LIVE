@@ -8,7 +8,7 @@
     "author": "Hakbani IT",
     'website': 'https://www.nutechits.com',
     "license": "AGPL-3",
-    'depends': ['base','account','sale','hr'],
+    'depends': ['base','account','sale','hr','mail'],
     'demo': [],
     'data': [
         'security/security.xml',

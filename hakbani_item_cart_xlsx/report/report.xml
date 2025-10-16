@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inventory_valuation_summary_report" model="ir.actions.report">
+        <field name="name">Item Card</field>
+        <field name="model">inventory.valuation.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hakbani_item_cart_xlsx.inv_valuation_summary_template</field>
+        <field name="report_file">Item Cart Xlsx</field>
+        <field name="binding_model_id" ref="hakbani_item_cart_xlsx.model_inventory_valuation_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'%s' % (object.date_from)</field>
+    </record>
+
+</odoo>

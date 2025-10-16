@@ -4,7 +4,8 @@ from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import UserError, ValidationError
 # from odoo.exceptions import Warning
 from datetime import date, datetime
-
+import logging
+logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -33,28 +34,31 @@ class AccountMove(models.Model):
 
         res = super(AccountMove, self).write(vals)
         return res
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
-        if vals.get('move_type') in ['in_invoice', 'in_refund', 'out_invoice', 'out_refund']:
-            if vals.get('date'):
-                if datetime.strptime(str(vals.get('date')), '%Y-%m-%d') > datetime.today():
-                    raise UserError(
-                            _('Please Select Valid Date .'))
-            if vals.get('ref'):
-                move = self.env['account.move'].search(
-                    [('partner_id', '=', vals.get('partner_id')), ('ref', '=', vals.get('ref'))])
-                if move:
-                    raise UserError(
-                        _('Can Use Same Ref With Same Partner.'))
+        logger.info(">>>>>>>>>>>>>>>>{}".format(vals))
+        for val in vals:
+            if val.get('move_type') in ['in_invoice', 'in_refund', 'out_invoice', 'out_refund']:
+                if val.get('date'):
+                    if datetime.strptime(str(val.get('date')), '%Y-%m-%d') > datetime.today():
+                        raise UserError(
+                                _('Please Select Valid Date .'))
+                if val.get('ref'):
+                    move = self.env['account.move'].search(
+                        [('partner_id', '=', val.get('partner_id')), ('ref', '=', val.get('ref'))])
+                    if move:
+                        raise UserError(
+                            _('Can Use Same Ref With Same Partner.'))
         res = super(AccountMove, self).create(vals)
         return res
 
     @api.onchange('vat')
     def onchange_tax_number(self):
         if self.vat and self.state == 'draft' and self.move_type in ['in_invoice','in_refund','out_invoice','out_refund']:
-            partner_id = self.env['res.partner'].search([('vat', '=', self.vat)])
+            partner_id = self.env['res.partner'].search([('vat', '=', self.vat)],limit=1)
             if partner_id:
-                self.partner_id = partner_id.id
+                if self.partner_id.vat != self.vat:
+                    self.partner_id = partner_id.id
             else:
                 raise ValidationError(_('No Supplier OR Customer Found From Taxes Number %s'%(self.vat)))
 
