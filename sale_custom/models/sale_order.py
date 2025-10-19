@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
     user_id = fields.Many2one(default=lambda self: self.get_default_user())
     sales_manager_id = fields.Many2one(comodel_name="res.users", string="Sales Manager", required=False,compute='compute_sales_manager',store=True )
     @api.depends('user_id')
-    def _compute_amount(self):
+    def compute_sales_manager(self):
         for rec in self:
             manager = self.env['res.users']
             if rec.user_id:
