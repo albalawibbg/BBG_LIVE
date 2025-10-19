@@ -17,15 +17,15 @@ class Accountpayment(models.Model):
             if move.payment_type in ['inbound'] :
                 if self.env.user.has_group('sale_custom.group_own_customers'):
                     customer_ids = self.env['res.partner'].search(
-                        [('company_id', 'in', [self.env.company.id, False]), ('user_id', '=', self.env.user.id)])
+                        [('user_id', '=', self.env.user.id)])
                     move.valid_payment_partner_ids = customer_ids.ids
                 else:
                     customer_ids = self.env['res.partner'].search(
-                        [('company_id', 'in', [self.env.company.id, False]), ('customer_rank', '!=', 0)])
+                        [ ('customer_rank', '!=', 0)])
                     move.valid_payment_partner_ids = customer_ids.ids
             elif move.payment_type in ['outbound']:
                 supplier_ids = self.env['res.partner'].search(
-                    [('company_id', 'in', [self.env.company.id, False]), ('supplier_rank','!=',0)])
+                    [ ('supplier_rank','!=',0)])
                 move.valid_payment_partner_ids = supplier_ids.ids
             else:
                 move.valid_payment_partner_ids = False

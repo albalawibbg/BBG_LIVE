@@ -23,18 +23,18 @@ class AccountMove(models.Model):
             if self.env.user.has_group('sale_custom.group_own_customers'):
                 if move.move_type in ['out_invoice','out_refund'] :
                     customer_ids = self.env['res.partner'].search(
-                        [('company_id', 'in', [self.env.company.id, False]), ('user_id', '=', self.env.user.id)])
+                        [ ('user_id', '=', move.user_id.id)])
                     move.valid_partner_ids = customer_ids.ids
                 elif move.move_type in ['in_invoice', 'in_refund']:
                     supplier_ids = self.env['res.partner'].search(
-                        [('company_id', 'in', [self.env.company.id, False]), ('supplier_rank','!=',0)])
+                        [('supplier_rank','!=',0)])
                     move.valid_partner_ids = supplier_ids.ids
                 else:
                     move.valid_partner_ids = self.env['res.partner'].search(
-                        [('company_id', '=', self.env.company.id),'|', ('customer_rank', '!=', 0),('supplier_rank','!=',0)]).ids
+                        ['|', ('customer_rank', '!=', 0),('supplier_rank','!=',0)]).ids
             else:
                     move.valid_partner_ids = self.env['res.partner'].search(
-                        [('company_id', '=', self.env.company.id),'|', ('customer_rank', '!=', 0),('supplier_rank','!=',0)]).ids
+                        ['|', ('customer_rank', '!=', 0),('supplier_rank','!=',0)]).ids
 
 
 
