@@ -5,7 +5,7 @@
     'description': '',
     'category': '',
     'website': '',
-    'depends': ['base', 'account_reports', 'account','mail','hr',"sale_custom"],
+    'depends': ['base', 'account_reports', 'account','mail',"sale_custom"],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
