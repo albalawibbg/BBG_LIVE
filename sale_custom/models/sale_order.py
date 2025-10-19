@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
         for order in self:
             if self.env.user.has_group('sale_custom.group_own_customers'):
                 customer_ids = self.env['res.partner'].sudo().search(
-                    [('user_id','=',order.user_id.id)])
+                    [('user_id','=',order.user_id.id or self.env.user.id)])
 
                 order.valid_customer_ids = customer_ids.ids
             else:
