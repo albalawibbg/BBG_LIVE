@@ -8,6 +8,21 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    def get_default_user(self):
+        if self.env.context.get('default_customer_rank'):
+            return self.env.user.id
+        else:
+            return False
+    user_id = fields.Many2one(default=lambda self: self.get_default_user())
+    sales_manager_id = fields.Many2one(comodel_name="res.users", string="Sales Manager", required=False,compute='compute_sales_manager',store=True )
+    @api.depends('user_id')
+    def _compute_amount(self):
+        for rec in self:
+            manager = self.env['res.users']
+            if rec.user_id:
+                manager = self.env['res.users'].sudo().search([('sales_users','in',rec.user_id.id)],limit=1)
+            rec.sales_manager_id = manager.id
+
     @api.model
     def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
         if self.env.user.has_group('sale_custom.group_own_customers') and not self.env.user.has_group('sale_custom.access_all_customers'):

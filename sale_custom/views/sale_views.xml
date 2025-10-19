@@ -7,15 +7,35 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
-
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="valid_customer_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_manager_id" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="domain">[('id','in',valid_customer_ids)]</attribute>
                 </xpath>
-
-
+            </field>
+        </record>
+        <record id="view_quo_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.inherit.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_manager_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.inherit.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_manager_id" readonly="1"/>
+                </xpath>
             </field>
         </record>
         <record id="view_move_form" model="ir.ui.view">
@@ -26,6 +46,7 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="valid_partner_ids" invisible="1"/>
                 </xpath>
+
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="domain">[('id','in',valid_partner_ids)]</attribute>
                 </xpath>
