@@ -129,6 +129,6 @@ class Accountpayment(models.Model):
     def action_post(self):
         res =  super(Accountpayment, self).action_post()
 
-        if not self.reconciled_invoice_ids and self.payment_type == 'inbound':
+        if self.env.context.get('active_model') == 'account.payment' and  not self.reconciled_invoice_ids and self.payment_type == 'inbound':
             self.action_auto_reconcile_customer()
         return res
