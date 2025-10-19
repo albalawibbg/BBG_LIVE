@@ -8,6 +8,14 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    @api.model
+    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+        if self.env.user.has_group('sale_custom.group_own_customers'):
+            user_domain = ['|', ('user_id', '=', self.env.user.id), ('partner_id.user_id', '=', self.env.user.id)]
+            domain = domain + user_domain
+
+        return super(SaleOrder, self)._search(domain, offset=offset, limit=limit, order=order,
+                                              access_rights_uid=access_rights_uid)
 
     valid_customer_ids = fields.Many2many('res.partner',string='Valid customers',compute='compute_valid_customers')
 

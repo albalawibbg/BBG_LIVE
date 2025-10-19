@@ -8,6 +8,16 @@ from odoo.exceptions import ValidationError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    @api.model
+    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+        if self.env.user.has_group('sale_custom.group_own_customers') and self.env.context.get('default_move_type') == 'out_invoice':
+            user_domain = [
+                '|', ('invoice_user_id', '=', self.env.user.id), ('partner_id.user_id', '=', self.env.user.id)
+            ]
+            domain = domain + user_domain
+        return super(AccountMove, self)._search(domain, offset=offset, limit=limit, order=order,
+                                                access_rights_uid=access_rights_uid)
+
     # @api.model
     # def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
     #     user = self.env.user
