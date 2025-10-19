@@ -18,23 +18,23 @@
                 </xpath>
             </field>
         </record>
-<!--        <record id="view_quo_order_tree" model="ir.ui.view">-->
-<!--            <field name="name">sale.order.inherit.tree</field>-->
-<!--            <field name="model">sale.order</field>-->
-<!--            <field name="inherit_id" ref="sale.view_quotation_tree" />-->
-<!--            <field name="arch" type="xml">-->
-<!--                <xpath expr="//field[@name='user_id']" position="after">-->
-<!--                    <field name="sales_manager_id" readonly="1"/>-->
-<!--                </xpath>-->
-<!--            </field>-->
-<!--        </record>-->
-        <record id="view_order_tree" model="ir.ui.view">
+        <record id="view_quo_order_tree" model="ir.ui.view">
             <field name="name">sale.order.inherit.tree</field>
             <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.sale_order_tree" />
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="sales_manager_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.inherit.search</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='Salesperson']" position="before">
+                    <filter string="Sales Manager" name="sales_manager_id" domain="[]" context="{'group_by': 'sales_manager_id'}"/>
                 </xpath>
             </field>
         </record>
