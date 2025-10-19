@@ -9,7 +9,7 @@
           <field name="can_edit_sp" invisible="1"/>
       </xpath>
       <xpath expr="//group[@name='sale']//field[@name='user_id']" position="attributes">
-        <attribute name="readonly">can_edit == False</attribute>
+        <attribute name="readonly">can_edit_sp == False</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
     </field>

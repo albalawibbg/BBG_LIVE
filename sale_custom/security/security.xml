@@ -2,9 +2,13 @@
 <odoo>
     <data>
 
+        <record id="group_own_customers" model="res.groups">
+            <field name="name">Access Own Customers</field>
+        </record>
         <record id="group_specific_sales_persons" model="res.groups">
             <field name="name">Access Specific Sales By Allowed Users</field>
         </record>
+
         <record id="group_all_sales_persons" model="res.groups">
             <field name="name">Access All Sales</field>
         </record>
