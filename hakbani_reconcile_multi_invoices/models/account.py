@@ -86,3 +86,49 @@ class AccountMove(models.Model):
                     (to_reconcile + line).reconcile()
 
         return True
+class Accountpayment(models.Model):
+    _inherit = 'account.payment'
+
+    def action_auto_reconcile_customer(self):
+        invoices = self.env['account.move'].sudo().search([('partner_id', '=',self.partner_id.id) ,('move_type', '=', 'out_invoice') , ('state', '=' ,'posted'),('amount_residual', '>', 0.0)], order='invoice_date_due asc')
+        if invoices:
+
+            receivable_account = self.partner_id.property_account_receivable_id
+            # Get unreconciled customer payments
+            payment_move_line = self.move_id.line_ids.filtered_domain([
+                ('account_id.account_type', '=', 'asset_receivable'),
+                ('move_id.state', '=', 'posted'),
+                ('partner_id', '=', self.partner_id.id),
+                ('full_reconcile_id', '=', False),
+                ('balance', '<', 0),
+            ])
+            credit = payment_move_line.credit
+            for invoice in invoices:
+                invoice_lines = invoice.line_ids.filtered(lambda l: l.account_id.account_type == 'asset_receivable' and not l.reconciled)
+                for line in invoice_lines:
+                    if line.amount_residual <= 0:
+                        continue
+
+                    to_reconcile = self.env['account.move.line']
+                    remaining = line.amount_residual
+
+                    for payment_line in payment_move_line:
+                        if payment_line.reconciled:
+                            continue
+                        if abs(payment_line.amount_residual) <= 0:
+                            continue
+
+                        to_reconcile += payment_line
+                        remaining += payment_line.balance
+
+                        if remaining <= 0:
+                            break
+
+                    if to_reconcile:
+                        (to_reconcile + line).reconcile()
+    def action_post(self):
+        res =  super(Accountpayment, self).action_post()
+
+        if not self.invoice_ids and self.payment_type == 'inbound':
+            self.action_auto_reconcile_customer()
+        return res
