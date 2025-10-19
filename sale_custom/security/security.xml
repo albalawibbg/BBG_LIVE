@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="group_own_customers" model="res.groups">
             <field name="name">Access Own Customers</field>
         </record>
+
+        <record id="access_all_customers" model="res.groups">
+            <field name="name">Access All Customers</field>
+        </record>
+
         <record id="group_specific_sales_persons" model="res.groups">
             <field name="name">Access Specific Sales By Allowed Users</field>
         </record>
