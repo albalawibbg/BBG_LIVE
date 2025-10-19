@@ -10,7 +10,7 @@ class Accountpayment(models.Model):
 
     @api.model
     def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
-        if self.env.user.has_group('sale_custom.group_own_customers') and  self.env.context.get('default_payment_type') == 'inbound':
+        if self.env.user.has_group('sale_custom.group_own_customers') and not  self.env.user.has_group('sale_custom.access_all_customers') and  self.env.context.get('default_payment_type') == 'inbound':
             user_domain = [
                 '|', ('create_uid', '=', self.env.user.id), ('partner_id.user_id', '=', self.env.user.id)
             ]
