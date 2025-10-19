@@ -33,7 +33,7 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_sales_order_filter" />
             <field name="arch" type="xml">
-                <xpath expr="//filter[@name='Salesperson']" position="before">
+                <xpath expr="//filter[@name='salesperson']" position="before">
                     <filter string="Sales Manager" name="sales_manager_id" domain="[]" context="{'group_by': 'sales_manager_id'}"/>
                 </xpath>
             </field>
