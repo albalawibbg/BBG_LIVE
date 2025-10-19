@@ -8,7 +8,7 @@ class SaleOrderLine(models.Model):
 
     def show_product_stock_wizard(self):
         ctx = {'product_id': self.product_id.id, 'readonly': True,'create': False}
-        if self.env.user.has_froup('warehouse_stock_restrictions.group_restrict_warehouse') and self.env.user.restrict_locations:
+        if self.env.user.has_group('warehouse_stock_restrictions.group_restrict_warehouse') and self.env.user.restrict_locations:
             domain =  [('product_id', '=', self.product_id.id), ('location_id.usage', '=', 'internal'),
                        ('location_id', 'in', self.env.user.stock_location_ids.ids)]
         else:
