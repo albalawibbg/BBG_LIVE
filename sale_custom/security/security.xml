@@ -8,6 +8,9 @@
         <record id="group_all_sales_persons" model="res.groups">
             <field name="name">Access All Sales</field>
         </record>
+        <record id="group_edit_customer_persons" model="res.groups">
+            <field name="name">Edit Customer Sales Person</field>
+        </record>
 <!--        <record id="sales_team.group_sale_salesman_all_leads" model="res.groups">-->
 <!--            <field name="implied_ids" eval="[(4, ref('sale_custom.group_all_sales_persons')),(4, ref('sales_team.group_sale_salesman'))]"/>-->
 <!--        </record>-->

@@ -10,6 +10,7 @@
     ],
     'data': [
         'security/security.xml',
+        'views/partner.xml',
         'views/users.xml',
     ],
     'installable': True,
