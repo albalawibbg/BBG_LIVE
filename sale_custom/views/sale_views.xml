@@ -38,6 +38,16 @@
                 </xpath>
             </field>
         </record>
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">sale.invoice.inherit.search</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='salesperson']" position="before">
+                    <filter string="Sales Manager" name="sales_manager_id" domain="[]" context="{'group_by': 'sales_manager_id'}"/>
+                </xpath>
+            </field>
+        </record>
         <record id="view_move_form" model="ir.ui.view">
             <field name="name">account.move.inherit.form</field>
             <field name="model">account.move</field>
@@ -46,6 +56,42 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="valid_partner_ids" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('id','in',valid_partner_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_out_invoice_tree" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('id','in',valid_partner_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_out_credit_note_tree" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_credit_note_tree" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+
 
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="domain">[('id','in',valid_partner_ids)]</attribute>
