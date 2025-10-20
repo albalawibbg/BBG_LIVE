@@ -22,12 +22,25 @@
 <!--        <record id="sales_team.group_sale_salesman_all_leads" model="res.groups">-->
 <!--            <field name="implied_ids" eval="[(4, ref('sale_custom.group_all_sales_persons')),(4, ref('sales_team.group_sale_salesman'))]"/>-->
 <!--        </record>-->
-         <record model="ir.rule" id="specific_sales_rule">
-            <field name="name">Sales restricted to users</field>
-            <field name="model_id" ref="sale.model_sale_order"/>
+<!--         <record model="ir.rule" id="specific_sales_rule">-->
+<!--            <field name="name">Sales restricted to users</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="groups" eval="[(4, ref('sale_custom.group_specific_sales_persons'))]"/>-->
+<!--            <field name="domain_force">[('user_id', 'in', user.sales_users.ids)]</field>-->
+<!--        </record>-->
+        <record model="ir.rule" id="specific_sales_report_rule">
+            <field name="name">Sales Report restricted to users</field>
+            <field name="model_id" ref="sale.model_sale_report"/>
             <field name="groups" eval="[(4, ref('sale_custom.group_specific_sales_persons'))]"/>
-            <field name="domain_force">[('user_id', 'in', user.sales_users.ids)]</field>
+            <field name="domain_force">['|',('user_id', '=', user.id),('user_id', 'in', user.sales_users.ids)]</field>
         </record>
+<!--        <record model="ir.rule" id="specific_sales_report_own_customer_rule">-->
+<!--            <field name="name">Sales Report restricted to own customers</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_report"/>-->
+<!--            <field name="groups" eval="[(4, ref('sale_custom.group_own_customers'))]"/>-->
+<!--            <field name="domain_force">[('partner_id.user_id', '=', user.id)]</field>-->
+<!--        </record>-->
+
         <record model="ir.rule" id="all_sales_rule">
             <field name="name">All Sales </field>
             <field name="model_id" ref="sale.model_sale_order"/>
