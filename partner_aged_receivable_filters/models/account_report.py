@@ -215,7 +215,7 @@ class AccountReport(models.Model):
         return domain
 
     def _get_options_domain(self, options, date_scope):
-        domain = super(AccountReport, self.with_context(aged = 1))._get_options_domain(options, date_scope)
+        domain = super(AccountReport, self)._get_options_domain(options, date_scope)
         # Get the invoice_user_ids that we need to filter on from the options and add a domain for them.
         if self.id == self.env.ref('account_reports.aged_receivable_report').id:
 
