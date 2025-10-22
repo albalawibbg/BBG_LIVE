@@ -10,7 +10,7 @@ from odoo.exceptions import ValidationError
 class Saleminprice(models.Model):
     _name = 'salesteam.min.price'
 
-    min_sale_price = fields.Monetary(
+    min_sale_price = fields.Float(
         string="Min Price",
     )
     team_id = fields.Many2one(comodel_name="crm.team", string="Sales Team", required=False, )
