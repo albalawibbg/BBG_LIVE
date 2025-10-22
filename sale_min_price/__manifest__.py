@@ -8,9 +8,11 @@
     'depends': [
         'hr',
         'sale_management',
+        'sales_team',
     ],
     'data': [
         'security/security.xml',
+        'views/min_sale.xml',
         'views/product_views.xml',
         'views/sale_order_views.xml',
         'views/account_payment_views.xml',

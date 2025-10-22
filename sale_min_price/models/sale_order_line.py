@@ -16,10 +16,15 @@ class SaleOrderLine(models.Model):
         store=True,
     )
 
-    @api.constrains('price_unit')
+    @api.onchange('price_unit','product_id','order_id.team_id')
+    @api.constrains('price_unit','product_id')
     def _check_product_price_unit(self):
         for line in self:
-            if line.price_unit < line.min_sale_price:
+            min_price = self.env['salesteam.min.price'].search([('product_id', '=', line.product_id.id),
+                            ('team_id', '=', line.order_id.team_id.id)],limit=1).min_sale_price
+            if min_price == 0:
+                min_price = line.min_sale_price
+            if line.price_unit < min_price:
                 raise ValidationError(
                     _('The product price of "%s" cannot be less than %s %s') % (
-                        line.product_id.name, line.min_sale_price, line.currency_id.name))
+                        line.product_id.name, min_price, line.currency_id.name))
