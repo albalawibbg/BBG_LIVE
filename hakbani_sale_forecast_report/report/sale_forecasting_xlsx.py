@@ -104,11 +104,19 @@ class SaleForecast(models.AbstractModel):
         past_date = end_date - relativedelta(months=(int(wizard_data.avg_period) - 1))
         start_date = datetime(past_date.year, past_date.month, 1)
 
-        sale_records = self.env['sale.order.line'].search([
+        doma = [
             ('state', '=', 'sale'),
             ('order_id.date_order', '>=', start_date),
             ('order_id.date_order', '<=', end_date),
-        ])
+
+        ]
+        if wizard_data.warehouse_ids:
+            doma.append(('order_id.warehouse_id', 'in', wizard_data.warehouse_ids.ids)
+           )
+        if wizard_data.team_ids:
+
+            doma.append( ('order_id.team_id', 'in', wizard_data.team_ids.ids))
+        sale_records = self.env['sale.order.line'].search(doma)
 
         worksheet = workbook.add_worksheet('Sale Forecast Report')
 
@@ -144,16 +152,28 @@ class SaleForecast(models.AbstractModel):
                     prod_list.append(order.product_id.id)
 
         for prod in prod_list:
-            purchase_qty = self.env['purchase.order.line'].search([
+            p_doma = [
                 ('state', 'in', ['draft', 'purchase']),
                 ('product_id', '=', prod),
-            ])
-            sale_qty = self.env['sale.order.line'].search([
+            ]
+            if wizard_data.warehouse_ids:
+                p_doma.append(('order_id.picking_type_id.warehouse_id', 'in', wizard_data.warehouse_ids.ids))
+            if wizard_data.team_ids:
+                p_doma.append(('order_id.team_id', 'in', wizard_data.team_ids.ids))
+            purchase_qty = self.env['purchase.order.line'].search(p_doma)
+            s_doma = [
                 ('state', '=', 'sale'),
                 ('product_id', '=', prod),
                 ('order_id.date_order', '>=', start_date),
                 ('order_id.date_order', '<=', end_date),
-            ])
+
+            ]
+            if wizard_data.warehouse_ids:
+                s_doma.append(('order_id.warehouse_id', 'in', wizard_data.warehouse_ids.ids))
+            if wizard_data.team_ids:
+
+                s_doma.append( ('order_id.team_id', 'in', wizard_data.team_ids.ids))
+            sale_qty = self.env['sale.order.line'].search()
             sale_quant = 0.0
             count = 0
             for sale in sale_qty:
