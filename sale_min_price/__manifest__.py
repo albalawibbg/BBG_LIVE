@@ -11,6 +11,7 @@
         'sales_team',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'security/security.xml',
         'views/min_sale.xml',
         'views/product_views.xml',
