@@ -20,7 +20,7 @@ class SaleOrder(models.Model):
         for rec in self:
             manager = self.env['res.users']
             if rec.user_id:
-                manager = self.env['res.users'].sudo().search([('sales_users','in',rec.user_id.id)],limit=1)
+                manager = self.env['res.users'].sudo().search([('sales_users','in',rec.user_id.id),('is_manager','=',True)],limit=1)
             rec.sales_manager_id = manager.id
 
     @api.model

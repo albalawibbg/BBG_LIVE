@@ -15,7 +15,7 @@ class AccountMove(models.Model):
         for rec in self:
             manager = self.env['res.users']
             if rec.invoice_user_id:
-                manager = self.env['res.users'].sudo().search([('sales_users', 'in', rec.invoice_user_id.id)], limit=1)
+                manager = self.env['res.users'].sudo().search([('sales_users', 'in', rec.invoice_user_id.id),('is_manager','=',True)], limit=1)
             rec.sales_manager_id = manager.id
     @api.model
     def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
