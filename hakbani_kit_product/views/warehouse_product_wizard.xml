@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="warehouse_product_wizard_view" model="ir.ui.view">
+            <field name="name">warehouse.product.wizard.view</field>
+            <field name="model">warehouse.product.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Product Stock Warehouse">
+                    <group>
+                        <field name="warehouse_product_ids" readonly="1">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="warehouse_id"/>
+                                <field name="location_id"/>
+                                <field name="available_qty_on_hand"/>
+                                <field name="qty"/>
+<!--                                <field name="available_qty_for_sale"/>-->
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="_Close" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

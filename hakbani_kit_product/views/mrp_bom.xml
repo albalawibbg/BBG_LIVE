@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_mrp_bom_form_inherit" model="ir.ui.view">
+            <field name="name">view_mrp_bom_form_inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="after">
+                    <field name="is_main_product"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
