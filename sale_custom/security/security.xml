@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="group_own_customers" model="res.groups">
-            <field name="name">Access Own Customers</field>
-        </record>
-
-        <record id="access_all_customers" model="res.groups">
-            <field name="name">Access All Customers</field>
-        </record>
 
         <record id="group_specific_sales_persons" model="res.groups">
             <field name="name">Access Specific Sales By Allowed Users</field>
         </record>
-
         <record id="group_all_sales_persons" model="res.groups">
             <field name="name">Access All Sales</field>
-        </record>
-        <record id="group_edit_customer_persons" model="res.groups">
-            <field name="name">Edit Customer Sales Person</field>
         </record>
 <!--        <record id="sales_team.group_sale_salesman_all_leads" model="res.groups">-->
 <!--            <field name="implied_ids" eval="[(4, ref('sale_custom.group_all_sales_persons')),(4, ref('sales_team.group_sale_salesman'))]"/>-->
 <!--        </record>-->
-<!--         <record model="ir.rule" id="specific_sales_rule">-->
-<!--            <field name="name">Sales restricted to users</field>-->
-<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
-<!--            <field name="groups" eval="[(4, ref('sale_custom.group_specific_sales_persons'))]"/>-->
-<!--            <field name="domain_force">[('user_id', 'in', user.sales_users.ids)]</field>-->
-<!--        </record>-->
-        <record model="ir.rule" id="specific_sales_report_rule">
-            <field name="name">Sales Report restricted to users</field>
-            <field name="model_id" ref="sale.model_sale_report"/>
+         <record model="ir.rule" id="specific_sales_rule">
+            <field name="name">Sales restricted to users</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
             <field name="groups" eval="[(4, ref('sale_custom.group_specific_sales_persons'))]"/>
-            <field name="domain_force">['|',('user_id', '=', user.id),('user_id', 'in', user.sales_users.ids)]</field>
+            <field name="domain_force">[('user_id', 'in', user.sales_users.ids)]</field>
         </record>
-<!--        <record model="ir.rule" id="specific_sales_report_own_customer_rule">-->
-<!--            <field name="name">Sales Report restricted to own customers</field>-->
-<!--            <field name="model_id" ref="sale.model_sale_report"/>-->
-<!--            <field name="groups" eval="[(4, ref('sale_custom.group_own_customers'))]"/>-->
-<!--            <field name="domain_force">[('partner_id.user_id', '=', user.id)]</field>-->
-<!--        </record>-->
-
         <record model="ir.rule" id="all_sales_rule">
             <field name="name">All Sales </field>
             <field name="model_id" ref="sale.model_sale_order"/>

@@ -8,12 +8,7 @@
       <xpath expr="//page[last()]" position="after">
         <page name="sales_persons" string="Allowed Sales Users">
           <group>
-          <group>
             <field name="sales_users" widget="many2many_tags"/>
-          </group>
-          <group>
-            <field name="is_manager"/>
-          </group>
           </group>
         </page>
       </xpath>
