@@ -11,9 +11,12 @@
                             <field name="avg_period" required="1"/>
                             <field name="name" invisible="1" />
                             <field name="file" filename="name" invisible="1"  readonly="1" />
+                            <field name="team_ids" widget="many2many_tags"/>
+
                         </group>
                         <group>
                             <field name="product_ids" widget="many2many_tags"/>
+                            <field name="warehouse_ids" widget="many2many_tags"/>
                         </group>
                     </group>
                     <footer>

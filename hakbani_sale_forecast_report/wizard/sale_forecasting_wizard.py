@@ -14,6 +14,8 @@ class SaleForecasting(models.TransientModel):
         ('6', '6 Month'),
     ], 'Average Period', default='3')
     product_ids = fields.Many2many('product.product', string="Products")
+    warehouse_ids = fields.Many2many('stock.warehouse', string="Warehouse")
+    team_ids = fields.Many2many('crm.team', string="Team")
 
     file = fields.Binary('Download Report')
     name = fields.Char()
