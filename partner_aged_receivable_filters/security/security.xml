@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_show_aged_sp" model="res.groups">
+            <field name="name">Show Aged Receivable All Sales Persons</field>
+        </record>
+    </data>
+</odoo>

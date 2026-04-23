@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="valid_customer_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_manager_id" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('id','in',valid_customer_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quo_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.inherit.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="sales_manager_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.inherit.search</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='salesperson']" position="before">
+                    <filter string="Sales Manager" name="sales_manager_id" domain="[]" context="{'group_by': 'sales_manager_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">sale.invoice.inherit.search</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='salesperson']" position="before">
+                    <filter string="Sales Manager" name="sales_manager_id" domain="[]" context="{'group_by': 'sales_manager_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="valid_partner_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('id','in',valid_partner_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_out_invoice_tree" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_out_credit_note_tree" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_credit_note_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_user_id']" position="after">
+                    <field name="sales_manager_id" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_payment_form" model="ir.ui.view">
+            <field name="name">account.payment.inherit.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="valid_payment_partner_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('id','in',valid_payment_partner_ids)]</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id'][2]" position="attributes">
+                    <attribute name="domain">[('id','in',valid_payment_partner_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

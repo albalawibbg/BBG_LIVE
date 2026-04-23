@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+				<field name="can_edit_price" invisible="1" optional="hide"/>
+			</xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+				<attribute name="readonly">can_edit_price == False</attribute>
+			</xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+				<field name="can_edit_price" invisible="1" optional="hide"/>
+			</xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+				<attribute name="readonly">can_edit_price == False</attribute>
+			</xpath>
+            <xpath expr="//field[@name='order_line']/kanban//field[@name='price_unit']" position="after">
+				<field name="can_edit_price" invisible="1" optional="hide"/>
+			</xpath>
+            <xpath expr="//field[@name='order_line']/kanban//field[@name='price_unit']" position="attributes">
+				<attribute name="readonly">can_edit_price == False</attribute>
+			</xpath>
+
+        </field>
+    </record>
+    <record id="sale_margin_sale_order" model="ir.ui.view">
+        <field name="name">sale.order.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="priority">150</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
+        <field name="arch" type="xml">
+<!--            <label for="margin" position="attributes">-->
+<!--                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>-->
+<!--            </label>-->
+<!--            <xpath expr="//field[@name='margin']/parent::div" position="attributes">-->
+<!--                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>-->
+<!--            </xpath>-->
+			<xpath expr="//div[hasclass('text-nowrap')]" position="attributes">
+				<attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+			</xpath>
+			<xpath expr="//label[@for='margin']" position="attributes">
+				<attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+			</xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+        <field name="name">sale.order.line.tree.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="priority">150</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='margin']" position="attributes">
+                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sale_margin_sale_order_pivot2">
+        <field name="name">sale.order.line.tree.margin.view</field>
+        <field name="model">sale.order</field>
+        <field name="priority">150</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_pivot" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sale_margin_sale_order_graph">
+        <field name="name">sale.order.line.tree.margin.view</field>
+        <field name="model">sale.order</field>
+        <field name="priority">150</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_graph" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">sale_margin_access.sale_margin_access</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+
+
+</odoo>
