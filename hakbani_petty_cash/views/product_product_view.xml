@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="hakbani_petty_cash.product_normal_form_view_inherit" model="ir.ui.view">
+        <field name="name">hakbani_petty_cash.product.normal.form.view.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="after">
+                <div name="options_extra" groups="base.group_user"
+                     invisible="type != 'service'">
+                    <div>
+                        <field name="is_petty_cash"/>
+                        <label for="is_petty_cash"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+        <field name="name">product_template_only_form_view_inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="after">
+                <div name="options_extra" groups="base.group_user" invisible="type != 'service'">
+                    <div>
+                        <field name="is_petty_cash"/>
+                        <label for="is_petty_cash"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

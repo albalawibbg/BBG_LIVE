@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">Sale order view form inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="replace"/>
+            <field name="payment_term_id" position="after">
+                <field name="analytic_account_id"
+                       options="{'no_create': 1, 'no_edit': 1, 'no_open': 1}"
+                       context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
+                      readonly="invoice_count != 0 and state == 'sale' "
+                       groups="analytic.group_analytic_accounting"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

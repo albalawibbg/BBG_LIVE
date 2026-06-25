@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <odoo>
+            <record id="hr_contract_form_view_inherit" model="ir.ui.view">
+                <field name="name">hr_contract_form_view_inherit</field>
+                <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+                <field name="arch" type="xml">
+                    <field name="hr_responsible_id" position="after">
+                        <separator/>
+                        <field name="af_chip_gasoline"/>
+                        <field name="af_chip_mobile"/>
+                    </field>
+                    <group name="salary_info" position="inside">
+                        <group>
+                            <field name="af_allowance_call_fee"/>
+                            <field name="af_allowance_housing"/>
+                            <field name="af_allowance_transport"/>
+                            <field name="af_allowance_other"/>
+                        </group>
+                    </group>
+                </field>
+            </record>
+        </odoo>
+    </data>
+</openerp>

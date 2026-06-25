@@ -1,0 +1,361 @@
+<odoo>
+    <template id="hr_employee_info_template">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.html_container">
+                <div width="100%" style="background-color:#6960a3;" class="header" dir="rtl">
+                    <table width="100%">
+                        <th style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center"
+                            class="text-center">
+                            <h2>بيانات الموظف</h2>
+                        </th>
+                    </table>
+                </div>
+                <t t-call="web.external_layout">
+                    <style>
+                        html, body{
+                        direction: rtl;
+                        text-align: right;
+                        }
+                    </style>
+                    <div class="page" width="100%" style="font-size:20px !important;">
+                        <div dir="rtl">
+                            <div class="row mb-2 mt-2">
+                                <div class="col-3 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الرقم الوظيفي</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.registration_number"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الإسم</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.name"/>
+                                    </div>
+                                </div>
+                                <div class="col-2 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الجنسية</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.country_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">فئة الجنسية</div>
+                                        </div>
+                                        <t t-if="o.country_id.code != 'SA'">
+                                            <span type="text" class="form-control">غير سعودي</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span type="text" class="form-control">سعودي</span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">تاريخ الميلاد</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.birthday"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">العمر</div>
+                                        </div>
+                                        <span style='direction: ltr !important;' type="text" class="form-control"
+                                              t-field="o.af_employee_age"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">رقم الجوال</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.mobile_phone"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">رقم الهوية</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.permit_no"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الحالة الإجتماعية</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.marital"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">المهنة</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.af_job_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">رصيد الإجازات</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.remaining_leaves"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الجنس</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.gender"/>
+                                        <t t-if="o.gender == 'male'">
+                                            <i class="fa-mars" style="float:left;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <i class="fa-venus" style="float:left;"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الأيبان</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.bank_account_id.acc_number"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">تاريخ المباشرة</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.contract_id.date_start"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">مدة الخدمة</div>
+                                        </div>
+                                        <span style='direction: ltr !important;' type="text" class="form-control"
+                                              t-field="o.af_work_period"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الموقع</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.work_location_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الإدارة</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.department_id.parent_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">القسم</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.department_id"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">رصيد الاجازات</div>
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.remaining_leaves"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">عدد الإنذرات</div>
+
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.sanction_no"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">فئة التأمين</div>
+
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.insurance_type"/>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الدرجة الوظيفية</div>
+
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.job_lvl"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الوظيفة</div>
+
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.job_title"/>
+                                    </div>
+                                </div>
+                                <div class="col-4 ml-1">
+                                    <div class="input-group w-100">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">الايميل</div>
+
+                                        </div>
+                                        <span type="text" class="form-control" t-field="o.work_email"/>
+                                    </div>
+                                </div>
+                                <!--                                <div class="col-4">-->
+                                <!--                                    <div class="input-group w-100">-->
+                                <!--                                        <div class="input-group-prepend">-->
+                                <!--                                            <div class="input-group-text">test</div>-->
+                                <!--                                        </div>-->
+                                <!--                                        &lt;!&ndash;                                        <input type="text" class="form-control" t-field="o."/>&ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                            <div class="row mb-2 mt-2">-->
+                                <!--                                <div class="col-4 ml-1">-->
+                                <!--                                    <div class="input-group w-100">-->
+                                <!--                                        <div class="input-group-prepend">-->
+                                <!--                                            <div class="input-group-text">test</div>-->
+                                <!--                                        </div>-->
+                                <!--                                        &lt;!&ndash;                                        <input type="text" class="form-control" t-field="o."/>&ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="col-7 ml-1">-->
+                                <!--                                    <div class="input-group w-100">-->
+                                <!--                                        <div class="input-group-prepend">-->
+                                <!--                                            <div class="input-group-text">test</div>-->
+                                <!--                                        </div>-->
+                                <!--                                        &lt;!&ndash;                                        <input type="text" class="form-control" t-field="o."/>&ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                            </div>
+                        </div>
+                        <div class="card bg-light mb-3">
+                            <div class="card-header">
+                                <b>
+                                    إجمالي الراتب
+                                </b>
+                                <span style="float:left" t-field="o.contract_id.total_salary"/>
+                            </div>
+                            <div class="card-body">
+                                <table width="100%" style="font-size:18px;">
+                                    <thead>
+                                        <th width="15%"
+                                            style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center">
+                                            الاساسي
+                                        </th>
+                                        <th width="5%"/>
+
+                                        <th width="15%"
+                                            style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center">
+                                            بدل السكن
+                                        </th>
+                                        <th width="5%"/>
+
+                                        <th width="15%"
+                                            style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center">
+                                            بدل النقل
+                                        </th>
+                                        <th width="5%"/>
+
+                                        <th width="15%"
+                                            style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center">
+                                            بدل الاتصال
+                                        </th>
+                                        <th width="5%"/>
+
+                                        <th width="15%"
+                                            style="background-color:#6960a3;color:white;font-weight:bold;vertical-align:middle;text-align:center">
+                                            بدلات أخرى
+                                        </th>
+                                        <th width="5%"/>
+                                    </thead>
+                                    <tbody>
+                                        <tr height="10%" colspan="12">
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%"
+                                                style="color:blue;border:1px solid #c2c0c4;font-weight:bold;vertical-align:middle;text-align:center">
+                                                <span t-field="o.contract_id.wage"/>
+                                            </td>
+                                            <td width="5%"/>
+
+                                            <td width="15%"
+                                                style="color:blue;border:1px solid #c2c0c4;font-weight:bold;vertical-align:middle;text-align:center">
+                                                <span t-field="o.contract_id.af_allowance_housing"/>
+                                            </td>
+                                            <td width="5%"/>
+
+                                            <td width="15%"
+                                                style="color:blue;border:1px solid #c2c0c4;font-weight:bold;vertical-align:middle;text-align:center">
+                                                <span t-field="o.contract_id.af_allowance_transport"/>
+                                            </td>
+                                            <td width="5%"/>
+
+                                            <td width="15%"
+                                                style="color:blue;border:1px solid #c2c0c4;font-weight:bold;vertical-align:middle;text-align:center">
+                                                <span t-field="o.contract_id.af_allowance_call_fee"/>
+                                            </td>
+                                            <td width="5%"/>
+
+                                            <td width="15%"
+                                                style="color:blue;border:1px solid #c2c0c4;font-weight:bold;vertical-align:middle;text-align:center">
+                                                <span t-field="o.contract_id.af_allowance_other"/>
+                                            </td>
+                                            <td width="5%"/>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

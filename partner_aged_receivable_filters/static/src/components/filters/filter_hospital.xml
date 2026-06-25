@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="partner_aged_receivable_filters.AccountReportFilterInvoiceUsers" owl="1">
+        <Dropdown togglerClass="'btn btn-secondary'">
+            <t t-set-slot="toggler">
+                <i class="fa fa-invoice_user-o me-1"/>Sales Persons
+            </t>
+            <div class="dropdown-item">
+                <MultiRecordSelector t-props="getMultiRecordSelectorProps('res.users', 'invoice_user_ids')"/>
+            </div>
+        </Dropdown>
+    </t>
+
+</templates>

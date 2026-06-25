@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+
+<t t-name="partner_aged_receivable_filters.AgedReceivableFilters" t-inherit="account_reports.AccountReportFiltersCustomizable">
+    <xpath expr="//div[@id='filter_partner']/.." position="after">
+        <t t-if="'display_invoice_user' in this.controller.options">
+            <div id="filter_invoice_user" class="filter_partner">
+                <t t-call="partner_aged_receivable_filters.AccountReportFilterInvoiceUsers"/>
+            </div>
+        </t>
+    </xpath>
+</t>
+
+
+</templates>

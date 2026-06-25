@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="add_backorder_qty_field_and_add_groups_confirm_button" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+			<xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+				<button name="show_product_stock_wizard" type="object" icon="fa-bars"/>
+			</xpath>
+        </field>
+    </record>
+</odoo>

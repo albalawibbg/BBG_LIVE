@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+        <record id="view_purchase_order_form_inherited_project" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherited.project</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='button_confirm'][1]" position="before">
+                    <button name="action_submit"  type="object" invisible="is_creator ==False or id == False or state not in ['draft','sent']" string="Submit" class="oe_highlight"/>
+                    <!-- GM Approve -->
+                    <button name="action_gm_approve" type="object" string="GM Approve"
+                            class="btn-primary"
+                            groups="purchase_order_approve.group_purchase_gm_approval"
+                            invisible="state != 'submitted'"
+                            />
+
+                    <!-- CFO Approve -->
+                    <button name="action_cfo_approve" type="object" string="CFO Approve"
+                            class="btn-primary"
+                            groups="purchase_order_approve.group_purchase_cfo_approval"
+                            invisible="state != 'gm_approved'"/>
+                    <button name="button_gm_reject" groups="purchase_order_approve.group_purchase_gm_approval" type="object" invisible="state not in ['submitted']" string="GM Reject" class="oe_highlight"/>
+                    <button name="button_cfo_reject" groups="purchase_order_approve.group_purchase_cfo_approval" type="object" invisible="state not in ['gm_approved']" string="CFO Reject" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='button_confirm'][1]" position="attributes">
+                    <attribute name="groups">account.group_account_manager</attribute>
+                    <attribute name="class">oe_highlight</attribute>
+                    <attribute name="invisible">state != 'cfo_approved'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_confirm'][2]" position="attributes">
+                    <attribute name="groups">account.group_account_manager</attribute>
+                    <attribute name="class">oe_highlight</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_draft']" position="attributes">
+                    <attribute name="invisible">state not in ['cancel','rejected']</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="is_creator" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

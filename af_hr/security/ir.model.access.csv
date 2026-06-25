@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+hr.access_hr_employee_user,hr_access_hr_employee_user_inherit,hr.model_hr_employee,hr.group_hr_user,1,1,0,0
+access_hr_employee_admin,hr_access_hr_employee_admin,hr.model_hr_employee,hr.group_hr_manager,1,1,1,1
+af_access_hr_monthly_accrual_group_user,af_access_hr_monthly_accrual_group_user,model_hr_monthly_accrual,base.group_user,1,0,0,0
+af_access_hr_monthly_accrual_group_hr_manager,af_access_hr_monthly_accrual_group_hr_manager,model_hr_monthly_accrual,hr.group_hr_manager,1,1,1,1
+

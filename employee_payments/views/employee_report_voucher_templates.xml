@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_employee_voucher">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+               <div class="page">
+                       <table> 
+                       <table width="100%">
+                            <tr>
+                                <td width="100%" align="center">
+                                    <h3>
+                                        <u>Employee Payment</u>
+                                    </h3>
+                                </td>
+                            </tr>
+                       </table>
+                       <br />
+                       <br />   
+                       
+                       <table width="100%">
+                            <tr>
+                                <td width="50%">
+                                        <b>Employee : </b><span t-field="o.employee_id.name"/><br/>
+                                    <b>Date : </b><span t-field="o.date" t-field-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}" />
+                                 </td>
+                                 <td width="50%">
+                                       <b>Journal : </b><span t-field="o.journal_id.name"/><br/>
+                                    <b>Balance Loan Amount: </b><span t-field="o.balance_laon"/>
+
+                                 </td>
+                            </tr>
+                        </table>
+                        <br />
+                        
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.end_service">
+                                    <td width="50%">
+                                        <b><u> End of Service </u></b><br/><br/>
+                                            <b> Whole Working Days :</b> <t t-esc="o.whole_working"/><br/> 
+                                            <b> Total Unpaid Leaves :</b> <t t-esc="o.total_unpaid"/><br/>
+                                            <b> Actual Working Days :</b> <t t-esc="o.actual_working"/><br/> 
+                                            <b> Paid EOS Amount :</b> <t t-esc="'%.1f'%o.paid_eos_amount"/><br/>
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> EOS Amount :</b> <t t-esc="'%.1f'%o.e_total_eos_amount"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> EOS Amount :</b> <t t-esc="'%.1f'%o.t_total_eos_amount"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> EOS Amount :</b> <t t-esc="'%.1f'%o.q_total_eos_amount"/><br/></t>     
+                                            <b> Pay Amount :</b> <t t-esc="o.paid_amount"/><br/>
+                                    </td>
+                                </t>
+                                <t t-if="o.end_service"> 
+                                    <td width="50%">
+                                        <b><u> End of Service Details </u></b><br/><br/>
+                                            <b> Job Leaving Reason :</b> <t t-esc="o.leave_reason"/><br/> 
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> Leave Reason :</b> <t t-esc="o.end_leave_reason"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> Leave Reason :</b> <t t-esc="o.term_leave_reason"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> Leave Reason :</b> <t t-esc="o.quit_leave_reason"/><br/></t>
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> EOS Years :</b> <t t-esc="'%.2f'%o.end_years"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> EOS Years :</b> <t t-esc="'%.2f'%o.term_years"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> EOS Years :</b> <t t-esc="'%.2f'%o.quit_years"/><br/></t>
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> Upto 2 Years :</b> <t t-esc="'%.1f'%o.first_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> Upto 2 Years :</b> <t t-esc="'%.1f'%o.first_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> Upto 2 Years :</b> <t t-esc="'%.1f'%o.first_end"/><br/></t>
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> From 2 - 5 Years :</b> <t t-esc="'%.1f'%o.second_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> From 2 - 5 Years :</b> <t t-esc="'%.1f'%o.second_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> From 2 - 5 Years :</b> <t t-esc="'%.1f'%o.second_end"/><br/></t>
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> Above 5 Years :</b> <t t-esc="'%.1f'%o.third_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> Above 5 Years :</b> <t t-esc="'%.1f'%o.third_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> From 5 - 10 Years :</b> <t t-esc="'%.1f'%o.third_end"/><br/></t>
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> Above 5 Years :</b> <t t-esc="'%.1f'%o.fourth_quit"/><br/></t>          
+                                            
+                                            <t t-if="o.end_service and o.leave_reason == 'endservice'">   
+                                            <b> Total :</b> <t t-esc="'%.1f'%o.total_end"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'termination'">  
+                                            <b> Total :</b> <t t-esc="'%.1f'%o.total_term"/><br/></t>
+                                            <t t-if="o.end_service and o.leave_reason == 'quit'">  
+                                            <b> Total :</b> <t t-esc="'%.1f'%o.total_quit"/><br/></t>     
+                                    </td> 
+                                </t>
+                            </tr>
+                        </table>
+                         <br />
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.legal_leave">
+                                    <td width="50%">
+                                        <b><u> Legal Leave </u></b><br/><br/>
+                                        <b> Leave : </b>  <t t-esc="o.select_leave"/><br/>
+                                        <b> No. of Legal Leaves Days :</b>    <t t-esc="o.no_days"/><br/>
+                                        <b> Salary of Legal Leaves Days :</b>  <t t-esc="'%.1f'%o.salary_legal"/><br/>
+                                        <b> Salary Per Day :</b> <t t-esc="'%.1f'%o.per_day_salary"/><br/>
+                                        <b> Remaining Legal Leaves :</b> <t t-esc="o.remaining_leaves"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.ticket_leave">
+                                    <td width="50%">
+                                        <b><u> Ticket </u></b><br/><br/>
+                                        <b> Issue Tickets : </b><t t-esc="o.issue_tickets"/><br/>
+                                        <b> Issue Tickets Amount :</b><t t-esc="o.issue_amount_tickets"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                        <br />
+                        
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.exit_entry">
+                                    <td width="50%">
+                                        <b><u> Exit Entry </u></b><br/><br/>
+                                        <b> Issue Exit Entry : </b>  <t t-esc="o.issue_exit_entry"/><br/>
+                                        <b> Issue Exit Entry Amount :</b>    <t t-esc="o.issue_amount_exit_entry"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.deduct1">
+                                    <td width="50%">
+                                        <b><u> <t t-esc="o.deduct1_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.deduct1_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.deduct1_desp"/>
+                                    </td>
+                                </t>
+                                
+                            </tr>
+                        </table>
+                        <br/>
+                        
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.deduct2">
+                                    <td width="50%">
+                                        <b><u> <t t-esc="o.deduct2_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b><t t-esc="o.deduct2_amount"/><br/>
+                                        <b> Reason :  </b><span t-field="o.deduct2_desp"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.deduct3">
+                                    <td width="50%">
+                                        <b><u><t t-esc="o.deduct3_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.deduct3_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.deduct3_desp"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                        <br />
+                        
+                        
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.other1 ">
+                                    <td width="50%">
+                                        <b><u> <t t-esc="o.other1_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.other1_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.other1_desp"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.deduct4"> 
+                                     <td width="50%">
+                                         <b><u> <t t-esc="o.deduct4_name"/> </u></b><br/><br/>
+                                         <b> Amount : </b>  <t t-esc="o.deduct4_amount"/><br/>
+                                         <b> Reason :  </b>  <t t-esc="o.deduct4_desp"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                        <br />
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.other2">
+                                    <td width="50%">
+                                        <b><u> <t t-esc="o.other2_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.other2_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.other2_desp"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.deduct4"> 
+                                     <td width="50%">
+                                         <b><u> <t t-esc="o.other3_name"/></u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.other3_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.other3_desp"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                        <br />
+                        <table width="100%">
+                            <tr>
+                                <t t-if="o.other4">
+                                    <td width="50%">
+                                        <b><u> <t t-esc="o.other4_name"/> </u></b><br/><br/>
+                                        <b> Amount : </b>  <t t-esc="o.other4_amount"/><br/>
+                                        <b> Reason :  </b>  <t t-esc="o.other4_desp"/>
+                                    </td>
+                                </t>
+                                <t t-if="o.deduct4"> 
+                                     <td width="50%">
+                                         
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+        
+                        <br /><br />
+                        
+                        
+                        <br /><br />
+                        
+                        
+                        <table width="100%">
+                            <tr>
+                                <td width="100%">
+
+                                    <b> GRAND TOTAL :  <t t-esc="o.grand_total"/></b> 
+
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                       </table>  
+                     </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

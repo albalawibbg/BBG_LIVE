@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_forecast_xlsx_report_new" model="ir.actions.report">
+        <field name="name">Sale Forecast</field>
+        <field name="model">sale.forecast.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hakbani_sale_forecast_report.sale_forecast_template</field>
+        <field name="report_file">Sale Forecast Xlsx</field>
+        <field name="binding_model_id" ref="hakbani_sale_forecast_report.model_sale_forecast_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Sale Forecast'</field>
+    </record>
+
+</odoo>

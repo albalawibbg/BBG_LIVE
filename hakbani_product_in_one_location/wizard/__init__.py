@@ -1,0 +1,1 @@
+from . import product_one_location

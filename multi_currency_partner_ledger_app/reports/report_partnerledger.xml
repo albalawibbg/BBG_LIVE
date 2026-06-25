@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_partnerledger">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style type="text/css">
+                            @font-face {
+                            font-family: 'Amiri-Regular';
+                            font-style: bold;
+                            font-weight: 1200;
+                            src:url(/multi_currency_partner_ledger_app/static/src/fonts/Amiri/Amiri-Regular.ttf) format('truetype');
+                            }
+                            @font-face {
+                            font-family: 'Cairo-Bold';
+                            font-style: bold;
+                            font-weight: 700;
+                            src:url(/multi_currency_partner_ledger_app/static/src/fonts/Cairo/Cairo-Bold.ttf) format('truetype');
+                            }
+                        </style>
+                        <div style="background-color: #008B8B; color:#fff !important; font-size:45px;font-weight: bold;font-family:Amiri-Regular;">
+                            <strong>
+                                <div>
+                                    <center> كشف حســــــــــــاب </center>
+                                </div>
+                            </strong>
+                        </div>
+                        <div style="text-align:right;" class="row mt32 mb32">
+                            <div class="col-6">
+                                <!--                                <strong>Partner's Account :</strong>-->
+                                <!--                                <t t-if="extra['account_type'] == 'customer'">Receivable Accounts</t>-->
+                                <!--                                <t t-if="extra['account_type'] == 'supplier'">Payable Accounts</t>-->
+                                <!--                                <t t-if="extra['account_type'] == 'customer_supplier'">Receivable and Payable Accounts</t>-->
+                                <!--                                <br />-->
+
+                                <t t-if="extra['date_to']">
+                                    <span style="font-family:Amiri-Regular;"><strong>الى:</strong></span>
+                                    <![CDATA[ &nbsp; ]]><![CDATA[ &nbsp; ]]><span t-esc="extra['date_to']"/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <!--                                <strong>Target Moves :</strong>-->
+                                <!--                                <t t-if="extra['target_move'] == 'all'">All Entries</t>-->
+                                <!--                                <t t-if="extra['target_move'] == 'posted'">All Posted Entries</t>-->
+                                <!--                                <br />-->
+                                <t t-if="extra['date_from']">
+                                    <span style="font-family:Amiri-Regular;"><strong>من:</strong></span>
+                                    <![CDATA[ &nbsp; ]]><![CDATA[ &nbsp; ]]><span t-esc="extra['date_from']"/>
+                                </t>
+                            </div>
+                        </div>
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:center;" colspan="6">
+                                        <strong t-esc="o.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="15%" style="text-align:left;font-family:Amiri-Regular;">إجمـــــالى</th>
+                                    <th width="15%" style="text-align:left;font-family:Amiri-Regular;">دائن</th>
+                                    <th width="15%" style="text-align:left;font-family:Amiri-Regular;">مدين</th>
+                                    <th width="15%" style="text-align:right;font-family:Amiri-Regular;">تاريخ الاستحقاق</th>
+                                    <th width="15%" style="text-align:right;font-family:Amiri-Regular;">التاريخ</th>
+                                    <th width="25%" style="text-align:right;font-family:Amiri-Regular;">البيـــــــــــــــان</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="all_grand_company_credit" t-value="0"/>
+                                <t t-set="all_grand_company_debit" t-value="0"/>
+                                <t t-set="all_grand_company_balance" t-value="0"/>
+                                <t t-foreach="extra['currency_ids']" t-as="currency">
+                                    <t t-set="temp_debit" t-value="0"/>
+                                    <t t-set="temp_credit" t-value="0"/>
+                                    <t t-set="partner_total_credit" t-value="0"/>
+                                    <t t-set="partner_total_debit" t-value="0"/>
+                                    <t t-set="company_total_credit" t-value="0"/>
+                                    <t t-set="company_total_debit" t-value="0"/>
+                                    <t t-set="partner_balance" t-value="0"/>
+                                    <t t-set="company_balance" t-value="0"/>
+                                    <t t-set="opening_balance" t-value="0"/>
+                                    <t t-set="partner_opening_balance" t-value="0"/>
+                                    <t t-set="copy_opening_balance" t-value="0"/>
+                                    <t t-if="extra['date_from']">
+                                        <t t-set="opening_balance" t-value="get_opening_balance(data, o, extra['date_from'], currency)[0]"/>
+                                        <t t-set="partner_opening_balance" t-value="get_opening_balance(data, o, extra['date_from'], currency)[1]"/>
+                                        <t t-if="opening_balance">
+                                            <t t-set="copy_opening_balance" t-value="opening_balance"/>
+                                        </t>
+                                        <t t-if="opening_balance">
+                                            <tr style="background-color: #D7D6D6;">
+                                                <td colspan="2" style="text-align:left;">
+                                                    <strong><span style="text-align:center" t-esc="'{0:,.2f}'.format(opening_balance)"/></strong>
+                                                </td>
+                                                <td colspan="4" style="text-align:right;">
+                                                    <span style="font-family:Amiri-Regular;"><strong>رصيد افتتاحى</strong></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <tr t-foreach="lines(data, o, currency)" t-as="line">
+                                        <td>
+                                            <t t-if="opening_balance">
+                                                <t t-set="copy_opening_balance" t-value="copy_opening_balance + line['debit'] + (-line['credit'])"/>
+                                                <span t-esc="'{0:,.2f}'.format(copy_opening_balance) or 0.00"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="company_balance" t-value="company_total_debit + company_total_credit"/>
+                                                <span t-esc="'{0:,.2f}'.format(company_balance) or 0.00"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="line['credit']">
+                                                <span t-esc="'{0:,.2f}'.format(-line['credit']) or 0.00"/>
+                                                <t t-set="company_total_credit" t-value="company_total_credit + (-line['credit'])"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span>0.00</span>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(line['debit']) or 0.00"/>
+                                            <t t-set="company_total_debit" t-value="company_total_debit + line['debit']"/>
+                                        </td>
+                                        <td class="text-right"><span t-esc="line['date_due']"/></td>
+                                        <td class="text-right"><span t-esc="line['date']"/></td>
+                                        <td class="text-right"><span t-esc="line['displayed_name']"/></td>
+                                    </tr>
+                                    <t t-set="grand_company_debit" t-value="company_total_debit"/>
+                                    <t t-set="grand_company_credit" t-value="company_total_credit"/>
+                                    <t t-if="opening_balance &gt; 0">
+                                        <t t-set="grand_company_debit" t-value="opening_balance+company_total_debit"/>
+                                        <t t-set="grand_company_credit" t-value="opening_balance+company_total_credit"/>
+                                    </t>
+                                    <t t-set="all_grand_company_credit" t-value="all_grand_company_credit+grand_company_debit"/>
+                                    <t t-set="all_grand_company_debit" t-value="all_grand_company_debit+grand_company_credit"/>
+                                    <t t-set="all_grand_company_balance" t-value="all_grand_company_balance+(opening_balance + company_total_debit + company_total_credit)"/>
+                                </t>
+                                <tr style="background-color: #D7D6D6;">
+                                    <th><b><span t-esc="'{0:,.2f}'.format(all_grand_company_balance)"/></b></th>
+                                    <th><b><span t-esc="'{0:,.2f}'.format(all_grand_company_debit)"/></b></th>
+                                    <th><b><span t-esc="'{0:,.2f}'.format(all_grand_company_credit)"/></b></th>
+                                    <th colspan="3" style="font-family:Amiri-Regular;text-align:right;"><b>إجمـــــالى</b></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

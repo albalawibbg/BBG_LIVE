@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+tsleem_invoices1,tsleem_invoices2,model_tsleem_invoices,account.group_account_manager,1,1,1,1
+tsleem_invoices11,tsleem_invoices22,model_tsleem_invoices_line,account.group_account_manager,1,1,1,1
+tsleem_invoices1123,tsleem_invoices2123,model_tsleem_invoices,account.group_account_invoice,1,1,1,0
+tsleem_invoices111,tsleem_invoices222,model_tsleem_invoices_line,account.group_account_invoice,1,1,1,0
+tsleem_invoice123,tsleem_invoice12344,model_tsleem_invoices,group_tsleem_invoices_security,1,1,1,1
+tsleem_invoice1234,tsleem_invoice123332,model_tsleem_invoices_line,group_tsleem_invoices_security,1,1,1,1
+account_jopurnal,account_jopurnal2,account.model_account_journal,group_tsleem_invoices_security,1,1,0,0
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_purchase_register_report" model="ir.actions.report">
+        <field name="name">Stock Check Report</field>
+        <field name="model">sale.purchase.register.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hakbani_holding_item_xlsx.stock_check_template</field>
+        <field name="report_file">Stock Check Xlsx</field>
+        <field name="binding_model_id" ref="hakbani_holding_item_xlsx.model_sale_purchase_register_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'%s' % (object.date_from)</field>
+    </record>
+
+</odoo>

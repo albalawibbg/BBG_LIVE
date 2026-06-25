@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_purchase_register_wizard_view" model="ir.ui.view">
+            <field name="name">sale_purchase_register_wizard_view</field>
+            <field name="model">sale.purchase.register.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="transaction_type"/>
+                            <field name="product_ids" widget="many2many_tags"/>
+                            <field name="name" invisible="1" />
+                            <field name="file" filename="name" invisible="1"  readonly="1" />
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                            <field name="location_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Export Xlsx" name="generate_sale_purchase_register_xlsx" type="object"
+                                default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_purchase_register_action" model="ir.actions.act_window">
+            <field name="name">Stock Check Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.purchase.register.wizard</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale_purchase_register_wizard_view" />
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="sale_purchase_register_menu" name="Stock Check Report" parent="stock.menu_warehouse_report"
+                  action="sale_purchase_register_action"/>
+    </data>
+</odoo>

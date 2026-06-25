@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="min_sale_price" model="ir.ui.view">
+        <field name="name">salesteam.min.price</field>
+        <field name="model">salesteam.min.price</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="team_id" required="1"/>
+                <field name="product_id" required="1"/>
+                <field name="min_sale_price"/>
+            </tree>
+        </field>
+    </record>
+    <record id="min_sale_action" model="ir.actions.act_window">
+        <field name="name">Min Sales Prices</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">salesteam.min.price</field>
+        <field name="view_mode">tree</field>
+
+    </record>
+    <menuitem id="min_sale_price_categ" name="Min Sales Prices" parent="sale.menu_sale_config" action="min_sale_action" sequence="71"/>
+</odoo>

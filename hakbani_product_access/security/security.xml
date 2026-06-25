@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_product_creator" model="res.groups">
+            <field name="name">Product Creator</field>
+        </record>
+        <record id="group_product_editor" model="res.groups">
+            <field name="name">Product Editor</field>
+        </record>
+
+
+
+        <record id="access_product_template_access_product_manager" model="ir.model.access">
+            <field name="name">Access product template Create Access product manager</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="group_id" ref="hakbani_product_access.group_product_creator"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_product_product_access_product_manager" model="ir.model.access">
+            <field name="name">Access product product Create Access stock manager</field>
+            <field name="model_id" ref="product.model_product_product"/>
+            <field name="group_id" ref="hakbani_product_access.group_product_creator"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+<!--        <record id="stock.access_product_template_stock_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access product manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="stock.group_stock_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="stock.access_product_product_stock_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access stock manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="stock.group_stock_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+<!--        <record id="point_of_sale.access_product_template_pos_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access pos manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="point_of_sale.group_pos_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="point_of_sale.access_product_product_pos_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access pos manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="point_of_sale.group_pos_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+<!--        <record id="sale.access_product_template_sale_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access sales manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="sales_team.group_sale_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="sale.access_product_product_sale_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access sales manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="sales_team.group_sale_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+
+<!--        <record id="purchase.access_product_template_purchase_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access purchase manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="purchase.group_purchase_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="purchase.access_product_product_purchase_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access purchase manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="purchase.group_purchase_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="account.access_product_template_account_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access account manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="account.group_account_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="account.access_product_product_account_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access account manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="account.group_account_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+
+<!--        <record id="mrp.access_product_template_mrp_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access mrp manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="mrp.group_mrp_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="mrp.access_product_product_mrp_manager" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access mrp manager</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="mrp.group_mrp_manager"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--        </record>-->
+
+<!--        <record id="stock.access_product_template_stock_user" model="ir.model.access">-->
+<!--            <field name="name">Remove product template Create Access Inventory User</field>-->
+<!--            <field name="model_id" ref="product.model_product_template"/>-->
+<!--            <field name="group_id" ref="stock.group_stock_user"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="False"/>-->
+<!--        </record>-->
+
+<!--        <record id="stock.access_product_product_stock_user" model="ir.model.access">-->
+<!--            <field name="name">Remove product product Create Access Inventory User</field>-->
+<!--            <field name="model_id" ref="product.model_product_product"/>-->
+<!--            <field name="group_id" ref="stock.group_stock_user"/>-->
+<!--            <field name="perm_create" eval="False"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="False"/>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>
