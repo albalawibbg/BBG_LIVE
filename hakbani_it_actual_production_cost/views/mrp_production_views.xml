@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hakbani_it_mrp_production_form_cost_audit" model="ir.ui.view">
+        <field name="name">hakbani.it.mrp.production.form.cost.audit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Actual Cost Audit" name="hakbani_actual_cost_audit">
+                    <group>
+                        <group string="Cost Breakdown">
+                            <field name="hakbani_currency_id" invisible="1"/>
+                            <field name="hakbani_raw_cost" readonly="1"/>
+                            <field name="hakbani_operation_cost" readonly="1"/>
+                            <field name="hakbani_additional_cost" readonly="1"/>
+                            <field name="hakbani_total_cost" readonly="1"/>
+                        </group>
+                        <group string="Posted Inventory Valuation">
+                            <field name="hakbani_finished_value" readonly="1"/>
+                            <field name="hakbani_byproduct_value" readonly="1"/>
+                            <field name="hakbani_valuation_difference" readonly="1"/>
+                            <field name="hakbani_cost_status" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <button name="action_hakbani_open_valuation" type="object"
+                                string="View Valuation Layers" class="btn-secondary" icon="fa-cubes"/>
+                        <button name="action_hakbani_open_entries" type="object"
+                                string="View Journal Entries" class="btn-secondary" icon="fa-book"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        Actual inventory valuation is based on posted stock valuation layers.
+                        Products using Standard Cost keep Odoo's standard valuation policy.
+                        Check FIFO/AVCO finished goods for actual-cost valuation.
+                        Differences may also arise from partial production or existing historical valuation issues.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
