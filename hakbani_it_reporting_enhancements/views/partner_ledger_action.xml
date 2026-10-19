@@ -1,0 +1,26 @@
+<odoo>
+    <!-- Appears under Action menu of customers/vendors, including their partner ledger flow. -->
+    <record id="server_action_partner_ledger_xlsx" model="ir.actions.server">
+        <field name="name">Export Partner Ledger (Excel)</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').read()[0]
+if len(records) == 1:
+    action['context'] = {'default_partner_id': records.id, 'active_model': 'res.partner', 'active_id': records.id}
+</field>
+    </record>
+    <record id="server_action_journal_items_xlsx" model="ir.actions.server">
+        <field name="name">Export Partner Ledger (Excel)</field>
+        <field name="model_id" ref="account.model_account_move_line"/>
+        <field name="binding_model_id" ref="account.model_account_move_line"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').read()[0]
+partners = records.mapped('partner_id')
+if len(partners) == 1:
+    action['context'] = {'default_partner_id': partners.id}
+</field>
+    </record>
+</odoo>

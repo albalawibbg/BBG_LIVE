@@ -1,0 +1,14 @@
+<odoo>
+    <record id="sale_report_search_manager_inherit" model="ir.ui.view">
+        <field name="name">sale.report.search.sales.manager.hakbani</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="team_leader_id" string="Sales Manager"/>
+                <filter name="group_by_hakbani_sales_manager" string="Sales Manager / Team Leader"
+                        context="{'group_by': 'team_leader_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
