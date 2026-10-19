@@ -30,6 +30,8 @@
             <xpath expr="//pivot" position="inside">
                 <field name="team_leader_id" type="row" string="Sales Leader"/>
                 <field name="team_id" type="col" string="Sales Team"/>
+                <field name="team_sales_amount" type="measure" string="Sales Team Sales Amount"/>
+                <field name="leader_sales_amount" type="measure" string="Sales Leader Sales Amount"/>
             </xpath>
         </field>
     </record>
