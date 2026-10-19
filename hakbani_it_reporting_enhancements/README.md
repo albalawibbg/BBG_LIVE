@@ -1,16 +1,19 @@
 # Hakbani IT Reporting Enhancements — Odoo 17
 Author: Bahaa Adel
-Version: 17.0.1.0.2
+Version: 17.0.1.0.3
 
-## Sales Analysis Pivot
-- Adds **Sales Team** (`team_id`, native Odoo 17 sale.report) and **Sales Leader** (`team_leader_id`) as grouping dimensions in the Pivot view.
-- Adds both fields to search and explicit Group By options.
-- Sales Leader reads the `user_id` of the sales team assigned to the sales order. Orders without assigned team/manager will appear under Undefined.
-- In a Pivot, Measures are numeric aggregations such as Untaxed Total. Many2one fields like Sales Team and Sales Leader must be used as rows/columns (Group By), not Measures. This is an Odoo framework limitation.
-- Existing partner-ledger Excel export and invoice Team Leader grouping remain included.
+## Sales Analysis
+Sales Team (`team_id`) and Sales Leader (`team_leader_id`) appear as pivot grouping dimensions. Default pivot layout adds Sales Leader as a row and Sales Team as a column. The search panel also has a dedicated **Team & Leader Group By** section.
 
-## Upgrade
-Replace previous `hakbani_it_reporting_enhancements` directory and **Upgrade** the module in Apps on a staging Odoo 17 database; refreshing browser is not sufficient. No removal of existing module is necessary.
+### Why not in Measures?
+Measures in Odoo pivots are numeric fields. Sales Team / Sales Leader are Many2one categories. To calculate total sales by leader or team, use Group By and select Untaxed Total measure.
 
-## Testing
-Syntax/XML/packaging only; actual Odoo.sh install/upgrade and custom view compatibility must be validated on staging.
+If the screenshot already shows different sales-team names in the column headers, Sales Team grouping is working. For Sales Leader, ensure each Sales Team has a Team Leader set in CRM > Configuration > Sales Teams (the team `user_id` manager); orders without a leader group under Undefined.
+
+**Note:** Existing saved favourite filters and custom pivot preferences can override the default pivot layout. Remove active groupings from the search bar and group by Sales Leader, then Sales Team. Upgrade Apps module after deploying, and hard-refresh the tab.
+
+### Export / Invoices
+Partner Ledger XLSX export and invoice Team Leader grouping remain in the module.
+
+### Deployment
+Replace directory `hakbani_it_reporting_enhancements`; upgrade from Apps; do not uninstall. Tested statically only (XML, Python, ZIP), not on user's Odoo.sh instance.
