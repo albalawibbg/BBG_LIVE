@@ -1,7 +1,7 @@
 {
     'name': 'Hakbani IT Sales Read Only & Collections',
     'summary': 'Controlled read-only sales documents and invoice-based collections',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.0.1',
     'category': 'Sales/Sales',
     'author': 'Bahaa Adel',
     'license': 'LGPL-3',

@@ -5,10 +5,12 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='amount_total']" position="after">
-                <field name="hakbani_invoiced_amount" readonly="1" groups="sales_team.group_sale_salesman_all_leads"/>
-                <field name="hakbani_collected_amount" readonly="1" groups="sales_team.group_sale_salesman_all_leads"/>
-                <field name="hakbani_outstanding_amount" readonly="1" groups="sales_team.group_sale_salesman_all_leads"/>
+            <xpath expr="//sheet" position="inside">
+                <group string="Sales Collections" name="hakbani_sales_collections" groups="sales_team.group_sale_salesman_all_leads">
+                    <field name="hakbani_invoiced_amount" readonly="1"/>
+                    <field name="hakbani_collected_amount" readonly="1"/>
+                    <field name="hakbani_outstanding_amount" readonly="1"/>
+                </group>
             </xpath>
         </field>
     </record>
@@ -17,7 +19,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='amount_total']" position="after">
+            <xpath expr="//tree" position="inside">
                 <field name="hakbani_collected_amount" optional="show" groups="sales_team.group_sale_salesman_all_leads"/>
                 <field name="hakbani_outstanding_amount" optional="show" groups="sales_team.group_sale_salesman_all_leads"/>
             </xpath>
@@ -28,7 +30,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_quotation_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='amount_total']" position="after">
+            <xpath expr="//tree" position="inside">
                 <field name="hakbani_collected_amount" optional="show" groups="sales_team.group_sale_salesman_all_leads"/>
                 <field name="hakbani_outstanding_amount" optional="show" groups="sales_team.group_sale_salesman_all_leads"/>
             </xpath>
