@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_sales_readonly" model="ir.ui.view">
+        <field name="name">res.users.form.hakbani.sales.readonly</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Hakbani Sales Access" groups="base.group_system">
+                    <group>
+                        <field name="hakbani_sales_readonly"/>
+                        <div class="text-muted">Applies only when Sales: All Documents permission is granted. Other users remain unchanged.</div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
