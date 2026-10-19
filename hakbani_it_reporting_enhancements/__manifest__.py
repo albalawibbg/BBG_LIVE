@@ -1,7 +1,7 @@
 {
     'name': 'Hakbani IT - Partner Excel and Sales Team Reporting',
-    'version': '17.0.1.0.1',
-    'summary': 'Partner ledger XLSX, sales manager analysis and invoice team leader grouping',
+    'version': '17.0.1.0.2',
+    'summary': 'Partner ledger XLSX, sales team and leader pivot grouping and invoice team leader grouping',
     'author': 'Bahaa Adel',
     'license': 'LGPL-3',
     'category': 'Accounting/Reporting',

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="sale_report_search_manager_inherit" model="ir.ui.view">
         <field name="name">sale.report.search.sales.manager.hakbani</field>
@@ -5,9 +6,24 @@
         <field name="inherit_id" ref="sale.view_order_product_search"/>
         <field name="arch" type="xml">
             <xpath expr="//search" position="inside">
-                <field name="team_leader_id" string="Sales Manager"/>
-                <filter name="group_by_hakbani_sales_manager" string="Sales Manager / Team Leader"
+                <field name="team_id" string="Sales Team"/>
+                <field name="team_leader_id" string="Sales Leader"/>
+                <filter name="group_by_hakbani_sales_team" string="Sales Team"
+                        context="{'group_by': 'team_id'}"/>
+                <filter name="group_by_hakbani_sales_manager" string="Sales Leader"
                         context="{'group_by': 'team_leader_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_report_pivot_team_leader_inherit" model="ir.ui.view">
+        <field name="name">sale.report.pivot.sales.team.leader.hakbani</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="team_id" type="col" string="Sales Team"/>
+                <field name="team_leader_id" type="col" string="Sales Leader"/>
             </xpath>
         </field>
     </record>
