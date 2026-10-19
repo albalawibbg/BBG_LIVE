@@ -9,24 +9,33 @@ class AccountMove(models.Model):
         store=True, index=True, compute_sudo=True,
     )
 
-    @api.depends('invoice_user_id', 'invoice_line_ids.sale_line_ids.order_id.team_id')
+    @api.depends('invoice_user_id', 'team_id', 'invoice_line_ids.sale_line_ids.order_id.team_id')
     def _compute_hakbani_team_leader_id(self):
-        Team = self.env['crm.team'].sudo()
+        # Odoo 17: crm.team.member links users to teams, while crm.team.user_id
+        # identifies the team leader. Resolve memberships in one query to avoid
+        # one search per invoice during installation / stored-field recomputation.
+        missing = self.filtered(lambda move: not move.team_id and move.invoice_user_id)
+        membership_by_user = {}
+        if missing and 'crm.team.member' in self.env:
+            members_model = self.env['crm.team.member'].sudo()
+            if {'user_id', 'crm_team_id'}.issubset(members_model._fields):
+                memberships = members_model.search([
+                    ('user_id', 'in', missing.mapped('invoice_user_id').ids),
+                ])
+                for member in memberships:
+                    membership_by_user.setdefault(member.user_id.id, member.crm_team_id)
+
         for move in self:
             team = False
-            # Prefer the actual originating sales order's team when present.
+            # Prefer the sales order's assigned sales team when present.
             for line in move.invoice_line_ids:
-                if 'sale_line_ids' in line._fields:
-                    order_lines = line.sale_line_ids
-                    if order_lines:
-                        team = order_lines[:1].order_id.team_id
-                        if team:
-                            break
-            # On databases with the standard invoice sales team, use it.
-            if not team and 'team_id' in move._fields:
+                sale_lines = line.sale_line_ids
+                if sale_lines:
+                    team = sale_lines[:1].order_id.team_id
+                    if team:
+                        break
+            if not team:
                 team = move.team_id
             if not team and move.invoice_user_id:
-                team = Team.search([('member_ids', 'in', move.invoice_user_id.id)], limit=1)
-                if not team:
-                    team = Team.search([('user_id', '=', move.invoice_user_id.id)], limit=1)
+                team = membership_by_user.get(move.invoice_user_id.id)
             move.hakbani_team_leader_id = team.user_id if team else False

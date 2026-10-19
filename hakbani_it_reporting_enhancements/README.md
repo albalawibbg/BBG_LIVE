@@ -2,7 +2,7 @@
 
 Author: Bahaa Adel
 Technical module: `hakbani_it_reporting_enhancements`
-Version: 17.0.1.0.0
+Version: 17.0.1.0.1
 
 ## Features
 - Action menu on customer/vendor record and Journal Items: Export Partner Ledger (Excel).
@@ -18,3 +18,8 @@ Unzip into custom addons, restart Odoo, Update Apps List, install the module. De
 - Running balance in Excel begins at zero for the exported range; it is **not** an opening-balance-adjusted ledger.
 - The customer export is a custom journal-item worksheet, not a direct export of the Enterprise dynamic account report PDF.
 - Untested on your particular Odoo 17 database; custom CRM team fields and views may need adapting.
+
+## Fix 17.0.1.0.1
+- Fixed invalid Odoo domain (`in` passed an integer instead of a list).
+- Batch resolve CRM team memberships using `crm.team.member` rather than per-invoice lookups.
+- Use the invoice sales team and sales order team as primary sources.
