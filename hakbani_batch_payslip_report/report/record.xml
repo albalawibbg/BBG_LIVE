@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<!--    <record id="report_paperformat_hr_payslip_run" model="report.paperformat">-->
+<!--        <field name="name">Payslip Batch</field>-->
+<!--        <field name="default" eval="True"/>-->
+<!--        <field name="format">A4</field>-->
+<!--        <field name="orientation">Landscape</field>-->
+<!--        <field name="header_line" eval="False"/>-->
+<!--        <field name="header_spacing">0</field>-->
+<!--        <field name="disable_shrinking" eval="True"/>-->
+<!--        <field name="dpi">96</field>-->
+<!--    </record>-->
+
+<!--    <record id="hr_batch_payslip_report" model="ir.actions.report">-->
+<!--        <field name="name">Batch Payslip</field>-->
+<!--        <field name="model">hr.payslip.run</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">hakbani_batch_payslip_report.hr_batch_payslip_template</field>-->
+<!--        <field name="report_file">hakbani_batch_payslip_report.hr_batch_payslip_template</field>-->
+<!--        <field name="print_report_name">'Batch Payslip- %s' % (object.name)</field>-->
+<!--        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--        <field name="paperformat_id" ref="report_paperformat_hr_payslip_run"/>-->
+<!--    </record>-->
+    <record id="hr_batch_payslip_report_xlsx" model="ir.actions.report">
+        <field name="name">Batch Payslip (EXCEL)</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hakbani_batch_payslip_report.hr_batch_payslip_xlsx</field>
+        <field name="report_file">hakbani_batch_payslip_report.hr_batch_payslip_xlsx</field>
+        <field name="print_report_name">'Batch Payslip- %s' % (object.name)</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="hr_gosi_report_xlsx" model="ir.actions.report">
+        <field name="name">GOSI Report (EXCEL)</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">hakbani_batch_payslip_report.hr_gosi_template_xlsx</field>
+        <field name="report_file">hakbani_batch_payslip_report.hr_gosi_template_xlsx</field>
+        <field name="print_report_name">'GOSI- %s' % (object.name)</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

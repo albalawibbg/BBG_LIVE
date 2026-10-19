@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+salesteam.min.price,salesteam.min.price,model_salesteam_min_price,,1,1,1,0
+edit_salesteam.min.price,salesteam.min.price,model_salesteam_min_price,sale_min_price.group_sale_min_price,1,1,1,1

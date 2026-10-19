@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_move_tree_inherit" model="ir.ui.view">
+        <field name="name">account.move.tree.reconcile.button</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/header" position="inside">
+                <button name="action_auto_reconcile_customer"
+                        type="object"
+                        string="Auto Reconcile"
+                        groups="hakbani_reconcile_multi_invoices.group_auto_reconcile_user"
+                        class="oe_highlight"
+                        />
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+

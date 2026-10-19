@@ -1,0 +1,33 @@
+<odoo>
+    <record id="view_hakbani_partner_ledger_export_form" model="ir.ui.view">
+        <field name="name">hakbani.it.partner.ledger.export.form</field>
+        <field name="model">hakbani.it.partner.ledger.export</field>
+        <field name="arch" type="xml">
+            <form string="Export Customer Ledger (Excel)">
+                <group>
+                    <field name="partner_id"/>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="posted_only"/>
+                        <field name="receivable_only"/>
+                        <field name="include_children"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Download Excel" name="action_export_xlsx" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_hakbani_partner_ledger_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Customer Ledger (Excel)</field>
+        <field name="res_model">hakbani.it.partner.ledger.export</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_hakbani_partner_ledger_export_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

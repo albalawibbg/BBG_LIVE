@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="group_product_create_notification_access" model="res.groups">
+            <field name="name">Product Create Notification Access</field>
+        </record>
+
+    </data>
+</odoo>

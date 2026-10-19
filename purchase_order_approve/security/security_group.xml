@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_purchase_gm_approval" model="res.groups">
+            <field name="name">GM Approval</field>
+        </record>
+
+        <record id="group_purchase_cfo_approval" model="res.groups">
+            <field name="name">CFO Approval</field>
+        </record>
+    </data>
+</odoo>

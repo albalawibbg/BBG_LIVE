@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hakbani_partner_ledger_export,hakbani.it.partner.ledger.export,model_hakbani_it_partner_ledger_export,account.group_account_readonly,1,1,1,1
+access_hakbani_partner_ledger_export_manager,hakbani.it.partner.ledger.export manager,model_hakbani_it_partner_ledger_export,account.group_account_user,1,1,1,1

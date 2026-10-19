@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="tsleem_invoices_full"
+                model="tsleem.invoices"
+                string="طباعة "
+                report_type="qweb-pdf"
+                name="hakbani_petty_cash.tsleem_invoices_full_template"
+                file="hakbani_petty_cash.tsleem_invoices_full_template"
+        />
+
+        <template id="tsleem_invoices_full_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+
+                        <t t-if="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id"></t>
+                        </t>
+                        <t t-if="not o or not 'company_id' in o">
+                            <t t-set="company" t-value="res_company"></t>
+                        </t>
+                        <div class="page" style="font-family:Scheherazade;direction:rtl;">
+                            <table class="table "
+                                   style="font-size:24px;font-family:Scheherazade;">
+                                <tr style=" background-color:  #eefcfc ">
+                                    <td colspan="4" class="text-center">
+                                        Projects Petty Cash Settlement
+                                        <br/>
+                                        تقرير تسليم الفواتير
+
+                                    </td>
+
+                                </tr>
+                                <tr style="line-height: 2px;font-size:24px;  ">
+                                    <td class="text-center" colspan="1">عهدة
+
+                                    </td>
+                                    <td class="text-center" colspan="1">
+                                        <span t-field="o.journal_id"/>
+                                    </td>
+                                    <td class="text-center" colspan="1">التسلسل
+                                    </td>
+                                    <td class="text-center" colspan="1">
+                                        <span t-field="o.order_number"/>
+                                    </td>
+                                </tr>
+                                <tr style="line-height: 2px;font-size:24px;  ">
+                                    <td class="text-center" colspan="1">تاريخ الطباعة
+                                    </td>
+                                    <td class="text-center" colspan="1">
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                            <div style=" font-size:20px; bold; display: inline-block;margin-right: 20px;">
+                                ملاحظات
+                            </div>
+                            <div style=" font-size:20px; bold; display: inline-block;margin-right: 700px;">
+                                Note
+                            </div>
+                            <div style="width: 100%;
+  height: 50px;
+  border: 1px solid">
+
+                            </div>
+                            <br/>
+
+                            <table class="table table-condensed table table-striped"
+                                   style="font-size:15px;font-family:Scheherazade;border: 1px solid black;">
+                                <tr style="border-collapse: collapse; solid black;background-color:  #eefcfc ">
+                                    <th class="text-center">المورد</th>
+                                    <th class="text-center">مرجع الفاتورة</th>
+                                    <th class="text-center">تاريخ الفاتورة</th>
+<!--                                    <th class="text-center">المشروع</th>-->
+                                    <th class="text-center">المنتج</th>
+                                    <th class="text-center">مبلغ الفاتورة</th>
+                                    <th class="text-center">الضريبة</th>
+                                    <th class="text-center">قيمة الضريبة</th>
+                                    <th class="text-center">الاجمالي</th>
+                                </tr>
+                                <t t-foreach="o.tsleem_invoices_line_id" t-as="l">
+                                    <tr style="font-size:15px;border-collapse: collapse;border: 0.5px solid black;">
+                                        <td class="text-center">
+                                            <span t-esc="l.supplier_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.ref"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.date_invoice"/>
+                                        </td>
+<!--                                        <td class="text-center">-->
+<!--                                            <span t-esc="l.construction_id.name"/>-->
+<!--                                        </td>-->
+                                        <td class="text-center">
+                                            <span t-esc="l.product_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.price_unit"
+                                                  t-options='{"widget": "float", "precision": 3}'/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-foreach="l.tax_id" t-as="tax">
+                                            <span t-esc="tax.name"/>
+                                                <br/>
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.tax_amount"
+                                            />
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.price_unit_after_tax"
+                                                  t-options='{"widget": "float", "precision": 3}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr style="font-size:15px;">
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center" style="background-color:  #eefcfc;">
+                                        <span t-esc="o.sum_of_subtotal()"
+                                              t-options='{"widget": "float", "precision": 3}'/>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <odoo>
+            <record id="employee_form_view_inherit" model="ir.ui.view">
+                <field name="name">employee_form_view_inherit</field>
+                <field name="model">hr.employee</field>
+                <field name="inherit_id" ref="hr.view_employee_form"/>
+                <field name="arch" type="xml">
+                    <field name="coach_id" position="after">
+                        <field name="af_job_id"/>
+                    </field>
+                    <field name="visa_no" position="before">
+                        <field name="af_work_period"/>
+                    </field>
+                    <field name="has_work_permit" position="after">
+                        <field name="kafeel_name"/>
+                    </field>
+                </field>
+            </record>
+        </odoo>
+    </data>
+</openerp>

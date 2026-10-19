@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="refuse_loan_wizard_from_view" model="ir.ui.view">
+        <field name="name">refuse_loan_wizard_from_view</field>
+        <field name="model">refuse.loan.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="refuse_reason"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="confirm" class="btn btn-info" type="object"
+                            confirm="Are you sure to confirm !"
+                            string="Confirm"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

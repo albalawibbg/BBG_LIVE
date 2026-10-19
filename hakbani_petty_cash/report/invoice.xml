@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="invoices_full_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <t t-if="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id"></t>
+                        </t>
+                        <t t-if="not o or not 'company_id' in o">
+                            <t t-set="company" t-value="res_company"></t>
+                        </t>
+                        <div class="page" style="font-family:Scheherazade">
+
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                <span t-esc="company.name"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                <span t-esc="company.name"/>
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                <span t-esc="company.street"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                <span t-esc="company.street"/>
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                التاريخ:
+                                <span t-esc="o.invoice_date"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                Date:
+                                <span t-esc="o.invoice_date"/>
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                الرقم الضريبي:
+                                <span t-esc="o.vat"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                VAT No
+                                <span t-esc="o.vat"/>
+                            </div>
+                            <br/>
+                            <hr/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                مشروع:
+                                <span t-esc="o.construction_id_out_invoice.name"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                Project
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                السيد/الساده:
+                                <span t-esc="o.partner_id.name"/>
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                Name
+                            </div>
+
+
+                            <table class="table table-condensed table table-striped"
+                                   style="font-size:15px;font-family:Scheherazade;border: 1px solid black;">
+                                <tr style="border-collapse: collapse; solid black;background-color:  #dedada ">
+                                    <th class="text-center">البيان التوضيحي</th>
+                                    <th class="text-center">الكمية</th>
+                                    <th class="text-center">السعر</th>
+                                    <th class="text-center">الضريبة</th>
+                                    <th class="text-center">الاجمالي</th>
+                                </tr>
+                                <tr style="border-collapse: collapse; solid black;background-color:  #dedada ">
+                                    <th class="text-center">Clearification</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Tax</th>
+                                    <th class="text-center">Total</th>
+                                </tr>
+
+
+                                <t t-foreach="o.invoice_line_ids" t-as="l">
+                                    <tr style="font-size:17px;border-collapse: collapse;border: 0.5px solid black;background-color:White">
+                                        <td class="text-center">
+                                            <span t-esc="l.product_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.quantity"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.price_unit"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.tax_ids.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="l.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+
+                                <tr style="font-size:15px;">
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center" style="background-color:  #dedada; solid black">>
+                                        Amount Without Tax
+                                    </td>
+                                    <td class="text-center" style="background-color:  #dedada; solid black">
+                                        <span t-field="o.amount_untaxed"
+                                              t-options='{"widget": "float", "precision": 3}'/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:15px;">
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td class="text-center" style="background-color:  #dedada; solid black">>
+                                        Total
+                                    </td>
+                                    <td class="text-center" style="background-color:  #dedada; solid black">
+                                        <span t-field="o.amount_total"
+                                              t-options='{"widget": "float", "precision": 3}'/>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <hr/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                للتحويل على الحساب البنكي
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                For Transfer On Bank Service
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                بنك الانماء - المملكة العربية السعودية - الرياض
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                Al Inma Bank - KSA - Al Riyadh
+                            </div>
+                            <br/>
+                            <div style=" font-size:27px; bold; display: inline-block;">
+                                أيبان رقم - ٍِ3505000068203200032000
+                            </div>
+                            <div style=" font-size:27px; bold; display: inline-block;text-align:left;   float: left;">
+                                IBAN No. ٍِ3505000068203200032000
+                            </div>
+                            <br/>
+                            <hr/>
+                            <div style="  display: inline-block;margin-right: 70px;">
+                                Creator
+                            </div>
+                            <div style="  display: inline-block;text-align:left;   margin-right: 300px;">
+                                Accounant Dept
+                            </div>
+                            <div style="  display: inline-block;text-align:left;   float: left;margin-left: 40px;">
+                                Official stamp
+                            </div>
+<br/>
+
+                            <div style=" width: 170px;
+                                                  height: 120px;
+                                                  border: 1px solid ; display: inline-block;">
+                            </div>
+                            <div style=" width: 170px;margin-right: 180px;
+                                                  height: 120px;
+                                                  border: 1px solid ; display: inline-block;text-align:left;   ">
+                            </div>
+                            <div style=" width: 170px;
+                                                  height: 120px;
+                                                  border: 1px solid ; display: inline-block;text-align:left;   float: left;">
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

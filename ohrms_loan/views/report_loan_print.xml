@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_loan_report_print">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                <table width="100%">
+                                
+                                <tr>
+                                    <td width="100%" align="center">
+                                        <strong>
+                                            <h3>
+                                                <u>
+                                                    EMPLOYEE  LOAN DETAILS
+                                                </u>
+                                            </h3>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                    
+                          
+                    
+                    <table width="100%">
+                            <tr >
+                                <td class="text-left" width="23%">
+                                        <strong>Employee :</strong>
+                                        
+                                        </td >
+                                         <td class="text-left" width="27%">
+                                        <span t-field="o.employee_id.name" />
+                            
+                                 </td>
+                                 
+                                 <td class="text-left" width="23%">
+                                        <strong>Loan Number :</strong>
+                                        </td>
+                                        <td class="text-left"  width="27%">
+                                        <span t-field="o.name"/>
+                            
+                                 </td>
+                            </tr>
+                        </table>
+                        
+                        <br />
+                        
+                        <table width="100%">
+                           <tr >
+                                <td class="text-left" width="23%">
+                                        <strong>Department :</strong>
+                                        
+                                        </td >
+                                         <td class="text-left"  width="27%">
+                                        <span t-field="o.department_id.name"/>
+                            
+                                 </td>
+                                 
+                                 <td class="text-left" width="23%">
+                                        <strong>Job Position</strong>
+                                        </td>
+                                        <td class="text-left"  width="27%">
+                                        <span t-field="o.job_position.name"/>
+                            
+                                 </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <br />
+                        
+                        <table width="100%">
+                            <tr >
+                                <td class="text-left" width="23%">
+                                       <strong>Date :</strong>
+                                        
+                                        </td >
+                                         <td class="text-left"  width="27%">
+                                        <span t-field="o.date"/>
+                            
+                                 </td>
+                                 
+                                 <td class="text-left" width="23%">
+                                        <strong>Start Date of Payment :</strong>
+                                        </td>
+                                        <td class="text-left"  width="27%">
+                                        <span t-field="o.payment_date"/>
+                            
+                                 </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <br />
+                        
+                        <table width="100%">
+                           <tr >
+                                <td class="text-left" width="23%">
+                                       <strong>No of Installments :</strong>
+                                        
+                                        </td >
+                                         <td class="text-left"  width="27%">
+                                        <span t-field="o.installment"/>
+                            
+                                 </td>
+                                 
+                                 <td class="text-left" width="23%">
+                                        <strong>Amount :</strong>
+                                        </td>
+                                        <td class="text-left"  width="27%">
+                                        <span t-field="o.loan_amount"/>
+                            
+                                 </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        <br />
+                        
+                        <!--table width="100%">
+                            <tr >
+                                <td class="text-left" width="10%">
+                                       <strong>Loan Reason :</strong>
+                                        
+                                        </td >
+                                         <td class="text-left" width="90%">
+                                        <span t-field="o.reason"/>
+                            
+                                 </td>
+                                 
+                                 
+                            </tr>
+                            
+                        </table-->
+                         
+                    <h2>EMI Details</h2>
+                        <br />
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-right">Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.loan_lines" t-as="line">
+                                <td><span t-field="line.date"/></td>
+                                <td align="right">
+                                    <span t-field="line.amount"/> 
+                                    
+                                </td>
+                                <td><span t-field="line.paid"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="row justify-content-end">
+                            <div class="col-4">
+                                <table class="table table-sm">
+                                    <tr class="border-black">
+                                        <td><strong>Total Amount</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_amount"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Deducted Amount</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_paid_amount"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remaining Balance</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.balance_amount"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    <!--div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                            
+                            
+                                <tr class="border-black">
+                                    <td>
+                                     <strong>Total Amount</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.total_amount"/>
+                                    </td>
+                                </tr>
+                                
+                                
+                                <tr>
+                                    <td>Deducted Amount</td>
+                                <td class="text-right">
+                                <span t-field="o.total_paid_amount"/>
+
+                                </td>
+                                </tr>
+                                
+                                
+                        <tr class="border-black">
+                            <td><strong>Remaining Balance</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.balance_amount"/>
+
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                            </table>
+                        </div>
+                    </div-->
+
+                    
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

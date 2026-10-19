@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="group_inv_transfer_access" model="res.groups">
+            <field name="name">Inventory Transfer Access</field>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.all_picking">
+            <field name="groups_id" eval="[(6,0,[ref('hakbani_inv_transfer_restriction.group_inv_transfer_access')])]"/>
+        </record>
+
+    </data>
+</odoo>

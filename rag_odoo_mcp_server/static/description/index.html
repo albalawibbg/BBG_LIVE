@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RAG Odoo MCP Server</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+          --primary-color: #D35400;
+          --bg-white: #fff;
+          --text-color: #121212;
+          --text-color-light: #64728f;
+        }
+        body{
+          font-family: "Montserrat", sans-serif;
+        }
+        .nav-tabs .nav-link {
+            color: var(--text-color);
+            border-radius: 30px;
+            padding: 10px 25px;
+            border: none;
+            margin: 0 5px;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #F5F5F5 !important;
+            font-weight: 600;
+        }
+        .owl-carousel .owl-nav {
+          position: absolute;
+          top: 42%;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          transform: translateY(-42%);
+        }
+        .card-custom {
+            min-height: 320px;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="my-5">
+        <!-- Version Support Header -->
+        <div class="supports my-5 py-3" style="border-bottom: 1px solid #e7e7e7;">
+            <div class="row align-items-center">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 d-flex justify-content-end align-items-center">
+                    <span class="me-3"><b>Supports: </b></span>
+                    <div class="text-center mx-1" style="background-color:#017E84; color:#fff; padding:6px 15px; border-radius:50px; font-size:13px; min-width:110px">Community</div>
+                    <div class="text-center mx-1" style="background-color:#D35400; color:#fff; padding:6px 15px; border-radius:50px; font-size:13px; min-width:110px">Enterprise</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="tab-content">
+            <div class="tab-pane fade show active">
+                <div class="position-relative" style="border-radius: 16px; background: #f8f8f8; padding: 60px 20px; overflow: hidden;">
+                    <div class="text-center mb-5">
+                        <p style="letter-spacing: 4px; color: var(--primary-color); font-weight: bold; text-transform: uppercase; font-size: 14px;">Simply by installing this module you will be able to</p>
+                        <h1 style="font-size: 46px; font-weight: 700; color: var(--text-color);">Connect Odoo with Claude</h1>
+                        <p style="letter-spacing: 2px; color: var(--primary-color); font-weight: 600; font-size: 14px; margin-top: 15px;">OR ANY OTHER AI ASSISTANT. THIS MODULE ALSO TRAINS THE AI ASSISTANT TO INTERACT EFFICIENTLY WITHIN YOUR ODOO INSTANCE.</p>
+                    </div>
+
+                    <div class="text-center mb-5">
+                        <a href="https://modelcontextprotocol.io" target="_blank" class="btn border-orange mx-2 mb-2" style="color:#D35400; border: 1px solid #D35400; border-radius:35px; padding:10px 25px; width:220px"><i class="fa fa-book me-2"></i>MCP Protocol</a>
+                        <a href="https://claude.ai/login" target="_blank" class="btn mx-2 mb-2" style="background-color:#C0392B; color:#fff; border-radius:35px; padding:10px 25px; width:220px"><i class="fa fa-robot me-2"></i>Claude + MCP</a>
+                        <a href="https://cursor.com/download" target="_blank" class="btn mx-2 mb-2" style="background-color:#25D366; color:#fff; border-radius:35px; padding:10px 25px; width:220px"><i class="fa fa-code me-2"></i>Cursor + MCP</a>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="./assets/icons/banner.png" class="img-fluid" style="max-width: 80%; z-index: 3; position: relative;">
+                    </div>
+                    <div class="position-absolute" style="bottom: 0; z-index: 1; width: 100%; left: 0;">
+                        <img src="./assets/icons/banner-bg.svg" class="img-fluid w-100" alt="Banner background">
+                    </div>
+                    <div class="position-absolute" style="bottom: 0; right: 0; z-index: 2;">
+                        <img src="./assets/icons/patter.svg" alt="Pattern">
+                    </div>
+                </div>
+
+                <!-- Documentation & Demo Section -->
+                <div class="mt-5 bg-white border rounded shadow-sm" style="margin-top: 34px !important;">
+                    <div class="text-center pt-5 px-3">
+                        <h2 style="font-size: 32px; font-weight: bold;">Presentation</h2>
+                        <p style="color: #666;">Watch our youtube videos for configuration and use cases <a href="https://rag-solutions.cloud/" target="_blank" style="color:var(--primary-color)"></a></p>
+                    </div>
+
+                    <!-- DESKTOP VIEW: stacked sections, all videos visible (md and up) -->
+                    <div class="d-none d-md-block p-4">
+                        <div class="text-center mb-4 mt-2">
+                            <span style="display:inline-block; background-color:#F5F5F5; color:var(--text-color); font-weight:600; padding:8px 20px; border-radius:30px; font-size:14px;">Configuration &amp; Demos</span>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="card-custom text-start" style="background-color: #FFF5F5; border-color: #f8e8e8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FFDCDC; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Configuration Video</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Install the module and configure Claude to connect to your Odoo instance.</p>
+                                    <a href="https://www.youtube.com/watch?v=AzKtHMH1FsM" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #FF3636; color: white; border-radius: 8px;">Watch Tutorial</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6">
+                                <div class="card-custom text-start" style="background-color: #FFF5F5; border-color: #f8e8e8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FFDCDC; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Demonstration Video</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Watch a demo of using Claude with Odoo.</p>
+                                    <a href="https://youtu.be/ChMZgfx1CSY" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #FF3636; color: white; border-radius: 8px;">Watch Demo</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5 mb-4">
+                            <span style="display:inline-block; background-color:#FFF5EB; color:var(--primary-color); font-weight:600; padding:8px 20px; border-radius:30px; font-size:14px; border:1px solid #f8e8d8;">Updates Features</span>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Dynamic dashboard generation (01/05/2026 Update)</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Claude can now generate dynamic dashboards inside the odoo instance for any module or any data!</p>
+                                    <a href="https://youtu.be/7JFuirDjkQs" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">CRM manager (01/06/2026 Update)</h3>
+                                    <ul class="flex-grow-1 ps-3 mb-0" style="color: #666; font-size: 15px; line-height: 1.8;">
+                                        <li>Optimised lead generation using a brief from the CRM module</li>
+                                        <li>Claude can now generate emails to promote products</li>
+                                    </ul>
+                                    <a href="https://www.youtube.com/watch?v=X2bZEkrLswM&t=83s" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Per-user native Odoo API key (15/06/2026 Update)</h3>
+                                    <ul class="flex-grow-1 ps-3 mb-0" style="color: #666; font-size: 15px; line-height: 1.8;">
+                                        <li>Each user connects with their own native Odoo API key — the LLM operates as that user, with no shared admin token</li>
+                                        <li>Keys are generated in Preferences → Account Security → New API Key (admins can create one via "Log in as")</li>
+                                        <li>Write access follows each user's Odoo permissions: read-only users can only read, and users without delete rights cannot delete</li>
+                                    </ul>
+                                    <a href="https://youtu.be/2AchXyseI1E" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE VIEW: stacked sections (no JS, always visible) -->
+                    <div class="d-md-none p-3">
+                        <div class="text-center mb-3 mt-3">
+                            <span style="display:inline-block; background-color:#F5F5F5; color:var(--text-color); font-weight:600; padding:8px 20px; border-radius:30px; font-size:14px;">Configuration &amp; Demos</span>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-12">
+                                <div class="card-custom text-start" style="background-color: #FFF5F5; border-color: #f8e8e8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FFDCDC; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Configuration Video</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Install the module and configure Claude to connect to your Odoo instance.</p>
+                                    <a href="https://www.youtube.com/watch?v=AzKtHMH1FsM" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #FF3636; color: white; border-radius: 8px;">Watch Tutorial</a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-custom text-start" style="background-color: #FFF5F5; border-color: #f8e8e8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FFDCDC; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Demonstration Video</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Watch a demo of using Claude with Odoo.</p>
+                                    <a href="https://youtu.be/ChMZgfx1CSY" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #FF3636; color: white; border-radius: 8px;">Watch Demo</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5 mb-3">
+                            <span style="display:inline-block; background-color:#FFF5EB; color:var(--primary-color); font-weight:600; padding:8px 20px; border-radius:30px; font-size:14px; border:1px solid #f8e8d8;">Updates Features</span>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-12">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Dynamic dashboard generation (01/05/2026 Update)</h3>
+                                    <p class="flex-grow-1" style="color: #666; font-size: 15px;">Claude can now generate dynamic dashboards inside the odoo instance for any module or any data!</p>
+                                    <a href="https://youtu.be/7JFuirDjkQs" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">CRM manager (01/06/2026 Update)</h3>
+                                    <ul class="flex-grow-1 ps-3 mb-0" style="color: #666; font-size: 15px; line-height: 1.8;">
+                                        <li>Optimised lead generation using a brief from the CRM module</li>
+                                        <li>Claude can now generate emails to promote products</li>
+                                    </ul>
+                                    <a href="https://www.youtube.com/watch?v=X2bZEkrLswM&t=83s" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card-custom text-start" style="background-color: #FFF5EB; border-color: #f8e8d8;">
+                                    <div class="mb-4">
+                                        <img src="./assets/icons/youtube-icon.png" alt="" style="padding: 10px; background-color: #FEE8D6; border-radius: 12px; width: 45px;">
+                                    </div>
+                                    <h3 style="font-size: 22px; font-weight: 700;">Per-user native Odoo API key (15/06/2026 Update)</h3>
+                                    <ul class="flex-grow-1 ps-3 mb-0" style="color: #666; font-size: 15px; line-height: 1.8;">
+                                        <li>Each user connects with their own native Odoo API key — the LLM operates as that user, with no shared admin token</li>
+                                        <li>Keys are generated in Preferences → Account Security → New API Key (admins can create one via "Log in as")</li>
+                                        <li>Write access follows each user's Odoo permissions: read-only users can only read, and users without delete rights cannot delete</li>
+                                    </ul>
+                                    <a href="https://youtu.be/2AchXyseI1E" target="_blank" class="btn w-100 fw-bold py-3 mt-3" style="background-color: #7847D9; color: white; border-radius: 8px;">Watch Video</a>
+                                </div>
+						</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Highlights -->
+                <div class="mt-5 p-5" style="border-radius: 16px; border: 1px solid #EBEEF2; background: #F5F5F7;">
+                    <h2 class="text-center fw-bold mb-5">KEY HIGHLIGHTS</h2>
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">RAG Trained</h5>
+                                <p class="small text-muted mb-0">This is not a simple mcp connector. This module trains Claude to use effectively and securely your Odoo instance.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">No Extra Process</h5>
+                                <p class="small text-muted mb-0">MCP runs inside Odoo. Install the module and start to use your favorite Ai model.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">Secure Token Key</h5>
+                                <p class="small text-muted mb-0">Claude will use a secure token to have access to your database.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">Dashboard Generation</h5>
+                                <p class="small text-muted mb-0">Claude can generate dashboards and insights related to your company activities.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">Multi Company</h5>
+                                <p class="small text-muted mb-0">Claude can automatically detect different companies.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="p-4 bg-white border h-100 rounded-3">
+                                <div class="mb-3" style="background:#E67E22; width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                    <img src="./assets/icons/feature-icon.svg" width="26" height="26" alt="Feature icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                                    <i class="fa fa-star" style="display:none; color:#fff; font-size:14px;"></i>
+                                </div>
+                                <h5 class="fw-bold">Document detection</h5>
+                                <p class="small text-muted mb-0">Claude can scan any document and generate data from it (Project, Sale order...)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCREENSHOTS, FEATURES & FAQ TABS (RESTORING SCREENSHOTS) -->
+                <div class="mt-5 bg-white border rounded shadow-sm">
+                    <ul class="nav nav-tabs justify-content-center pt-3 border-0" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#overview">Screenshots</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq">FAQs</a></li>
+                    </ul>
+
+                    <div class="tab-content p-4">
+                        <!-- Screenshots Content -->
+                        <div class="tab-pane fade show active" id="overview">
+                            <!-- Step 1 -->
+                            <div class="bg-light p-4 rounded-3 mb-4 text-center">
+                                <h4 class="fw-bold mb-3"><span style="color:#121212">Step 1 - </span><span style="color:var(--primary-color)">Install the Module in Odoo</span></h4>
+                                <p class="text-muted mb-4">After installing the module, the MCP server is available at /mcp/sse and /mcp/health.</p>
+                                <img src="assets/screenshots/1.png" class="img-fluid rounded shadow mb-3 border">
+                                <img src="assets/screenshots/2.png" class="img-fluid rounded shadow border">
+                            </div>
+<!-- Step 2 -->
+<div class="bg-light p-4 rounded-3 mb-4 text-center">
+
+    <!-- Main Title -->
+    <h4 class="fw-bold mb-3">
+        <span style="color:#121212">Step 2 — </span>
+        <span style="color:var(--primary-color)">Configure Access</span>
+    </h4>
+
+    <p class="text-muted mb-5">
+        There are two ways to configure access:
+        <br><br>
+        You can either use a dedicated Odoo user account for each AI model connection using credentials, or generate an API key for each user.
+        <br><br>
+        With the API key approach, the AI model only has access to the data and permissions granted to that specific user.
+    </p>
+
+    <!-- Option 1 -->
+    <h5 class="fw-semibold mb-3">
+        Option 1 — Use User Credentials
+    </h5>
+
+    <p class="text-muted mb-4">
+        Go to <strong>Settings → RAG Odoo MCP Server</strong>.<br>
+        Enable <strong>"User Credentials"</strong> and enter the user's login and password.
+        <br><br>
+        Once configured, save the settings and test the connection.
+    </p>
+
+    <img src="assets/screenshots/3.2.png"
+         class="img-fluid rounded shadow border mb-4"
+         alt="Enable user credentials">
+
+    <img src="assets/screenshots/3.3.png"
+         class="img-fluid rounded shadow border mb-5"
+         alt="Save and test connection">
+
+    <p class="text-muted mb-4">
+        Copy the automatically generated text and paste it into the Claude configuration file
+        (demonstrated in the YouTube configuration video).
+    </p>
+
+    <img src="assets/screenshots/69.png"
+         class="img-fluid rounded shadow border mb-5"
+         alt="Claude configuration">
+
+    <!-- Option 2 -->
+    <h5 class="fw-semibold mb-3">
+        Option 2 — Generate an API Token for Each User
+    </h5>
+	<p class="text-muted mb-4">
+        Each user connects with their own native Odoo API key. The Ai model then operates as that user and can do exactly what the user is allowed to do in Odoo — nothing more
+    </p>
+
+    <p class="text-muted mb-4">
+        Go to <strong>Settings → RAG Odoo MCP Server</strong>.<br>
+        Enable <strong>"Per-user API Key"</strong>.
+    </p>
+
+    <img src="assets/screenshots/3.1.png"
+         class="img-fluid rounded shadow border mb-4"
+         alt="Generate connection token">
+
+    <p class="text-muted mb-4">
+        Copy the generated text and paste it into the Claude configuration file
+        (demonstrated in the YouTube configuration video).
+    </p>
+
+    <img src="assets/screenshots/3.png"
+         class="img-fluid rounded shadow border mb-4"
+         alt="Claude configuration">
+
+    <p class="text-muted mb-4">
+        <strong>API keys are generated in Preferences → Account Security → New API Key</strong>
+    </p>
+
+    <img src="assets/screenshots/691.png"
+         class="img-fluid rounded shadow border mb-4"
+         alt="Create API key">
+
+    <img src="assets/screenshots/693.png"
+         class="img-fluid rounded shadow border mb-4"
+         alt="API key configuration">
+
+    <img src="assets/screenshots/694.png"
+         class="img-fluid rounded shadow border"
+         alt="Generated API key">
+
+</div>
+                            <!-- Step 3 -->
+                            <div class="bg-light p-4 rounded-3 mb-4 text-center">
+                                <h4 class="fw-bold mb-3"><span style="color:#121212">Step 3 - </span><span style="color:var(--primary-color)">Configure Claude Desktop</span></h4>
+                                <p class="text-muted mb-4">- Windows + R: open <code>%APPDATA%\Claude\claude_desktop_config.json</code><br>- These are the blocks the will be generated and needs to be used in <code>"mcpServers"</code> section according to the connection option you choosed:<br></p>
+                                                                <h4 class="fw-bold mb-3"><span style="color:#121212">User credentials option</span><span style="color:var(--primary-color)"></span></h4>
+                                <pre class="text-start p-3 rounded border mb-4" style="background-color:rgba(0,0,0,0.04); overflow-x:auto;"><code>"odoo": {
+  "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://PATH_TO_YOUR_INSTANCE/mcp/sse?db=YOUR_DATABASE_NAME",
+        "--transport",
+        "sse-only",
+        "--allow-http"
+      ]
+    },</code></pre>
+                                <h4 class="fw-bold mb-3"><span style="color:#121212">Secure API option</span><span style="color:var(--primary-color)"></span></h4>
+                                <pre class="text-start p-3 rounded border mb-4" style="background-color:rgba(0,0,0,0.04); overflow-x:auto;"><code>"odoo": {
+  "command": "npx",
+  "args": [
+    "mcp-remote",
+    "https://PATH_TO_YOUR_INSTANCE/mcp/sse?db=YOUR_DATABASE_NAME",
+    "--allow-http",
+    "--transport",
+    "sse-only",
+    "--header",
+    "Authorization:${MCP_ODOO_AUTH}"
+  ],
+  "env": {
+    "MCP_ODOO_AUTH": "Bearer YOUR_GENERATED_API_KEY"
+  }
+}</code></pre>
+                                <p>- If you use Odoo.sh, you do not need to specify the database (<code>?db=your_database_name</code>).<br>- You can also watch the configuration tutorial video above.</p>
+
+
+                                <!--img src="assets/screenshots/4.png" class="img-fluid rounded shadow border"-->
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="bg-light p-4 rounded-3 mb-4 text-center">
+                                <h4 class="fw-bold mb-3"><span style="color:#121212">Step 4 - </span><span style="color:var(--primary-color)">Start Using Claude with Odoo</span></h4>
+                                <p class="text-muted mb-2">Usage examples:</p>
+                                <p class="text-muted mb-4">
+                                    "Generate a sales dashboard for the current year"<br>
+                                    "Show me all customers from France"<br>
+                                    "Find products with stock below 10 units"<br>
+                                    "List today's sales orders over $1900"<br>
+                                    "Search for unpaid invoices from last month"<br>
+                                    "Create partners from the attached document"<br>
+                                    "Create a sale order from the attached customer order"
+                                </p>
+                            </div>
+                            <!-- All other screenshots -->
+                            <div class="text-center">
+                                <h4 class="fw-bold mb-4 mt-5">Practical Usage Examples</h4>
+                                <img src="assets/screenshots/5.png" class="img-fluid rounded shadow border mb-4">
+                                <img src="assets/screenshots/6.png" class="img-fluid rounded shadow border mb-4">
+                                <h4 class="fw-bold mb-4 mt-5" style="color:var(--primary-color);">Web Scraping and Lead Generation</h4>
+                                <img src="assets/screenshots/7.png" class="img-fluid rounded shadow border mb-4">
+                                <img src="assets/screenshots/8.png" class="img-fluid rounded shadow border mb-4">
+                                <img src="assets/screenshots/9.png" class="img-fluid rounded shadow border mb-4">
+                                <h4 class="fw-bold mb-4 mt-5" style="color:var(--primary-color);">Document Scanning and Data Creation in Odoo</h4>
+                                <img src="assets/screenshots/10.png" class="img-fluid rounded shadow border mb-4">
+                                <img src="assets/screenshots/11.png" class="img-fluid rounded shadow border mb-4">
+                                <img src="assets/screenshots/12.png" class="img-fluid rounded shadow border mb-4">
+                            </div>
+                            <div class="mt-5 p-5 text-center rounded-3" style="background:#FFF5EB; border:1px solid #F6D8BD;">
+                                <h2 class="fw-bold mb-3" style="font-size:42px; color:#121212;">Use Cases Are Infinite</h2>
+                                <p class="mb-3" style="font-size:22px; color:#D35400; font-weight:600;">Discover much more by watching the video demonstration above.</p>
+                                <p class="mb-2" style="font-size:18px; color:#555;">Contact us anytime on WhatsApp: <a href="https://wa.me/33744288443" target="_blank" style="color:#25D366; font-weight:700; text-decoration:none;">+33 744 288 443</a></p>
+                                <p class="mb-0" style="font-size:18px; color:#555;">Or visit our website: <a href="https://rag-solutions.cloud" target="_blank" style="color:var(--primary-color); font-weight:700;">rag-solutions.cloud</a></p>
+                            </div>
+                        </div>
+
+                        <!-- Features Tab Content -->
+                        <div class="tab-pane fade" id="tab_features">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="p-4 rounded-3 h-100" style="background-color:#FFF8F0">
+                                        <h6 class="fw-bold"><i class="fa fa-list me-2" style="color:#E67E22"></i> This module will rag train Claude to be the more efficient possible</h6>
+                                        <p class="small text-muted mt-2">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-4 rounded-3 h-100" style="background-color:#FFF8F0">
+                                        <h6 class="fw-bold"><i class="fa fa-plug me-2" style="color:#E67E22"></i> MCP server inside Odoo -- bye simply installing the module</h6>
+                                        <p class="small text-muted mt-2">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-4 rounded-3 h-100" style="background-color:#FFF8F0">
+                                        <h6 class="fw-bold"><i class="fa fa-key me-2" style="color:#E67E22"></i> Optional Token key for secure connextion.</h6>
+                                        <p class="small text-muted mt-2">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-4 rounded-3 h-100" style="background-color:#FFF8F0">
+                                        <h6 class="fw-bold"><i class="fa fa-database me-2" style="color:#E67E22"></i> Multi-database support.</h6>
+                                        <p class="small text-muted mt-2">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-4 rounded-3 h-100" style="background-color:#FFF8F0">
+                                        <h6 class="fw-bold"><i class="fa fa-shield me-2" style="color:#E67E22"></i> Security rules to allow Claude to readonly or to edit records</h6>
+                                        <p class="small text-muted mt-2">&nbsp;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Content -->
+                        <div class="tab-pane fade" id="faq">
+                            <div class="row" style="background-color:#fff !important">
+                                <div class="col-md-12">
+                                    <div class="accordion mb-4" id="accordion6">
+                                        <div style="background-color:#fff">
+                                            <div class="accordion" id="accordion_faq">
+                                                <div style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class="card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQOne"
+                                                         aria-controls="collapseFAQOne"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:none; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px;">
+                                                        <a class="card-title text-decoration-none"
+                                                           style="font-size:18px; line-height:30px; font-weight:500; color:#040f3a">
+                                                            What is the Model Context Protocol (MCP)?
+                                                            <img alt="" class="float-end" src="//apps.odoocdn.com/apps/assets/16.0/index_test_odoo/assets/icons/down.svg?6ef7fd7" width="25px">
+                                                        </a>
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQOne"
+                                                         style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px; color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            MCP is an open protocol that lets AI assistants (like Claude and Cursor) connect to external data and tools. This module exposes your Odoo database as an MCP server so AI can run read-only queries, list tables, and explore the schema safely.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class="card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQThree"
+                                                         aria-controls="collapseFAQThree"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:1px solid #f8f8f8; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px">
+                                                        <a class="card-title text-decoration-none"
+                                                           style="font-size:18px; line-height:30px; font-weight:500; color:#040f3a">
+                                                            Do I need to install something else?
+                                                            <img alt="" class="float-end" src="//apps.odoocdn.com/apps/assets/16.0/index_test_odoo/assets/icons/down.svg?6ef7fd7" width="25px">
+                                                        </a>
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQThree"
+                                                         style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px; color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            All you need is to install the module and configure Claude.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class="card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQFour"
+                                                         aria-controls="collapseFAQFour"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:1px solid #f8f8f8; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px">
+                                                        <a class="card-title text-decoration-none"
+                                                           style="font-size:18px; line-height:30px; font-weight:500; color:#040f3a">
+                                                            Can I use multiple Odoo databases with Claude at once?
+                                                            <img alt="" class="float-end" src="//apps.odoocdn.com/apps/assets/16.0/index_test_odoo/assets/icons/down.svg?6ef7fd7" width="25px">
+                                                        </a>
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQFour"
+                                                         style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px; color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            Yes. Add two MCP server blocks in Claude (e.g. rag-odoo-demo and rag-odoo-prod), each with the same Odoo URL but a different Bearer token: Bearer demo_ai:key1 and Bearer production_db:key2. Each database has its own Token key from Settings -> RAG Odoo MCP Server.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class="card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQFive"
+                                                         aria-controls="collapseFAQFive"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:1px solid #f8f8f8; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px">
+                                                        <a class="card-title text-decoration-none"
+                                                           style="font-size:18px; line-height:30px; font-weight:500; color:#040f3a">
+                                                            Can i use another LLM?
+                                                            <img alt="" class="float-end" src="//apps.odoocdn.com/apps/assets/16.0/index_test_odoo/assets/icons/down.svg?6ef7fd7" width="25px">
+                                                        </a>
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQFive"
+                                                         style="box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style="padding:0.75rem 1.25rem; font-size:16px; line-height:27px; color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            MCP is a standard protocol, so yes you can use any LLM you want and we will be happy to help you with that.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Modules Carousel -->
+                <div class="mt-5 pt-5 text-center">
+                    <h3 class="fw-bold text-uppercase mb-5">Related Modules</h3>
+                    <div class="owl-carousel owl-theme">
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/rag_ai_ask" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/1.gif" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">Odoo Help Assiant</p>
+                            </a>
+                        </div>
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/rag_sale_ai_assistant" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/2.png" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">AI Sales Assistant</p>
+                            </a>
+                        </div>
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/rag_website_ai" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/7.png" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">Website AI Chatbot</p>
+                            </a>
+                        </div>
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/woo_sync" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/44.png" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">WooCommerce Automatic Stock Synchronisation</p>
+                            </a>
+                        </div>
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/cars_repair_management" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/4.png" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">Garage Management System</p>
+                            </a>
+                        </div>
+                        <div class="item border rounded p-3 bg-white">
+                            <a href="https://apps.odoo.com/apps/modules/19.0/rag_google_sheet" class="text-decoration-none text-dark">
+                                <img src="./assets/modules/6.png" class="mx-auto mb-3" style="width: 150px;">
+                                <p class="fw-bold">Google Docs Integration</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OUR SERVICES (ALL 8 BLOCKS RESTORED) -->
+                <section class="mt-5 p-5 bg-white border rounded shadow-sm text-center">
+                    <h3 class="fw-bold text-uppercase mb-5">Our Services</h3>
+                    <div class="row g-3">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#FFE2E5;">
+                                <img src="./assets/icons/gear.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Customization</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#FFF4DE;">
+                                <img src="./assets/icons/wrench-icon.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Implementation</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#DCFCE7;">
+                                <img src="./assets/icons/life-ring-icon.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Support</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#F3E8FF;">
+                                <img src="./assets/icons/arrows-repeat.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Migration</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#F1F9FF;">
+                                <img src="./assets/icons/puzzle-piece-icon.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Integration</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#EDF8ED;">
+                                <img src="./assets/icons/odoo-consultancy.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Consultancy</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#F1F6FF;">
+                                <img src="./assets/icons/odoo-licencing.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Odoo Licensing</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="p-4 rounded h-100" style="background-color:#FAF6EA;">
+                                <img src="./assets/icons/hire-odoo.svg" width="30" class="mb-2">
+                                <div class="fw-bold small">Hire Odoo Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 20,
+        nav: true,
+        responsive: {
+            0: { items: 1 },
+            600: { items: 2 },
+            1000: { items: 3 }
+        }
+    });
+</script>
+</body>
+</html>

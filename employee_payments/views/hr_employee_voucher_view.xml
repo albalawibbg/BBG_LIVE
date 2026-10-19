@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- employee View -->
+
+        <record id="view_employee_form_analytic_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.view.analytic.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='address_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="hr_leave_view_form_inherit">
+            <field name="name">hr.leave.view.form</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+
+                    <field name="voucher_ref" invisible="1"/>
+                    <field name="voucher_paid" invisible="1"/>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_contract_view_form_inherit">
+            <field name="name">hr.contract.view.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//page[1]/group/group" position="after">
+                    <group string="Vacation and Salary Details">
+                        <field name="vacation" required="1"/>
+                        <field name="ticket" required="1"/>
+                        <field name="ticket_amount" required="1"/>
+                        <field name="exit_entry" required="1"/>
+                        <field name="exit_entry_amount" required="1"/>
+                        <field name="contract_years" required="1"/>
+                        <field name="total_salary" required="1" placeholder="Total Salary Package"/>
+
+                    </group>
+                </xpath>
+
+                <xpath expr="//page[1]/group/group" position="inside">
+                    <field name="gosiwage"/>
+                    <field name="end_less_date" required="1"/>
+                    <field name="ticket_balance"/>
+                    <field name="exit_entry_balance"/>
+                    <!--label for="period_year" string="Completed Period Details"/>
+                       <div class="o_row" name="wage">
+                           <field name="wage" nolabel="1"/>
+                           <span>/ month</span>
+                       </div>
+                                   <label for="period_year" string="Completed Period Details"/>
+                               <div>
+                                  Year - <field name="working_years" class="oe_inline" force_save="1"/> Month - <field name="working_months" class="oe_inline" force_save="1"/> Day - <field name="working_days" class="oe_inline" force_save="1"/></div-->
+                </xpath>
+
+
+                <xpath expr="//page[@name='information']" position="after">
+                    <page string="EOS Salary">
+                        <group>
+                            <group>
+                                <label for="rule1"/>
+                                <div class="o_row">
+                                    <field name="rule1" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value1"/>
+                                </div>
+                                <label for="rule2"/>
+                                <div class="o_row">
+                                    <field name="rule2" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value2"/>
+                                </div>
+                                <label for="rule3"/>
+                                <div class="o_row">
+                                    <field name="rule3" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value3"/>
+                                </div>
+                                <label for="rule4"/>
+                                <div class="o_row">
+                                    <field name="rule4" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value4"/>
+                                </div>
+                                <label for="rule5"/>
+                                <div class="o_row">
+                                    <field name="rule5" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value5"/>
+                                </div>
+                                <label for="rule6"/>
+                                <div class="o_row">
+                                    <field name="rule6" placeholder="SALARY RULE" nolabel="1"/>
+                                    -
+                                    <field name="value6"/>
+                                </div>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="employee_voucher_tree_view">
+            <field name="name">employee.voucher.tree</field>
+            <field name="model">employee.voucher</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Payment">
+                    <field name="name" readonly="1"/>
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="company_id" widget='selection' groups='base.group_multi_company'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="group_voucher_refuse_access" model="res.groups">
+            <field name="name">Cancel Employee Payment Access</field>
+            <field name="category_id" ref="base.module_category_human_resources"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">The user will be able to Cancel the Employee Payment</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <data noupdate="1">
+            <record id="ir_seq_employee_payment" model="ir.sequence">
+                <field name="name">Employee Payment</field>
+                <field name="code">employee.payment.seq</field>
+                <field name="prefix">EP/</field>
+                <field name="padding">4</field>
+                <field name="number_increment">1</field>
+                <field name="number_next_actual">1</field>
+                <field name="implementation">standard</field>
+            </record>
+        </data>
+        <record model="ir.ui.view" id="employee_voucher_form_view">
+            <field name="name">employee.voucher.form</field>
+            <field name="model">employee.voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Employee Payment">
+                    <header>
+                        <button string="Submit" name="button_submit" invisible="state != 'draft'"  type="object" class="oe_highlight"
+                                groups="employee_payments.group_payment_submit"
+                        />
+                        <button string="Approval 1" name="approve1_payment" invisible="state != 'submitted'"  type="object"
+                                class="oe_highlight"
+                                groups="employee_payments.group_payment_approbation_1"
+                        />
+                        <button string="Set to Draft" name="set_draft" invisible="state != 'confirm'" type="object"
+                                class="oe_highlight"/>
+                        <button string="Approve" name="approve2_payment" invisible="state != 'confirm'" type="object"
+                                groups="employee_payments.group_payment_approbation_2"
+                                class="oe_highlight"/>
+                        <button string="Refuse" name="cancel_voucher" invisible="state != 'done'" type="object" class="oe_highlight"
+                                groups="employee_payments.group_voucher_refuse_access"/>
+                        <button string="Set to Draft" name="draft_payment" invisible="state != 'cancel'" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="3">
+
+                            <div class="oe_button_box" name="button_box">
+                                <button class="oe_stat_button" name="open_entries" type="object" icon="fa-pencil">
+                                    <field string="Journal Entries" name="payment_journal_count" widget="statinfo"/>
+                                </button>
+                            </div>
+                        </group>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4" colspan="4">
+                            <field name="employee_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="user_id" invisible="1" options="{'no_create': True}"/>
+                            <field name="journal_id" readonly="state != 'draft'"/>
+                            <field name="date"/>
+                            <field name="grand_total"/>
+                            <!--field name="voucher_ref"/-->
+                            <field name="company_id" widget='selection' groups='base.group_multi_company'/>
+                        </group>
+
+                        <group col="6" colspan="6">
+                            <group colspan="2">
+                                <label for="legal_leave"/>
+                                <div>
+                                    <field name="legal_leave" readonly="state != 'draft'"/>
+                                </div>
+
+                                <label for="ticket_leave"/>
+                                <div>
+                                    <field name="ticket_leave" readonly="state != 'draft'"/>
+                                </div>
+
+                                <label for="exit_entry"/>
+                                <div>
+                                    <field name="exit_entry" readonly="state != 'draft'"/>
+                                </div>
+
+                                <label for="end_service"/>
+                                <div>
+                                    <field name="end_service" readonly="state != 'draft'"/>
+                                </div>
+
+                                <field name="balance_laon" force_save="1"/>
+                            </group>
+
+                            <group colspan="2">
+                                <label for="deduct1"/>
+                                <div class="o_row">
+                                    <field name="deduct1" readonly="state != 'draft'"/>
+                                    <field name="deduct1_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="deduct2"/>
+                                <div class="o_row">
+                                    <field name="deduct2" readonly="state != 'draft'"/>
+                                    <field name="deduct2_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="deduct3"/>
+                                <div class="o_row">
+                                    <field name="deduct3" readonly="state != 'draft'"/>
+                                    <field name="deduct3_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="deduct4"/>
+                                <div class="o_row">
+                                    <field name="deduct4" readonly="state != 'draft'"/>
+                                    <field name="deduct4_name" reaondly="1" force_save="1"/>
+                                </div>
+                                <field name="ignore_loan" invisible="state == 'draft'" readonly="state == 'done'"/>
+                            </group>
+
+                            <group colspan="2">
+                                <label for="other1" invisible="other1"/>
+                                <label invisible="other1 == False" for="other1_name"/>
+                                <div class="o_row">
+                                    <field name="other1" readonly="state != 'draft'"/>
+                                    <field name="other1_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="other2"/>
+                                <div class="o_row">
+                                    <field name="other2" readonly="state != 'draft'"/>
+                                    <field name="other2_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="other3"/>
+                                <div class="o_row">
+                                    <field name="other3" readonly="state != 'draft'"/>
+                                    <field name="other3_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                                <label for="other4"/>
+                                <div class="o_row">
+                                    <field name="other4" readonly="state != 'draft'"/>
+                                    <field name="other4_name" reaondly="1" force_save="1"/>
+                                </div>
+
+                            </group>
+                        </group>
+
+                        <group string="Legal Leave" invisible="legal_leave == False" >
+                            <group>
+                                <field name="select_leave" readonly="state != 'draft'" statusbar_visible="legal"/>
+                                <field name="leave_type_id" invisible="1"/>
+                                <field name="import_legal" invisible="select_leave == 'paid'" />
+                                <field name="start_date" invisible="select_leave == 'paid'"
+                                       force_save="1"/>
+                                <field name="end_date" invisible="select_leave == 'paid'"
+                                       force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="no_days" readonly="select_leave == 'legal'"
+                                       force_save="1"/>
+                                <field name="salary_legal" readonly="select_leave == 'legal'"
+                                       force_save="1"/>
+                                <field name="per_day_salary" force_save="1"/>
+                                <field name="remaining_leaves" force_save="1"/>
+                            </group>
+                        </group>
+
+                        <group string="Ticket Payment" invisible="ticket_leave == False"  >
+
+                            <group>
+                                <field name="allocated_tickets" force_save="1"/>
+                                <field name="allocated_amount_tickets" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="issue_tickets"/>
+                                <field name="issue_amount_tickets" required="ticket_leave == True"  />
+                            </group>
+
+                        </group>
+
+                        <group string="End of Service Payment" invisible="end_service == False"  >
+
+                            <group string="Working Details">
+                                <!--label for="period_year" string="Completed Period Details"/>
+                                <div>
+                                   Year - <field name="period_year" class="oe_inline" force_save="1"/> Month - <field name="period_month" class="oe_inline" force_save="1"/> Day - <field name="period_day" class="oe_inline" force_save="1"/>
+                                </div-->
+                                <field name="whole_working" force_save="1"/>
+                                <field name="total_unpaid" force_save="1"/>
+                                <field name="actual_working" force_save="1"/>
+                                <field name="paid_eos_amount" force_save="1"/>
+                                <field name="e_remain_eos_amount" invisible="True" force_save="1"/>
+                                <field name="e_total_eos_amount"
+                                       invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+                                <field name="t_remain_eos_amount" invisible="True" force_save="1"/>
+                                <field name="t_total_eos_amount"
+                                        invisible="leave_reason != 'termination'"
+                                        force_save="1"/>
+                                <field name="q_remain_eos_amount" invisible="True" force_save="1"/>
+                                <field name="q_total_eos_amount" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="paid_amount" required="end_service == True"  />
+                                <field name="record_exit" invisible="True"/>
+                            </group>
+
+                            <group string="End of Service Details">
+                                <field name="leave_reason" readonly="record_exit == True"  />
+                                <field name="end_leave_reason"
+                                       invisible="record_exit != 'endservice'"
+                                       />
+                                <field name="end_years" invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+                                <field name="first_end"  invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+                                <field name="second_end"  invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+                                <field name="third_end"  invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+                                <field name="total_end"  invisible="leave_reason != 'endservice'"
+                                       force_save="1"/>
+
+                                <field name="term_leave_reason"
+                                        invisible="leave_reason != 'termination'"
+                                       />
+                                <field name="term_years" invisible="leave_reason != 'termination'"
+                                       force_save="1"/>
+                                <field name="first_term" invisible="leave_reason != 'termination'"
+                                       force_save="1"/>
+                                <field name="second_term" invisible="leave_reason != 'termination'"
+                                       force_save="1"/>
+                                <field name="third_term" invisible="leave_reason != 'termination'"
+                                       force_save="1"/>
+                                <field name="total_term" invisible="leave_reason != 'termination'"
+                                       force_save="1"/>
+
+                                <field name="quit_leave_reason" invisible="leave_reason != 'quit'"  />
+                                <field name="quit_years" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="first_quit" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="second_quit" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="third_quit" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="fourth_quit" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                                <field name="total_quit" invisible="leave_reason != 'quit'"
+                                       force_save="1"/>
+                            </group>
+
+                        </group>
+
+                        <group string="Exit / Re-Entry" invisible="exit_entry == False"  >
+                            <group>
+                                <field name="allocated_exit_entry" force_save="1"/>
+                                <field name="allocated_amount_exit_entry" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="issue_exit_entry"/>
+                                <field name="issue_amount_exit_entry" required="exit_entry == True" />
+                            </group>
+                        </group>
+
+                        <group invisible="deduct1 == False" >
+                            <h1>
+                                <field name="deduct1_name" force_save="1"/>
+                            </h1>
+                            <group>
+                                <field name="deduct1_desp"/>
+
+                            </group>
+                            <group>
+                                <field name="deduct1_amount" required="deduct1 == True" />
+                            </group>
+
+                        </group>
+                        <group invisible="deduct2 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="deduct2_name" force_save="1"/>
+                                </h1>
+                                <field name="deduct2_amount" required="deduct2 == True" />
+                            </group>
+                            <group>
+                                <field name="deduct2_desp"/>
+                            </group>
+
+                        </group>
+                        <group invisible="deduct3 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="deduct3_name" force_save="1"/>
+                                </h1>
+                                <field name="deduct3_amount" required="deduct3 == True" />
+                            </group>
+                            <group>
+                                <field name="deduct3_desp"/>
+                            </group>
+
+                        </group>
+                        <group invisible="deduct4 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="deduct4_name" force_save="1"/>
+                                </h1>
+                                <field name="deduct4_amount" required="deduct4 == True" />
+                            </group>
+                            <group>
+                                <field name="deduct4_desp"/>
+                            </group>
+
+                        </group>
+
+
+                        <group invisible="other1 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="other1_name" force_save="1"/>
+                                </h1>
+                                <field name="other1_amount" required="other1 == True"/>
+                            </group>
+                            <group>
+                                <field name="other1_desp"/>
+                            </group>
+
+                        </group>
+                        <group invisible="other2 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="other1_name" force_save="1"/>
+                                </h1>
+                                <field name="other2_amount" required="other2 == True"/>
+                            </group>
+                            <group>
+                                <field name="other2_desp"/>
+                            </group>
+
+                        </group>
+                        <group invisible="other3 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="other1_name" force_save="1"/>
+                                </h1>
+                                <field name="other3_amount" required="other3 == True" />
+                            </group>
+                            <group>
+                                <field name="other3_desp"/>
+                            </group>
+
+                        </group>
+                        <group invisible="other4 == False" >
+
+                            <group>
+                                <h1>
+                                    <field name="other1_name" force_save="1"/>
+                                </h1>
+                                <field name="other4_amount" required="other4 == True" />
+                            </group>
+                            <group>
+                                <field name="other4_desp"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Approval Tracking">
+                                <group>
+                                    <group>
+                                        <field name="submitted_by_id"/>
+                                        <field name="submitted_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="approved_by1_id"/>
+                                        <field name="approved_by1_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="approved_by2_id"/>
+                                        <field name="approved_by2_date"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_employee_voucher_tree_view">
+            <field name="name">All Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.voucher</field>
+            <field name="view_mode">tree,form</field>
+            <!--field name="search_view_id" ref="employee_voucher_search_view"/-->
+            <field name="view_id" ref="employee_voucher_tree_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="action_employee_voucher_my_request">
+            <field name="name">My request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.voucher</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('user_id','=', uid)]</field>
+            <!--field name="search_view_id" ref="employee_voucher_search_view"/-->
+            <field name="view_id" ref="employee_voucher_tree_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="action_employee_voucher_to_approve">
+            <field name="name">To approve</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.voucher</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=', 'submitted')]</field>
+            <!--field name="search_view_id" ref="employee_voucher_search_view"/-->
+            <field name="view_id" ref="employee_voucher_tree_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="action_employee_voucher_approved">
+            <field name="name">Approved</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.voucher</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=', 'confirm')]</field>
+            <!--field name="search_view_id" ref="employee_voucher_search_view"/-->
+            <field name="view_id" ref="employee_voucher_tree_view"/>
+        </record>
+
+        <!--menuitem id="employee_voucher_menu" name="Employee Payment" parent="hr.menu_hr_root"
+                  groups="hr.group_hr_manager,hr.group_hr_user,base.group_user" action="action_employee_voucher_tree_view"/-->
+
+        <menuitem id="employee_voucher_menu"
+                  name="Employee Payment"
+                  parent="hr.menu_hr_root"
+                  groups="employee_payments.group_payment_submit,employee_payments.group_payment_approbation_1,employee_payments.group_payment_approbation_2"
+        />
+        <menuitem id="employee_voucher_my_request_menu"
+                  name="My request"
+                  parent="employee_voucher_menu"
+                  action="action_employee_voucher_my_request"
+                  sequence="10"
+                  groups="employee_payments.group_payment_submit"
+        />
+        <menuitem id="employee_voucher_to_approve_menu"
+                  name="To approve"
+                  parent="employee_voucher_menu"
+                  action="action_employee_voucher_to_approve"
+                  sequence="20"
+                  groups="employee_payments.group_payment_approbation_1"
+        />
+        <menuitem id="employee_voucher_approved_menu"
+                  name="Approved"
+                  parent="employee_voucher_menu"
+                  action="action_employee_voucher_approved"
+                  sequence="30"
+                  groups="employee_payments.group_payment_approbation_2"
+        />
+        <menuitem id="employee_voucher_all_request_menu"
+                  name="All request"
+                  parent="employee_voucher_menu"
+                  action="action_employee_voucher_tree_view"
+                  sequence="90"
+        />
+
+
+        <!-- Employee Payment [CONFIGURTION FOR Employee Payment] -->
+
+
+        <record id="employee_voucher_line_tree" model="ir.ui.view">
+            <field name="name">employee.voucher.line.tree</field>
+            <field name="model">employee.voucher.line</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Select Payment Types">
+                    <field name="pay_type"/>
+                    <field name="company_id" widget='selection' groups='base.group_multi_company'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_voucher_line_form" model="ir.ui.view">
+            <field name="name">employee.voucher.line.form</field>
+            <field name="model">employee.voucher.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Employee Select Payment Types">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="pay_type"/>
+                            <field name="payment_name"
+                                   invisible="pay_type in ('legal','exitentry','ticket','eos')"
+                                   />
+                            <field name="debit_account_id"/>
+                            <field name="credit_account_id"/>
+                            <field name="account_analytic_true"/>
+                            <field name="company_id" widget='selection' groups='base.group_multi_company'/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_employee_voucher_line_tree_view">
+            <field name="name">Employee Select Payment Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.voucher.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="employee_voucher_line_tree"/>
+        </record>
+
+        <!--menuitem id="employee_voucher_line_type_menu" name="Employee Payment Type" parent="hr.menu_human_resources_configuration" action="action_employee_voucher_line_tree_view" groups="hr.group_hr_manager,hr.group_hr_user,base.group_user" sequence="7"/-->
+
+        <menuitem id="employee_voucher_line_type_menu" name="Employee Payment Type"
+                  parent="hr.menu_human_resources_configuration" action="action_employee_voucher_line_tree_view"
+                  sequence="7"/>
+
+        <!-- Record Rules-->
+
+        <record id="property_rule_employee_voucher" model="ir.rule">
+            <field name="name">Employee payment</field>
+            <field name="model_id" ref="model_employee_voucher"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+        <record id="property_rule_employee_voucher_officer" model="ir.rule">
+            <field name="name">Employee payment Officer</field>
+            <field name="model_id" ref="model_employee_voucher"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_user'))]"/>
+        </record>
+
+
+        <record model="ir.ui.view" id="account_move_form_view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="payment_emp_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="account_move_search">
+            <field name="name">account.move.search</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="payment_emp_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+
+        <!--record id="hr_holidays.holiday_status_cl" model="hr.leave.type">
+            <field name="name">LegalLeaves</field>
+            <field name="allocation_type">fixed</field>
+            <field name="validation_type">both</field>
+            <field name="color_name">black</field>
+            <field name="leave_notif_subtype_id" eval="ref('hr_holidays.mt_leave')"/>
+            <field name="allocation_notif_subtype_id" eval="ref('hr_holidays.mt_leave_allocation')"/>
+            <field name="validity_start" eval="time.strftime('%Y-%m-01')"/>
+            <field name="responsible_id" ref="base.user_admin"/>
+        </record-->
+
+        <record id="hr_holidays.holiday_status_cl" model="hr.leave.type">
+            <field name="name">LegalLeaves</field>
+            <field name="requires_allocation">yes</field>
+            <field name="employee_requests">no</field>
+            <field name="leave_validation_type">both</field>
+            <field name="allocation_validation_type">officer</field>
+            <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+            <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+            <field name="responsible_ids" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="icon_id" ref="hr_holidays.icon_14"/>
+            <field name="color">2</field>
+        </record>
+
+        <record id="view_employee_form_view_inherit123" model="ir.ui.view">
+            <field name="name">hr.employee.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='active_group']" position="before">
+                    <group string="Employee Accounts Details">
+                        <field name="analytic_account_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

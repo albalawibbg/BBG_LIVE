@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_tsleem_invoices_security" model="res.groups">
+            <field name="name">Petty Cash</field>
+        </record>
+        <record id="create_supplier_security" model="res.groups">
+            <field name="name">Create/Delete/Edit Partner</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+
+        <record id="account.menu_finance" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('group_tsleem_invoices_security'))]"/>
+        </record>
+
+        <record model="ir.module.category" id="hakbani_pettycash.registration_management">
+            <field name="name">Petty Cash</field>
+            <field name="description">User access level for Petty Cash</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="hakbani_pettycash.manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="hakbani_pettycash.registration_management"/>
+        </record>
+        <record id="hakbani_pettycash.user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="hakbani_pettycash.registration_management"/>
+        </record>
+        <record id="hakbani_pettycash.submit" model="res.groups">
+            <field name="name">Submittal</field>
+            <field name="category_id" ref="hakbani_pettycash.registration_management"/>
+        </record>
+        <record id="hakbani_pettycash.approval" model="res.groups">
+            <field name="name">Approval</field>
+            <field name="category_id" ref="hakbani_pettycash.registration_management"/>
+        </record>
+        <record id="hakbani_pettycash.postal" model="res.groups">
+            <field name="name">Postal</field>
+            <field name="category_id" ref="hakbani_pettycash.registration_management"/>
+        </record>
+    </data>
+</odoo>

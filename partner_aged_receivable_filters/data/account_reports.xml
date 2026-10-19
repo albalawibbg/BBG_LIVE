@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="saleperson_report_pdf_export_filters" inherit_id="account_reports.pdf_export_filters" primary="True">
+        <xpath expr="//t[2]" position="after">
+            <t t-if="options.get('selected_invoice_user_names') != None">
+            <div class="row">
+                <t t-set="emp_value" t-value="[emp for emp in options['selected_invoice_user_names']]"/>
+                <t t-if="emp_value">
+                    <div class="col-3">Sales Person:</div>
+                    <div class="col-9 o_text_muted" t-out="', '.join(emp_value)"/>
+                </t>
+            </div>
+        </t>
+        </xpath>
+    </template>
+
+</odoo>

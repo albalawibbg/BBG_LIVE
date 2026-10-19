@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record model="ir.module.category" id="module_category_analytic_account">
+        <field name="name">Analytic Account</field>
+        <field name="parent_id" ref="base.module_category_usability"/>
+        <field name="sequence">43</field>
+    </record>
+
+    <record id="group_analytic_account_access" model="res.groups">
+        <field name="name">Analytic Account Access</field>
+        <field name="category_id" ref="module_category_analytic_account"/>
+    </record>
+
+</odoo>
