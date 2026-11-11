@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import time
-from odoo import models, api, fields
+from odoo import models, fields, _
+from odoo.tools import float_compare
 from odoo.exceptions import UserError, ValidationError
 
 
-class loan_payments(models.Model):
+class LoanPayments(models.Model):
     _name = 'loan.payments'
+    _description = 'Loan Payment Method'
 
     name = fields.Char(string="Name", required=True, help='Payment name')
     debit_account_id = fields.Many2one('account.account', string="Debit Account", required=True,
@@ -31,70 +32,89 @@ class HrLoanAcc(models.Model):
         ('reschedule', 'Reschedule'),
         ('refuse', 'Refused'),
         ('cancel', 'Canceled'),
-    ], string="State", default='draft', track_visibility='onchange', copy=False, )
+    ], string="State", default='draft', tracking=True, copy=False, )
+
+    def _check_employee_contract(self, date):
+        """Odoo 19 stores employee contracts as dated hr.version records."""
+        self.ensure_one()
+        if not self.employee_id or not self.employee_id._is_in_contract(date):
+            raise UserError(_(
+                "Employee %(employee)s must have an active contract on %(date)s "
+                "before the loan can be approved."
+            ) % {'employee': self.employee_id.name or _('Unknown'), 'date': date})
+
+    def _check_loan_posting(self):
+        """Prevent a second disbursement entry for the same loan."""
+        self.ensure_one()
+        existing = self.env['account.move.line'].search([
+            ('loan_id', '=', self.id),
+            ('move_id.state', '!=', 'cancel'),
+        ], limit=1)
+        if existing:
+            raise UserError(_(
+                "A loan accounting entry already exists (%s). "
+                "Review or reverse it before trying to approve again."
+            ) % (existing.move_id.display_name,))
 
     def action_approve(self):
-        """This create account move for request.
-            """
-        # loan_approve = self.env['ir.config_parameter'].sudo().get_param('account.loan_approve')
-        contract_obj = self.env['hr.contract'].search([('employee_id', '=', self.employee_id.id)])
-        if not contract_obj:
-            raise UserError('You must Define a contract for employee')
-        if not self.loan_lines:
-            raise UserError('You must compute installment before Approved')
-
-        # if loan_approve:
-        # self.write({'state': 'waiting_approval_2'})
-        # else:
-        if not self.pay_method.debit_account_id or not self.pay_method.credit_account_id or not self.pay_method.journal_id:
-            raise UserError("You must enter Payment Method Credit account & Debit account and journal to approve ")
-        if not self.loan_lines:
-            raise UserError('You must compute Loan Request before Approved')
-        timenow = time.strftime('%Y-%m-%d')
+        """Approve the loan and create the initial accounting entry."""
+        timenow = fields.Date.context_today(self)
         for loan in self:
+            loan._check_employee_contract(timenow)
+            loan._check_loan_posting()
+            if not loan.loan_lines:
+                raise UserError('You must compute installment before Approved')
+            if not loan.pay_method.debit_account_id or not loan.pay_method.credit_account_id or not loan.pay_method.journal_id:
+                raise UserError("You must enter Payment Method Credit account & Debit account and journal to approve ")
+
             lines_amount = sum(loan.loan_lines.mapped('amount'))
-            if loan.loan_amount != lines_amount:
+            if float_compare(loan.loan_amount, lines_amount, precision_rounding=loan.company_id.currency_id.rounding if 'company_id' in loan._fields and loan.company_id else self.env.company.currency_id.rounding) != 0:
                 raise ValidationError('Loan Amount must be equal to Total Amount')
             for tab in loan.loan_lines:
                 if tab.amount < 0.0:
                     raise ValidationError('One of the Installment Amount is in Negative Value')
-            amount = loan.loan_amount
-            loan_name = loan.employee_id.name
-            reference = loan.name
-            journal_id = loan.pay_method.journal_id.id
-            debit_account_id = loan.pay_method.debit_account_id.id
-            credit_account_id = loan.pay_method.credit_account_id.id
-            debit_vals = {
-                'name': loan_name,
-                'account_id': debit_account_id,
-                'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_id.id,
-                'date': timenow,
-                'debit': amount > 0.0 and amount or 0.0,
-                'credit': amount < 0.0 and -amount or 0.0,
-                'loan_id': loan.id,
-            }
-            credit_vals = {
-                'name': loan_name,
-                'account_id': credit_account_id,
-                'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_id.id,
-                'date': timenow,
-                'debit': amount < 0.0 and -amount or 0.0,
-                'credit': amount > 0.0 and amount or 0.0,
-                'loan_id': loan.id,
-            }
-            vals = {
-                'narration': loan_name,
-                'ref': reference,
-                'journal_id': journal_id,
-                'date': timenow,
-                'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
-            }
-            move = self.env['account.move'].create(vals)
+
+            move = loan._create_loan_move(
+                amount=loan.loan_amount,
+                debit_account=loan.pay_method.debit_account_id,
+                credit_account=loan.pay_method.credit_account_id,
+                journal=loan.pay_method.journal_id,
+                date=timenow,
+                include_loan_link=True,
+            )
             move.action_post()
-        self.write({'state': 'approve'})
+            loan.write({'state': 'approve'})
         return True
+
+    def _create_loan_move(self, amount, debit_account, credit_account, journal, date, include_loan_link=False):
+        self.ensure_one()
+        partner = self.employee_id.work_contact_id
+        line_common = {
+            'name': self.employee_id.name,
+            'journal_id': journal.id,
+            'partner_id': partner.id if partner else False,
+            'date': date,
+        }
+        debit_vals = dict(line_common, **{
+            'account_id': debit_account.id,
+            'debit': amount if amount > 0.0 else 0.0,
+            'credit': -amount if amount < 0.0 else 0.0,
+        })
+        credit_vals = dict(line_common, **{
+            'account_id': credit_account.id,
+            'debit': -amount if amount < 0.0 else 0.0,
+            'credit': amount if amount > 0.0 else 0.0,
+        })
+        if include_loan_link:
+            debit_vals['loan_id'] = self.id
+            credit_vals['loan_id'] = self.id
+        return self.env['account.move'].create({
+            'narration': self.employee_id.name,
+            'ref': self.name,
+            'journal_id': journal.id,
+            'date': date,
+            'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)],
+        })
 
     def action_reschedule(self):
         for record in self:
@@ -116,56 +136,33 @@ class HrLoanAcc(models.Model):
             record.write({'state': 'approve'})
 
     def action_double_approve(self):
-        """This create account move for request in case of double approval.
-            """
-        if not self.pay_method.debit_account_id or not self.pay_method.credit_account_id or not self.pay_method.journal_id:
-            raise UserError("You must enter Payment Method Credit account & Debit account and journal to approve ")
-        if not self.loan_lines:
-            raise UserError('You must compute Loan Request before Approved')
-        timenow = time.strftime('%Y-%m-%d')
+        """Approve the loan and create the accounting entry after second approval."""
+        timenow = fields.Date.context_today(self)
         for loan in self:
+            loan._check_employee_contract(timenow)
+            loan._check_loan_posting()
+            if not loan.pay_method.debit_account_id or not loan.pay_method.credit_account_id or not loan.pay_method.journal_id:
+                raise UserError("You must enter Payment Method Credit account & Debit account and journal to approve ")
+            if not loan.loan_lines:
+                raise UserError('You must compute Loan Request before Approved')
+
             lines_amount = sum(loan.loan_lines.mapped('amount'))
-            if loan.loan_amount != lines_amount:
+            if float_compare(loan.loan_amount, lines_amount, precision_rounding=loan.company_id.currency_id.rounding if 'company_id' in loan._fields and loan.company_id else self.env.company.currency_id.rounding) != 0:
                 raise ValidationError('Loan Amount must be equal to Total Amount')
             for tab in loan.loan_lines:
                 if tab.amount < 0.0:
                     raise ValidationError('One of the Installment Amount is in Minus Value')
-            amount = loan.loan_amount
-            loan_name = loan.employee_id.name
-            reference = loan.name
-            journal_id = loan.pay_method.journal_id.id
-            debit_account_id = loan.pay_method.debit_account_id.id
-            credit_account_id = loan.pay_method.credit_account_id.id
-            debit_vals = {
-                'name': loan_name,
-                'account_id': debit_account_id,
-                'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_id.id,
-                'date': timenow,
-                'debit': amount > 0.0 and amount or 0.0,
-                'credit': amount < 0.0 and -amount or 0.0,
-                'loan_id': loan.id,
-            }
-            credit_vals = {
-                'name': loan_name,
-                'account_id': credit_account_id,
-                'journal_id': journal_id,
-                'partner_id': loan.employee_id.address_id.id,
-                'date': timenow,
-                'debit': amount < 0.0 and -amount or 0.0,
-                'credit': amount > 0.0 and amount or 0.0,
-                'loan_id': loan.id,
-            }
-            vals = {
-                'narration': loan_name,
-                'ref': reference,
-                'journal_id': journal_id,
-                'date': timenow,
-                'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
-            }
-            move = self.env['account.move'].create(vals)
+
+            move = loan._create_loan_move(
+                amount=loan.loan_amount,
+                debit_account=loan.pay_method.debit_account_id,
+                credit_account=loan.pay_method.credit_account_id,
+                journal=loan.pay_method.journal_id,
+                date=timenow,
+                include_loan_link=True,
+            )
             move.action_post()
-        self.write({'state': 'approve'})
+            loan.write({'state': 'approve'})
         return True
 
 
@@ -176,46 +173,47 @@ class HrLoanLineAcc(models.Model):
                                 string="Type", readonly=True)
 
     def action_paid_amount(self):
-        """This create the account move line for payment of each installment.
-            """
-        timenow = time.strftime('%Y-%m-%d')
+        """Create the accounting entry for each paid installment."""
+        timenow = fields.Date.context_today(self)
         for line in self:
+            if line.paid:
+                raise UserError(_('This installment is already marked paid.'))
             if line.loan_id.state != 'approve':
                 raise UserError("Loan Request must be approved")
+            loan = line.loan_id
             amount = line.amount
-            loan_name = line.employee_id.name
-            reference = line.loan_id.name
-            journal_id = line.loan_id.pay_method.journal_id.id
-            debit_account_id = line.loan_id.pay_method.credit_account_id.id
-            credit_account_id = line.loan_id.pay_method.debit_account_id.id
+            journal = loan.pay_method.journal_id
+            debit_account = loan.pay_method.credit_account_id
+            credit_account = loan.pay_method.debit_account_id
+            if not debit_account or not credit_account or not journal:
+                raise UserError("You must enter Payment Method Credit account & Debit account and journal to approve ")
 
-            debit_vals = {
-                'name': loan_name,
-                'account_id': debit_account_id,
-                'journal_id': journal_id,
-                'partner_id': line.employee_id.address_id.id,
+            partner = line.employee_id.work_contact_id
+            line_common = {
+                'name': line.employee_id.name,
+                'journal_id': journal.id,
+                'partner_id': partner.id if partner else False,
                 'date': timenow,
-                'debit': amount > 0.0 and amount or 0.0,
-                'credit': amount < 0.0 and -amount or 0.0,
             }
-            credit_vals = {
-                'name': loan_name,
-                'account_id': credit_account_id,
-                'journal_id': journal_id,
-                'partner_id': line.employee_id.address_id.id,
+            debit_vals = dict(line_common, **{
+                'account_id': debit_account.id,
+                'debit': amount if amount > 0.0 else 0.0,
+                'credit': -amount if amount < 0.0 else 0.0,
+            })
+            credit_vals = dict(line_common, **{
+                'account_id': credit_account.id,
+                'debit': -amount if amount < 0.0 else 0.0,
+                'credit': amount if amount > 0.0 else 0.0,
+            })
+            move = self.env['account.move'].create({
+                'narration': line.employee_id.name,
+                'ref': loan.name,
+                'journal_id': journal.id,
                 'date': timenow,
-                'debit': amount < 0.0 and -amount or 0.0,
-                'credit': amount > 0.0 and amount or 0.0,
-            }
-            vals = {
-                'narration': loan_name,
-                'ref': reference,
-                'journal_id': journal_id,
-                'date': timenow,
-                'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)]
-            }
-            move = self.env['account.move'].create(vals)
+                'line_ids': [(0, 0, debit_vals), (0, 0, credit_vals)],
+            })
             move.action_post()
+            line.write({'paid': True})
         return True
 
 

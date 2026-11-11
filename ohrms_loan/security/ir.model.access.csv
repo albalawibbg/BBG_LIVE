@@ -7,3 +7,4 @@ access_hr_loan_line_officer,hr.loan.line.group_hr_user,model_hr_loan_line,hr.gro
 access_hr_loan_manager,hr.loan,model_hr_loan,hr.group_hr_manager,1,1,1,1
 access_hr_loan_line_manager,hr.loan.line,model_hr_loan_line,hr.group_hr_manager,1,1,1,1
 access_refuse_loan_wizard,access_refuse_loan_wizard,model_refuse_loan_wizard,base.group_user,1,1,1,1
+access_hr_advance_loan_payment,access_hr_advance_loan_payment,model_hr_advance_loan_payment,ohrms_loan.group_loan_advance_pay,1,1,1,1

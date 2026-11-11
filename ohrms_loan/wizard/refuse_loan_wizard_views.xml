@@ -13,12 +13,10 @@
                 <footer>
                     <button name="confirm" class="btn btn-info" type="object"
                             confirm="Are you sure to confirm !"
-                            string="Confirm"
-                    />
+                            string="Confirm"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
-
 </odoo>

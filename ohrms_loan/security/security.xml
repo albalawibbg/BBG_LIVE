@@ -4,21 +4,50 @@
 
         <record model="ir.module.category" id="module_category_employee_loan_extra_rights">
             <field name="name">Loan</field>
-            <field name="parent_id" ref="base.module_category_usability"/>
+            <field name="parent_id" ref="base.module_category_human_resources"/>
             <field name="sequence">60</field>
+        </record>
+
+        <!-- Odoo 19: res.groups no longer accepts category_id directly.
+             The category must be linked through res.groups.privilege, then
+             each res.groups record uses privilege_id. Separate privileges keep
+             these four loan permissions independently assignable. -->
+        <record model="res.groups.privilege" id="privilege_loan_submit">
+            <field name="name">Loan Submit</field>
+            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="sequence">10</field>
+        </record>
+        <record model="res.groups.privilege" id="privilege_loan_approbation_1">
+            <field name="name">Loan Approbation 1</field>
+            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="sequence">20</field>
+        </record>
+        <record model="res.groups.privilege" id="privilege_loan_approbation_2">
+            <field name="name">Loan Approbation 2</field>
+            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="sequence">30</field>
+        </record>
+        <record model="res.groups.privilege" id="privilege_loan_advance_pay">
+            <field name="name">Loan Advance Pay</field>
+            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="sequence">40</field>
         </record>
 
         <record id="group_loan_submit" model="res.groups">
             <field name="name">Submit</field>
-            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="privilege_id" ref="privilege_loan_submit"/>
         </record>
         <record id="group_loan_approbation_1" model="res.groups">
             <field name="name">Approbation 1</field>
-            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="privilege_id" ref="privilege_loan_approbation_1"/>
         </record>
         <record id="group_loan_approbation_2" model="res.groups">
             <field name="name">Approbation 2</field>
-            <field name="category_id" ref="module_category_employee_loan_extra_rights"/>
+            <field name="privilege_id" ref="privilege_loan_approbation_2"/>
+        </record>
+        <record id="group_loan_advance_pay" model="res.groups">
+            <field name="name">Advance Pay Access</field>
+            <field name="privilege_id" ref="privilege_loan_advance_pay"/>
         </record>
 
         <record id="rule_hr_loan" model="ir.rule">

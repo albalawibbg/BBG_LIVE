@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
-        <report 
-            id="report_loan_print"
-            string="Print Loan "
-            model="hr.loan"
-            report_type="qweb-pdf"
-            file="ohrms_loan.report_loan_report_print" 
-            name="ohrms_loan.report_loan_report_print" 
-        />
-        
-        
+        <record id="report_loan_print" model="ir.actions.report">
+            <field name="name">Print Loan</field>
+            <field name="model">hr.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ohrms_loan.report_loan_report_print</field>
+            <field name="report_file">ohrms_loan.report_loan_report_print</field>
+            <field name="print_report_name">'Print Loan'</field>
+            <field name="binding_model_id" ref="model_hr_loan"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
-</openerp>
+</odoo>

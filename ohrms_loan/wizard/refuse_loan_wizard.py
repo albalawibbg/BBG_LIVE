@@ -17,6 +17,6 @@ class RefuseLoanWizard(models.TransientModel):
             loan_id = self.env['hr.loan'].browse(active_id)
             loan_id.write({
                 'refuse_reason': self.refuse_reason,
-                'date_refuse': fields.datetime.now(),
+                'date_refuse': fields.Datetime.now(),
                 'state': 'refuse',
             })

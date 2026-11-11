@@ -12,5 +12,5 @@ acces_account_move_line_manager,account.move.line,account.model_account_move_lin
 access_hr_loan_accountant,hr.loan,model_hr_loan,account.group_account_user,1,1,1,0
 access_hr_loan_line_accountant,hr.loan.line,model_hr_loan_line,account.group_account_user,1,1,1,0
 access_loan_payments_base_user,loan.payments.base.user,model_loan_payments,base.group_user,1,0,0,0
-access_loan_payments_user,loan.payments,model_loan_payments,account.group_account_user,1,1,1,0
-access_loan_payments_manager,loan.payments,model_loan_payments,account.group_account_user,1,1,1,0
+access_loan_payments_user_account_user_2,loan.payments,model_loan_payments,account.group_account_user,1,1,1,0
+access_loan_payments_manager_account_user_2,loan.payments,model_loan_payments,account.group_account_user,1,1,1,0

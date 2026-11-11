@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': ' Loan Management',
-    'version': '17.0',
+    'version': '19.0.1.0.0',
     'summary': 'Manage Loan Requests',
     'description': """
         Helps you to manage Loan Requests of your company's staff.
@@ -10,7 +10,7 @@
     'author': "Hakbani IT",
     'website': "https://www.nutechits.com",
     'depends': [
-        'base', 'hr_payroll', 'hr', 'account', 'ohrms_loan',
+        'base', 'mail', 'hr_payroll', 'hr', 'account', 'ohrms_loan',
     ],
     'data': [
         'security/security.xml',
