@@ -17,3 +17,7 @@ Version: 17.0.1.0.4
 Copy directory `hakbani_it_reporting_enhancements` into custom addons, restart/rebuild Odoo.sh, and Upgrade module from Apps (do not uninstall). Then hard refresh Sales Analysis Pivot and select two new entries under Measures. Validate totals on Staging before Production.
 
 Tested static Python/XML/ZIP. Not tested with user's runtime database.
+
+
+## 17.0.1.0.5 security fix
+The customer/Journal Items XLSX server actions now read only their fixed wizard action using sudo(). This avoids ir.actions.act_window read access errors for non-System users, without granting global Settings permissions. Exported journal items still respect the normal user access and company rules.

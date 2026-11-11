@@ -6,7 +6,7 @@
         <field name="binding_model_id" ref="base.model_res_partner"/>
         <field name="binding_view_types">form,list</field>
         <field name="state">code</field>
-        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').read()[0]
+        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').sudo().read()[0]
 if len(records) == 1:
     action['context'] = {'default_partner_id': records.id, 'active_model': 'res.partner', 'active_id': records.id}
 </field>
@@ -17,7 +17,7 @@ if len(records) == 1:
         <field name="binding_model_id" ref="account.model_account_move_line"/>
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
-        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').read()[0]
+        <field name="code">action = env.ref('hakbani_it_reporting_enhancements.action_hakbani_partner_ledger_export_wizard').sudo().read()[0]
 partners = records.mapped('partner_id')
 if len(partners) == 1:
     action['context'] = {'default_partner_id': partners.id}
