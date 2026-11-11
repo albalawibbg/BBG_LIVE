@@ -1,0 +1,14 @@
+<odoo>
+    <record id="invoice_search_team_leader_inherit" model="ir.ui.view">
+        <field name="name">account.move.search.team.leader.hakbani</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="hakbani_team_leader_id" string="Team Leader"/>
+                <filter name="group_by_hakbani_team_leader" string="Team Leader"
+                        context="{'group_by': 'hakbani_team_leader_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
