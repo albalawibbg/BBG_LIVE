@@ -22,7 +22,7 @@
 ###################################################################################
 {
     'name': ' Loan Management',
-    'version': '19.0.1.0.0',
+    'version': '17.0.1.0.0',
     'summary': 'Manage Loan Requests',
     'description': """
         Helps you to manage Loan Requests of your company's staff.
